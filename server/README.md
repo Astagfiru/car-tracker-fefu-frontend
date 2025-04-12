@@ -1,3 +1,4 @@
+# Первоначальная настройка проекта
 
 1. Скачать Node.js + npm: [https://nodejs.org/](https://nodejs.org/).
 2. Скачать `bash` (Для Windows)
