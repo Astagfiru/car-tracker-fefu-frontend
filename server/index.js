@@ -4,7 +4,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 // Явно указываем путь к .env
-require('dotenv').config({ path: path.join(__dirname, '..', '.env') });
+require('dotenv').config({ path: path.resolve(__dirname, '.env') });
 
 // Отладочный вывод переменных
 console.log('DB_HOST:', process.env.DB_HOST);
