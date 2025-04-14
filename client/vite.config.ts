@@ -4,6 +4,11 @@ import VueDevTools from "vite-plugin-vue-devtools";
 import path from "path";
 
 export default defineConfig({
+  server: {
+    proxy: {
+      '/api': 'http://localhost:3000',
+    },
+  },
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),

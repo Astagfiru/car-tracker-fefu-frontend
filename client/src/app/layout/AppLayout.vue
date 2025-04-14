@@ -1,18 +1,31 @@
 <template>
   <div class="app">
     <header>
-      <SmallUserCard name="user" surname="surmane"/>
+      <Header />
     </header>
-    <main>
+    <main class="main">
       <router-view v-slot="{ Component }">
         <keep-alive>
           <component :is="Component" :key="$route.path" />
         </keep-alive>
       </router-view>
     </main>
-    <footer>Подвал</footer>
+    <footer>
+
+    </footer>
   </div>
 </template>
 <script setup lang="ts">
-import { SmallUserCard } from '@/shared';
+import { Header } from '@/widgets';
+
 </script>
+<style scoped lang="scss">
+.main {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+  box-sizing: border-box;
+}
+</style>

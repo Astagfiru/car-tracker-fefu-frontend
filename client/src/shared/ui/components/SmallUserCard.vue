@@ -34,7 +34,7 @@ const props = withDefaults(defineProps<SmallUserCardTypes>(), {
     width: fit-content;
     cursor : pointer;
     transition: background 0.2s ease-in-out;
-    padding: 10px;
+    padding: 10px 20px;
     border-radius: 10px;
 
     &:hover {
@@ -52,6 +52,7 @@ const props = withDefaults(defineProps<SmallUserCardTypes>(), {
     align-items: center;
     background-color: #ccc;
     flex-shrink: 0;
+    margin-right: 10px;
   }
   
   .user__img {
