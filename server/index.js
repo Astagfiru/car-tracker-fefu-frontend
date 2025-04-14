@@ -1,51 +1,59 @@
+/**
+ * @module index
+ * @description Основной файл сервера Car Tracker
+ */
+
 const express = require('express');
 const path = require('path');
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Явно указываем путь к .env
-require('dotenv').config({ path: path.resolve(__dirname, '.env') });
 
-// Отладочный вывод переменных
-console.log('DB_HOST:', process.env.DB_HOST);
-console.log('DB_PORT:', process.env.DB_PORT);
-console.log('DB_USER:', process.env.DB_USER);
-console.log('DB_PASSWORD:', process.env.DB_PASSWORD);
-console.log('DB_NAME:', process.env.DB_NAME);
+require('dotenv').config({ path: path.join(__dirname, '..', '.env') });
 
-// Подключаем Sequelize
 const sequelize = require('./config/db');
+const errorHandler = require('./middleware/errorHandler');
 
-// Подключаем все модели
 const models = require('./models');
-
-// Проверяем подключение к базе данных
-sequelize.authenticate()
-  .then(() => {
+const startServer = async () => {
+  try {
+    await sequelize.authenticate();
     console.log('Connected to PostgreSQL database');
-    // Синхронизируем модели с базой данных
-    return sequelize.sync({ force: true }); // Временно оставляем force: true
-  })
-  .then(() => {
+    await sequelize.sync();
     console.log('Database synced');
-    // Выводим список таблиц, которые Sequelize знает
     console.log('Registered models:', Object.keys(sequelize.models));
-  })
-  .catch(err => {
-    console.error('Unable to connect to the database:', err);
-  });
+    
+    await require('./seeders/clients')();
+    console.log('Seeders completed');
+    
+    app.listen(port, () => {
+      console.log(`Server is running on port ${port}`);
+    });
+  } catch (err) {
+    console.error('Error starting server:', err);
+    process.exit(1);
+  }
+};
 
+// Обработчики необработанных исключений и отклонений промисов
+process.on('uncaughtException', (err) => {
+  console.error('Uncaught Exception:', err);
+  process.exit(1);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+  process.exit(1);
+});
+
+startServer();
+
+// Middleware для парсинга JSON
 app.use(express.json());
 
-app.use('/static', express.static(path.join(__dirname, '..', 'client')));
-
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'client', 'index.html'));
-});
-
-const routes = require('./routes/routs');
+// Подключение маршрутов API
+const routes = require('./routes/routes');
 app.use('/api', routes);
 
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
+// Middleware для обработки ошибок (должен быть подключен последним)
+app.use(errorHandler);
