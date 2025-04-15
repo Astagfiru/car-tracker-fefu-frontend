@@ -5,21 +5,25 @@ const sequelize = require('../config/db');
 
 const models = {};
 
-// Импортируем все модели из текущей директории
+
 fs.readdirSync(__dirname)
   .filter(file => {
     return (
-      file.indexOf('.') !== 0 && // Игнорируем скрытые файлы
-      file !== 'index.js' && // Игнорируем сам index.js
-      file.slice(-3) === '.js' // Берем только .js файлы
+      file.indexOf('.') !== 0 && 
+      file !== 'index.js' && 
+      file.slice(-3) === '.js'
     );
   })
   .forEach(file => {
-    const model = require(path.join(__dirname, file));
-    models[model.name] = model;
+    const modelPath = path.join(__dirname, file);
+    // Проверка существования файла модели перед загрузкой
+    if (fs.existsSync(modelPath)) {
+      const model = require(modelPath);
+      models[model.name] = model;
+    }
   });
 
-// Устанавливаем связи между моделями (если есть)
+
 Object.keys(models).forEach(modelName => {
   if (models[modelName].associate) {
     models[modelName].associate(models);
