@@ -1,28 +1,39 @@
-# Первоначальная настройка проекта
+# Инструкция для разработчика
 
-1. Скачать Node.js + npm: [https://nodejs.org/](https://nodejs.org/).
-2. Скачать `bash` (Для Windows)
+## Предварительные требования
+1. Установить Node.js + npm: [https://nodejs.org/](https://nodejs.org/)
+2. Установить PostgreSQL
+
+## Настройка базы данных
+1. Создать базу данных в PostgreSQL:
+```sql
+CREATE DATABASE car_tracker;
 ```
-wsl --install
+2. Создать файл .env в корне сервера с содержимым:
 ```
-3. Установить `postgres`
-```bash
-sudo apt update
-sudo apt install postgresql postgresql-contrib
+DB_NAME=car-tracker-fefu
+DB_USER=postgres
+DB_PASSWORD=your_password
+DB_HOST=localhost
+DB_PORT=5432
+DB_DIALECT=postgres
 ```
-4. После установки открой терминал и проверь, что всё установилось:
-```bash
-node -v
-npm -v
-```
-5. Установка зависимостей
+
+## Установка зависимостей
 ```bash
 cd server
-npm i
+npm install
 ```
-6. Запуск проекта в режиме разработки
+
+## Миграции базы данных
+```bash
+npx sequelize-cli db:migrate
+```
+
+## Запуск сервера
 ```bash
 npm run start:dev
 ```
-7. Перейти в браузере по адресу сервера `localhost:3000`
+
+Сервер будет доступен по адресу: http://localhost:3000
 
