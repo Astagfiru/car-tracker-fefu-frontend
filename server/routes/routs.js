@@ -14,9 +14,11 @@ router.get('/clients', async (req, res) => {
     const clients = await Client.findAll();
     res.json(clients);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error('Error fetching clients:', err); // Логирование ошибки на сервере
+    res.status(500).json({ error: 'Internal Server Error', message: err.message });
   }
 });
+
 
 // Создать нового клиента
 router.post('/clients', async (req, res) => {

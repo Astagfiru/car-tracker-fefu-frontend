@@ -5,7 +5,6 @@ const sequelize = require('../config/db');
 
 const models = {};
 
-
 fs.readdirSync(__dirname)
   .filter(file => {
     return (
@@ -16,13 +15,11 @@ fs.readdirSync(__dirname)
   })
   .forEach(file => {
     const modelPath = path.join(__dirname, file);
-    // Проверка существования файла модели перед загрузкой
     if (fs.existsSync(modelPath)) {
       const model = require(modelPath);
       models[model.name] = model;
     }
   });
-
 
 Object.keys(models).forEach(modelName => {
   if (models[modelName].associate) {

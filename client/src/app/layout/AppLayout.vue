@@ -9,6 +9,7 @@
           <component :is="Component" :key="$route.path" />
         </keep-alive>
       </router-view>
+      
     </main>
     <footer>
 
@@ -17,7 +18,7 @@
 </template>
 <script setup lang="ts">
 import { Header } from '@/widgets';
-
+import { MainLayout } from '@/pages/AdminMainPage';
 </script>
 <style scoped lang="scss">
 .main {

@@ -26,3 +26,6 @@ npm run start:dev
 ```
 7. Перейти в браузере по адресу сервера `localhost:3000`
 
+8. API маршруты
+ `http://localhost:3000/api`
+ 

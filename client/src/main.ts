@@ -4,6 +4,9 @@ import { createI18n } from "vue-i18n";
 import { createRouter, createWebHistory } from "vue-router";
 import { router } from "./app/router";
 import "@/shared/styles/index.scss";
+import { createVuetify } from 'vuetify'
+import * as components from 'vuetify/components'
+import * as directives from 'vuetify/directives'
 
 import App from "./app/App.vue";
 
@@ -19,8 +22,15 @@ const i18n = createI18n({
     en: { hello: "Hello" },
   },
 });
+
+const vuetify = createVuetify({
+  components,
+  directives,
+})
 app.use(i18n);
 
 app.use(router);
+app.use(vuetify)
 
 app.mount("#app");
+

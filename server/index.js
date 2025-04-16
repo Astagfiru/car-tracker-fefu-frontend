@@ -3,57 +3,61 @@
  * @description Основной файл сервера Car Tracker
  */
 
-const express = require('express');
-const path = require('path');
+const express = require("express");
+const cors = require("cors");
+const path = require("path");
 const app = express();
 const port = process.env.PORT || 3000;
 
+require("dotenv").config({ path: path.join(__dirname, "..", ".env") });
 
-require('dotenv').config({ path: path.join(__dirname, '..', '.env') });
+const sequelize = require("./config/db");
+const errorHandler = require("./middleware/errorHandler");
+const models = require("./models");
 
-const sequelize = require('./config/db');
-const errorHandler = require('./middleware/errorHandler');
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
 
-const models = require('./models');
+app.use(express.json());
+
+const routes = require("./routes/routes");
+app.use("/api", routes);
+
+app.use(errorHandler);
+
 const startServer = async () => {
   try {
     await sequelize.authenticate();
-    console.log('Connected to PostgreSQL database');
+    console.log("Connected to PostgreSQL database");
     await sequelize.sync();
-    console.log('Database synced');
-    console.log('Registered models:', Object.keys(sequelize.models));
-    
-    await require('./seeders/clients')();
-    console.log('Seeders completed');
-    
+    console.log("Database synced");
+    console.log("Registered models:", Object.keys(sequelize.models));
+
+    await require("./seeders/clients")();
+    console.log("Seeders completed");
+
     app.listen(port, () => {
       console.log(`Server is running on port ${port}`);
     });
   } catch (err) {
-    console.error('Error starting server:', err);
+    console.error("Error starting server:", err);
     process.exit(1);
   }
 };
 
 // Обработчики необработанных исключений и отклонений промисов
-process.on('uncaughtException', (err) => {
-  console.error('Uncaught Exception:', err);
+process.on("uncaughtException", (err) => {
+  console.error("Uncaught Exception:", err);
   process.exit(1);
 });
 
-process.on('unhandledRejection', (reason, promise) => {
-  console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+process.on("unhandledRejection", (reason, promise) => {
+  console.error("Unhandled Rejection at:", promise, "reason:", reason);
   process.exit(1);
 });
 
 startServer();
-
-// Middleware для парсинга JSON
-app.use(express.json());
-
-// Подключение маршрутов API
-const routes = require('./routes/routes');
-app.use('/api', routes);
-
-// Middleware для обработки ошибок (должен быть подключен последним)
-app.use(errorHandler);

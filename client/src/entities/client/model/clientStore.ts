@@ -1,6 +1,5 @@
-// stores/clientStore.ts
 import { defineStore } from "pinia";
-import { reactive, toRefs } from "vue";
+import { onMounted, reactive, toRefs } from "vue";
 import type { ClientType } from "../types";
 
 const CLENT_STORE_NAME = "clientStore";
@@ -23,6 +22,7 @@ export const useClientStore = defineStore(CLENT_STORE_NAME, () => {
   function clearClients() {
     state.clients = null;
   }
+
 
   return {
     ...toRefs(state),
