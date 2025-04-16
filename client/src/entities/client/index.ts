@@ -1,4 +1,6 @@
-import { ClientType } from "./types";
-import { useClientStore } from "./model/clientStore";
+import type { ClientType } from './types/clientTypes';
+import { useClientStore } from './model/clientStore';
+import { fetchClients } from './api/useGetClients';
+import { createClient } from './api/useAddClient';
 
-export { ClientType, useClientStore };
+export { ClientType, useClientStore, fetchClients, createClient };

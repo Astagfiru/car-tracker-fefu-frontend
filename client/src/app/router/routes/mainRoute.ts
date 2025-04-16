@@ -2,6 +2,7 @@ import { RouteRecordRaw } from 'vue-router'
 import { BASE_PAGE_PATH } from '../config'
 import AppLayout from '@/app/layout/AppLayout.vue'
 import { MainLayout } from '@/pages/AdminMainPage'
+import { AddNewClient } from '@/pages/AddUserPage'
 
 export const mainRoutes: RouteRecordRaw[] = [
   {
@@ -12,7 +13,13 @@ export const mainRoutes: RouteRecordRaw[] = [
         path : '',
         name : 'dashboard',
         component : MainLayout
-      }
+      },
+      {
+        path : '/add',
+        name : 'add-client',
+        component : AddNewClient
+      },
+
     ]
   }
 ]
