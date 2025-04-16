@@ -1,5 +1,5 @@
 <template>
-    <v-btn 
+    <button
       :color="color" 
       :disabled="disabled" 
       @click="onClick" 
@@ -10,7 +10,7 @@
       <span class="close-button-text">
         {{ title }}
       </span>
-    </v-btn>
+    </button>
   </template>
   
   <script setup lang="ts">
@@ -35,17 +35,17 @@
     border-radius: 8px;
     background-color: #E5E7EB !important;
     color: #111827;
-    transition: background-color 0.3s ease;
-  }
+    transition: filter 0.2s ease;
   
-  .close-button:hover {
-    background-color: #d1d5db !important;
-  }
+    &:hover {
+      filter: brightness(95%);
+    }
   
-  .close-button:active {
-    background-color: #9ca3af !important;
+    &:active {
+      filter: brightness(85%);
+    }
   }
-  
+
   .close-button-text {
     margin-left: 8px;
     font-size: 14px;

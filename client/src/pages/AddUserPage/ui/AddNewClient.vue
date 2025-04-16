@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ButtonCansel, ButtonConfirm } from '@/shared';
+import { ButtonCansel, ButtonConfirm} from '@/shared';
 import { useRouter } from 'vue-router';
 import { AddNewClientForm } from '@/widgets';
 
@@ -36,8 +36,7 @@ const nextStep = () => {
 
 <style scoped lang="scss">
 .layout {
-    min-height: 70vh;
-    background-color: #ffffff;
+    min-height: 60vh;
     display: flex;
     justify-content: center;
     align-items: center;

@@ -1,21 +1,79 @@
-import { defineStore } from "pinia";
-import { onMounted, reactive, toRefs } from "vue";
-import type { ClientType } from "@/entities/client";
+import { defineStore } from 'pinia'
+import { computed, reactive } from 'vue'
+import type { NewClientType } from '@/entities/client'
 
-const NEW_CLENT_STORE_NAME = "clientStore";
-
-interface newClientStore {
-  newClient: ClientType | null;
+const INITIAL_CLIENT: NewClientType = {
+  surname: '',
+  name: '',
+  patronymic: '',
+  phoneNumber: '',
+  email: '',
+  passportSeries: '',
+  passportNumber: '',
+  issuedBy: '',
+  dateOfIssue: '',
 }
 
-const clientStoreInitialState: newClientStore = {
-  newClient: null,
-};
+export const useCreateClientStore = defineStore('clientStore', () => {
+  const state = reactive({
+    newClient: { ...INITIAL_CLIENT }
+  })
 
-export const useCreateClientStore = defineStore(NEW_CLENT_STORE_NAME, () => {
-  const state = reactive<newClientStore>({ ...clientStoreInitialState });
+  const surname = computed({
+    get: () => state.newClient.surname,
+    set: (v: string) => state.newClient.surname = v,
+  })
+
+  const name = computed({
+    get: () => state.newClient.name,
+    set: (v: string) => state.newClient.name = v,
+  })
+
+  const patronymic = computed({
+    get: () => state.newClient.patronymic,
+    set: (v: string) => state.newClient.patronymic = v,
+  })
+
+  const phoneNumber = computed({
+    get: () => state.newClient.phoneNumber,
+    set: (v: string) => state.newClient.phoneNumber = v,
+  })
+
+  const email = computed({
+    get: () => state.newClient.email,
+    set: (v: string) => state.newClient.email = v,
+  })
+
+  const passportSeries = computed({
+    get: () => state.newClient.passportSeries,
+    set: (v: string) => state.newClient.passportSeries = v,
+  })
+
+  const passportNumber = computed({
+    get: () => state.newClient.passportNumber,
+    set: (v: string) => state.newClient.passportNumber = v,
+  })
+
+  const issuedBy = computed({
+    get: () => state.newClient.issuedBy,
+    set: (v: string) => state.newClient.issuedBy = v,
+  })
+
+  const dateOfIssue = computed({
+    get: () => state.newClient.dateOfIssue,
+    set: (v: string) => state.newClient.dateOfIssue = v,
+  })
 
   return {
-    ...toRefs(state),
-  };
-});
+    newClient: computed(() => state.newClient),
+    surname,
+    name,
+    patronymic,
+    phoneNumber,
+    email,
+    passportSeries,
+    passportNumber,
+    issuedBy,
+    dateOfIssue,
+  }
+})

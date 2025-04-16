@@ -11,3 +11,4 @@ export interface ClientType {
   dateOfIssue: string;
 }
 
+export type NewClient = Omit<ClientType, 'id'>

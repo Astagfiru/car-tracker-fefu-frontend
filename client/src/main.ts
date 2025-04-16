@@ -5,6 +5,8 @@ import { createRouter, createWebHistory } from "vue-router";
 import { router } from "./app/router";
 import "@/shared/styles/index.scss";
 import { createVuetify } from 'vuetify'
+
+import VueDatePicker from '@vuepic/vue-datepicker'
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
 
