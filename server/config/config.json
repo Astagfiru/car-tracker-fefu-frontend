@@ -1,22 +1,8 @@
 {
   "development": {
     "username": "postgres",
-    "password": "142001klim",
+    "password": "1992233",
     "database": "car-tracker-fefu",
-    "host": "localhost",
-    "dialect": "postgres"
-  },
-  "test": {
-    "username": "postgres",
-    "password": "142001klim",
-    "database": "car-tracker-fefu-test",
-    "host": "localhost",
-    "dialect": "postgres"
-  },
-  "production": {
-    "username": "postgres",
-    "password": "142001klim",
-    "database": "car-tracker-fefu-prod",
     "host": "localhost",
     "dialect": "postgres"
   }
