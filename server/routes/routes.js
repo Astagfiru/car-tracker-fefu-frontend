@@ -28,4 +28,16 @@ router.get('/clients', clientController.getAllClients);
 
 router.post('/clients', clientController.createClient);
 
+/**
+ * @route DELETE /api/clients/:id
+ * @description Удалить клиента по ID
+ */
+router.delete('/clients/:id', clientController.deleteClient);
+
+/**
+ * @route GET /api/clients/:id
+ * @description Получить клиента по ID
+ */
+router.get('/clients/:id', clientController.getClientById);
+
 module.exports = router;
