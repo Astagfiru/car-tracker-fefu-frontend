@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
 
-const Client = sequelize.define('Client', {
+const Employee = sequelize.define('Employee', {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
@@ -27,7 +27,7 @@ const Client = sequelize.define('Client', {
   },
   phone: {
     type: DataTypes.STRING(15),
-    allowNull: false,
+    allowNull: true,
     unique: true,
     validate: {
       is: /^(\+7|8)\d{10}$/
@@ -39,44 +39,23 @@ const Client = sequelize.define('Client', {
     unique: true,
     validate: {
       isEmail: true
-    },
-  },
-  passportSeries: {
-    type: DataTypes.CHAR(4),
-    allowNull: false,
-    validate: {
-      is: /^\d{4}$/
     }
   },
-  passportNumber: {
-    type: DataTypes.CHAR(6),
-    allowNull: false,
-    validate: {
-      is: /^\d{6}$/
-    }
-  },
-  passportIssuer: {
-    type: DataTypes.STRING(100),
+  position: {
+    type: DataTypes.STRING(50),
     allowNull: true,
   },
-  passportIssueDate: {
-    type: DataTypes.DATEONLY,
-    allowNull: false,
-    validate: {
-      isDate: true
-    }
-  },
 }, {
-  tableName: 'clients',
+  tableName: 'employees',
   timestamps: true,
 });
 
 // Определение связей
-Client.associate = function(models) {
-  Client.hasMany(models.Request, {
-    foreignKey: 'client_id',
+Employee.associate = function(models) {
+  Employee.hasMany(models.Request, {
+    foreignKey: 'employee_id',
     as: 'requests'
   });
 };
 
-module.exports = Client;
+module.exports = Employee;
