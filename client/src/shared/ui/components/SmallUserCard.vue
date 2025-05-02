@@ -10,7 +10,6 @@ const props = withDefaults(defineProps<SmallUserCardTypes>(), {
 })
 </script>
 
-
 <template>
     <div class="wrapper">
       <div class="user__img-wrapper">
@@ -23,7 +22,6 @@ const props = withDefaults(defineProps<SmallUserCardTypes>(), {
       </div>
     </div>
   </template>
-  
 
   <style scoped lang="scss">
   .wrapper {

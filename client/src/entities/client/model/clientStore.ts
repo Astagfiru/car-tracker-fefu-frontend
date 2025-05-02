@@ -1,19 +1,31 @@
 import { defineStore } from "pinia";
 import { onMounted, reactive, toRefs } from "vue";
 import { createClient, fetchClients } from "@/entities/client/index";
-import type { ClientType } from "@/entities/client/index";
+import type { ClientType, NewClient } from "@/entities/client/index";
 
 const CLENT_STORE_NAME = "clientStore";
 
 interface ClientStore {
-  clients: ClientType[] | null;
-  newClient: ClientType | null;
+  clients: NewClient[] | null;
+  newClient: NewClient | null;
   isLoading: boolean;
   errorMessage: string | null;
 }
 
 const clientStoreInitialState: ClientStore = {
-  clients: null,
+  clients: [
+    {
+      surname: "Тестов",
+      name: "Тест",
+      patronymic: "Тестович",
+      phoneNumber: "+7 (999) 999-99-99",
+      email: "test@example.com",
+      passportSeries: "1234",
+      passportNumber: "567890",
+      issuedBy: "ОВД г. Тест",
+      dateOfIssue: "2020-01-01",
+    }
+  ],
   newClient: null,
   isLoading: false,
   errorMessage: null,
@@ -28,8 +40,8 @@ export const useClientStore = defineStore(CLENT_STORE_NAME, () => {
     state.clients = newClients;
   };
 
-  const clearClients = () => {
-    state.clients = null;
+  const clearClient = () => {
+    state.clients = [];
   };
 
   const getAllClients = async (): Promise<ClientType[]> => {
@@ -59,14 +71,10 @@ export const useClientStore = defineStore(CLENT_STORE_NAME, () => {
     }
   };
 
-  onMounted(() => {
-    getAllClients();
-  });
-
   return {
     ...toRefs(state),
     setClients,
-    clearClients,
+    clearClient,
     getAllClients,
     createNewClient,
   };

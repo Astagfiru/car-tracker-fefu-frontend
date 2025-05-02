@@ -1,8 +1,10 @@
 import { defineStore } from 'pinia'
-import { computed, reactive } from 'vue'
-import type { NewClientType } from '@/entities/client'
+import { computed, onMounted, reactive, ref } from 'vue'
+import type { NewClient } from '@/entities/client'
 
-const INITIAL_CLIENT: NewClientType = {
+const LOCAL_STORAGE_KEY = 'clients'
+
+const InitialClient: NewClient = {
   surname: '',
   name: '',
   patronymic: '',
@@ -14,10 +16,31 @@ const INITIAL_CLIENT: NewClientType = {
   dateOfIssue: '',
 }
 
+function loadClientsFromStorage(): NewClient[] {
+  const saved = localStorage.getItem(LOCAL_STORAGE_KEY)
+  return saved ? JSON.parse(saved) : []
+}
+
+function saveClientsToStorage(clients: NewClient[]) {
+  localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(clients))
+}
+
 export const useCreateClientStore = defineStore('clientStore', () => {
   const state = reactive({
-    newClient: { ...INITIAL_CLIENT }
+    newClient: { ...InitialClient }
   })
+
+  const clients = ref<NewClient[]>(loadClientsFromStorage())
+
+  const addClient = (client: NewClient) => {
+    clients.value.push(client)
+    saveClientsToStorage(clients.value)
+  }
+
+  const clearClient = () => {
+    clients.value = []
+    localStorage.removeItem(LOCAL_STORAGE_KEY)
+  }
 
   const surname = computed({
     get: () => state.newClient.surname,
@@ -64,8 +87,16 @@ export const useCreateClientStore = defineStore('clientStore', () => {
     set: (v: string) => state.newClient.dateOfIssue = v,
   })
 
+  const loadClients = () => {
+    clients.value = loadClientsFromStorage()
+  }
+  
+  onMounted(() => {
+    loadClients
+  })
   return {
     newClient: computed(() => state.newClient),
+    clients,
     surname,
     name,
     patronymic,
@@ -75,5 +106,8 @@ export const useCreateClientStore = defineStore('clientStore', () => {
     passportNumber,
     issuedBy,
     dateOfIssue,
+
+    addClient,
+    clearClient,
   }
 })

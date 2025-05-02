@@ -5,6 +5,7 @@
     @click="onClick" 
     class="close-button"
     variant="flat"
+    :class="{'dis' : disabled}"
   >
     <slot name="icon"></slot>
     <span class="close-button-text">
@@ -18,8 +19,9 @@ const color = 'grey-lighten-3';
 const disabled = false;
 
 interface ButtonProps {
-  onClick: () => void;
+  onClick?: () => void;
   title: string;
+  disabled: boolean;
 }
 
 defineProps<ButtonProps>();
@@ -45,6 +47,11 @@ defineProps<ButtonProps>();
   &:active {
     filter: brightness(85%);
   }
+}
+
+.dis {
+  pointer-events: none;
+  opacity: 0.5;
 }
 
 .close-button-text {
