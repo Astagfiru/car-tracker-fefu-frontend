@@ -1,0 +1,73 @@
+AdminClients:
+  get:
+    tags:
+      - clients
+    summary: Gets all clients
+    operationId: getAllClients
+    responses:
+      200:
+        description: All clients successfully obtained
+        content:
+          application/json:
+            schema:
+              $ref: './schemas.yaml#/ClientsResponseBody'
+            example:
+              $ref: "./examples.yaml#/ClientsListResponseExample"
+      default:
+        description: Unexpected error
+    security:
+      - jwt: []
+  post:
+    tags:
+      - clients
+    summary: Creates new clients
+    operationId: createClients
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: './schemas.yaml#/ClientsRequestBody'
+    responses:
+      201:
+        description: Clients was successfully created
+        content:
+          application/json:
+            schema:
+              $ref: "./schemas.yaml#/ClientsResponseBody"
+      default:
+        description: Unexpected error
+    security:
+      - jwt: []
+
+AdminClientsID:
+  parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+  put:
+    tags:
+      - clients
+    summary: Updates client
+    operationId: updateClient
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "./schemas.yaml#/ClientsRequestBody"
+    responses:
+      200:
+        description: Client was successfully updated
+        content:
+          application/json:
+            schema:
+              $ref: "./schemas.yaml#/ClientsResponseBody"
+      default:
+        description: Unexpected error
+    security:
+      - jwt: []
+
+

@@ -1,0 +1,39 @@
+EntityIdentifier:
+  type: object
+  properties:
+    id:
+      type: string
+    type:
+      type: string
+  required:
+    - id
+    - type
+
+EntityRelationIdentifier:
+  type: object
+  properties:
+    data:
+      $ref: '#/EntityIdentifier'
+  required:
+    - data
+
+EntityRelationIdentifierList:
+  type: object
+  properties:
+    data:
+      type: array
+      items:
+        $ref: '#/EntityIdentifier'
+  required:
+    - data
+
+CreateUpdateTimeMeta:
+  type: object
+  properties:
+    created_at:
+      type: string
+    updated_at:
+      type: string
+  required:
+    - created_at
+    - updated_at

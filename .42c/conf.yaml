@@ -1,0 +1,3 @@
+apis:
+  client/src/shared/api/openapi/specification/openapi.yaml:
+    alias: autoworld-api

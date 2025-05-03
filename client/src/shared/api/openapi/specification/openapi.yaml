@@ -1,0 +1,35 @@
+openapi: 3.0.3
+info:
+  title: Autoworld Api
+  version: 0.1.0
+servers:
+  - url: http://localhost:8000/api
+    description: Development server
+tags:
+  - name: auth
+    description: Everything related to authorization
+  - name: clients
+    description: clients CRUD
+  - name: employers
+    description: employers CRUD
+  - name: carModel
+    description: carModel CRUD
+  - name: cars
+    description: cars CRUD
+  - name: applications
+    description: applications CRUD
+paths:
+  # Clients
+  /clients:
+    $ref: './clients/paths.yaml#/AdminClients'
+
+components:
+  schemas:
+    Clients:
+      $ref: './clients/schemas.yaml#/Clients'
+    ClientsResponseBody:
+      $ref: './clients/schemas.yaml#/ClientsResponseBody'
+    ClientsListResponseBody:
+      $ref: './clients/schemas.yaml#/ClientsListResponseBody'
+    ClientsRequestBody:
+      $ref: './clients/schemas.yaml#/ClientsRequestBody'

@@ -1,0 +1,96 @@
+Clients:
+  allOf:
+    - $ref: '../common/jsonapi/schemas.yaml#/EntityIdentifier'
+    - type: object
+      properties:
+        attributes:
+          type: object
+          properties:
+            secondName:
+              type: string
+            firstName:
+              type: string
+            patronymic:
+              type: string
+            phoneNumber:
+              type: string
+            email:
+              type: string
+            passportSeries:
+              type: string
+            passportNumber:
+              type: string
+            issudeBy:
+              type: string
+          required:
+            - secondName
+            - firstName
+            - patronymic
+            - phoneNumber
+            - email
+            - passportSeries
+            - passportNumber
+            - issudeBy
+      required:
+        - attributes
+
+ClientsResponseBody:
+  type: object
+  properties:
+    data:
+      $ref: "#/Clients"
+  required:
+    - data
+
+ClientsListResponseBody:
+  type: object
+  properties:
+    data:
+      type: array
+      items:
+        $ref: "#/Clients"
+  required:
+    - data
+
+ClientsRequestBody:
+  type: object
+  properties:
+    data:
+      type: object
+      properties:
+        type:
+          type: string
+          enum: ["clients"]
+        attributes:
+          type: object
+          properties:
+            secondName:
+              type: string
+            firstName:
+              type: string
+            patronymic:
+              type: string
+            phoneNumber:
+              type: string
+            email:
+              type: string
+            passportSeries:
+              type: string
+            passportNumber:
+              type: string
+            issudeBy:
+              type: string
+          required:
+            - secondName
+            - firstName
+            - patronymic
+            - phoneNumber
+            - email
+            - passportSeries
+            - passportNumber
+            - issudeBy
+      required:
+        - type
+        - attributes
+  required:
+    - data

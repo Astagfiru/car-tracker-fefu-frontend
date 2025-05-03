@@ -1,0 +1,16 @@
+ClientsListResponseExample:
+  value:
+    jsonapi:
+      version: "1.0"
+    data:
+      - type: clients
+        id: "1"
+        attributes:
+          secondName: Иванов
+          firstName: Иван
+          patronymic: Иванович
+          phoneNumber: "899958685301"
+          email: "ivanov@mail.ru"
+          passportSeries: "1234"
+          passportNumber: "12341234"
+          issudeBy: "УМВД РОССИИ ПО ПРИМОРСКОМУ  КРАЮ"

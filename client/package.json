@@ -6,10 +6,13 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc -b && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "openapi": "openapi-ts",
+    "mock": "prism mock ./src/shared/api/openapi/specification/openapi.yaml"
   },
   "dependencies": {
     "@coreui/vue": "^5.4.1",
+    "@hey-api/client-fetch": "^0.10.0",
     "@vuepic/vue-datepicker": "^11.0.2",
     "axios": "^1.8.4",
     "pinia": "^3.0.2",
@@ -21,6 +24,9 @@
     "vuetify": "^3.8.2"
   },
   "devDependencies": {
+    "@hey-api/client-axios": "^0.7.0",
+    "@hey-api/openapi-ts": "^0.53.7",
+    "@stoplight/prism-cli": "^5.14.2",
     "@vitejs/plugin-vue": "^5.2.1",
     "@vue/tsconfig": "^0.7.0",
     "autoprefixer": "^10.4.20",
