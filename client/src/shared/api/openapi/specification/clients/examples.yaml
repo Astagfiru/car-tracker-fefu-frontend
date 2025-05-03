@@ -6,11 +6,60 @@ ClientsListResponseExample:
       - type: clients
         id: "1"
         attributes:
+          secondName: Смирнов
+          firstName: Алексей
+          patronymic: Петрович
+          phoneNumber: "89161234567"
+          email: "smirnov.a@example.com"
+          passportSeries: "4500"
+          passportNumber: "123456"
+          issuedBy: "УФМС России по г. Москве"
+          dateOfIssue: "2010-05-15"
+      - type: clients
+        id: "2"
+        attributes:
+          secondName: Кузнецова
+          firstName: Ольга
+          patronymic: Ивановна
+          phoneNumber: "89267654321"
+          email: "kuznetsova.o@example.com"
+          passportSeries: "4501"
+          passportNumber: "654321"
+          issuedBy: "ОУФМС России по Московской области"
+          dateOfIssue: "2012-11-20"
+      - type: clients
+        id: "3"
+        attributes:
+          secondName: Васильев
+          firstName: Дмитрий
+          patronymic: Сергеевич
+          phoneNumber: "89039876543"
+          email: "vasiliev.d@example.com"
+          passportSeries: "4502"
+          passportNumber: "987654"
+          issuedBy: "УМВД России по Санкт-Петербургу"
+          dateOfIssue: "2015-03-01"
+      - type: clients
+        id: "4"
+        attributes:
+          secondName: Петрова
+          firstName: Анна
+          patronymic: Андреевна
+          phoneNumber: "89654321098"
+          email: "petrova.a@example.com"
+          passportSeries: "4503"
+          passportNumber: "321654"
+          issuedBy: "ОТДЕЛЕНИЕ УФМС РОССИИ ПО РОСТОВСКОЙ ОБЛ."
+          dateOfIssue: "2018-07-10"
+      - type: clients
+        id: "5"
+        attributes:
           secondName: Иванов
-          firstName: Иван
-          patronymic: Иванович
-          phoneNumber: "899958685301"
-          email: "ivanov@mail.ru"
-          passportSeries: "1234"
-          passportNumber: "12341234"
-          issudeBy: "УМВД РОССИИ ПО ПРИМОРСКОМУ  КРАЮ"
+          firstName: Сергей
+          patronymic: Петрович
+          phoneNumber: "89851112233"
+          email: "ivanov.s@example.com"
+          passportSeries: "4504"
+          passportNumber: "111222"
+          issuedBy: "ГУ МВД России по Краснодарскому краю"
+          dateOfIssue: "2020-09-05"
