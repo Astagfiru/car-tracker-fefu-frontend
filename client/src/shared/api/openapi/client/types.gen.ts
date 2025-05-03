@@ -12,7 +12,8 @@ export type Clients = {
         email: string;
         passportSeries: string;
         passportNumber: string;
-        issudeBy: string;
+        issuedBy: string;
+        dateOfIssue: string;
     };
 };
 

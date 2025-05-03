@@ -15,8 +15,8 @@ interface ClientStore {
 const clientStoreInitialState: ClientStore = {
   clients: [
     {
-      surname: "Тестов",
-      name: "Тест",
+      secondName: "Тестов",
+      firstName: "Тест",
       patronymic: "Тестович",
       phoneNumber: "+7 (999) 999-99-99",
       email: "test@example.com",

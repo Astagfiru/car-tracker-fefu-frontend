@@ -1,7 +1,7 @@
 export interface ClientType {
   id: number;
-  surname: string;
-  name: string;
+  secondName: string;
+  firstName: string;
   patronymic: string;
   phoneNumber: string;
   email: string;
@@ -11,4 +11,4 @@ export interface ClientType {
   dateOfIssue: string;
 }
 
-export type NewClient = Omit<ClientType, 'id'>
+export type NewClient = Omit<ClientType, "id">;

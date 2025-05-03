@@ -1,12 +1,18 @@
 import axios from "axios";
+import { getAllClients } from "@/shared/api/openapi/client";
+import type { ClientsResponseBody } from "@/shared/api/openapi/client";
 import { ClientType } from "../types/clientTypes";
 import { CLIENT_PATH } from "../consts/baseUrl";
+import { mapClientResponceBodyToClientUi } from "../lib/mappers/mapToApi";
 
-export const fetchClients = async (): Promise<ClientType[]> => {
-  try {
-    const response = await axios.get<ClientType[]>(CLIENT_PATH);
-    return response.data;
-  } catch (error) {
-    throw error
+interface FetchAllClients {
+  getClients : () => ClientType[]
+}
+
+export const fetchAllClients = () => {
+  const getClients = (): ClientType[] => {
+    const responce = getAllClients()
+
+    mapClientResponceBodyToClientUi(responce.data)
   }
-};
+}

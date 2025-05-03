@@ -20,7 +20,9 @@ Clients:
               type: string
             passportNumber:
               type: string
-            issudeBy:
+            issuedBy:
+              type: string
+            dateOfIssue:
               type: string
           required:
             - secondName
@@ -30,7 +32,8 @@ Clients:
             - email
             - passportSeries
             - passportNumber
-            - issudeBy
+            - issuedBy
+            - dateOfIssue
       required:
         - attributes
 
