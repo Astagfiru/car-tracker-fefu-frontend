@@ -47,6 +47,50 @@ exports.deleteClient = async (req, res, next) => {
 };
 
 /**
+ * @function updateClient
+ * @description Обновление данных клиента по ID
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @param {Function} next - Express next middleware function
+ * @returns {Promise<void>}
+ */
+exports.updateClient = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { surname, name, patronymic, phone, email, passportSeries, passportNumber, passportIssuer, passportIssueDate } = req.body;
+    
+    const client = await Client.findByPk(id);
+    
+    if (!client) {
+      return res.status(404).json({ 
+        status: 'error',
+        message: 'Клиент не найден' 
+      });
+    }
+    
+    await client.update({ 
+      surname, 
+      name, 
+      patronymic, 
+      phone, 
+      email, 
+      passportSeries, 
+      passportNumber, 
+      passportIssuer, 
+      passportIssueDate 
+    });
+    
+    res.json({
+      status: 'success',
+      data: client
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+
+/**
  * @function getClientById
  * @description Получение клиента по ID
  * @param {Object} req - Express request object
@@ -116,6 +160,49 @@ exports.deleteClient = async (req, res, next) => {
     
     await client.destroy();
     res.status(204).end();
+  } catch (err) {
+    next(err);
+  }
+};
+
+/**
+ * @function updateClient
+ * @description Обновление данных клиента по ID
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @param {Function} next - Express next middleware function
+ * @returns {Promise<void>}
+ */
+exports.updateClient = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { surname, name, patronymic, phone, email, passportSeries, passportNumber, passportIssuer, passportIssueDate } = req.body;
+    
+    const client = await Client.findByPk(id);
+    
+    if (!client) {
+      return res.status(404).json({ 
+        status: 'error',
+        message: 'Клиент не найден' 
+      });
+    }
+    
+    await client.update({ 
+      surname, 
+      name, 
+      patronymic, 
+      phone, 
+      email, 
+      passportSeries, 
+      passportNumber, 
+      passportIssuer, 
+      passportIssueDate 
+    });
+    
+    res.json({
+      status: 'success',
+      data: client
+    });
   } catch (err) {
     next(err);
   }

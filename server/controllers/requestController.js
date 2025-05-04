@@ -423,3 +423,77 @@ exports.updateRequest = async (req, res, next) => {
     });
   }
 };
+
+/**
+ * @function deleteRequest
+ * @description Удаление заявки по ID
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @param {Function} next - Express next middleware function
+ * @returns {Promise<void>}
+ */
+exports.deleteRequest = async (req, res, next) => {
+  // Начинаем транзакцию для обеспечения атомарности операций
+  const transaction = await sequelize.transaction();
+  
+  try {
+    const { id } = req.params;
+    
+    // Проверка валидности ID
+    if (!id || isNaN(Number(id)) || Number(id) <= 0) {
+      await transaction.rollback();
+      return res.status(400).json({
+        status: 'error',
+        message: 'Некорректный ID заявки',
+        errors: [{ field: 'id', message: 'ID заявки должен быть положительным числом' }]
+      });
+    }
+    
+    // Получаем заявку с блокировкой строки
+    const request = await Request.findByPk(id, { 
+      transaction,
+      lock: transaction.LOCK.UPDATE
+    });
+    
+    if (!request) {
+      await transaction.rollback();
+      return res.status(404).json({
+        status: 'error',
+        message: 'Заявка не найдена',
+        errors: [{ field: 'id', message: `Заявка с ID ${id} не существует` }]
+      });
+    }
+    
+    // Если заявка не в статусе "ОТМЕНЕНА" или "ЗАВЕРШЕНА", освобождаем автомобиль
+    if (request.status !== 'ОТМЕНЕНА' && request.status !== 'ЗАВЕРШЕНА') {
+      const car = await Car.findByPk(request.car_id, { 
+        transaction,
+        lock: transaction.LOCK.UPDATE
+      });
+      
+      if (car) {
+        await car.update({ available: true }, { transaction });
+      }
+    }
+    
+    // Удаляем заявку
+    await request.destroy({ transaction });
+    
+    // Фиксируем транзакцию
+    await transaction.commit();
+    
+    res.status(204).end();
+  } catch (err) {
+    // Откатываем транзакцию в случае ошибки
+    await transaction.rollback();
+    
+    console.error('Ошибка при удалении заявки:', err);
+    
+    // Общая обработка ошибок
+    res.status(500).json({
+      status: 'error',
+      message: 'Внутренняя ошибка сервера при удалении заявки',
+      errors: [{ field: null, message: err.message }]
+    });
+  }
+};

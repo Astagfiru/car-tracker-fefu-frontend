@@ -289,7 +289,6 @@ module.exports = {
   },
 
   async down (queryInterface, Sequelize) {
-    // Удаление таблиц в обратном порядке из-за внешних ключей
     await queryInterface.dropTable('contracts');
     await queryInterface.dropTable('requests');
     await queryInterface.dropTable('cars');
