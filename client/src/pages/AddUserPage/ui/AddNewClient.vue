@@ -3,11 +3,11 @@ import { ButtonCansel, ButtonConfirm } from '@/shared';
 import { useRouter } from 'vue-router';
 import { AddNewClientForm } from '@/widgets';
 import { computed, ref, watch, nextTick } from 'vue';
-import { useCreateClientStore } from '@/widgets/addUserForm';
+import { useClientStore } from '@/entities/client';
 import { storeToRefs } from 'pinia';
 
 const router = useRouter();
-const createClientStore = useCreateClientStore();
+const createClientStore = useClientStore();
 const { newClient } = storeToRefs(createClientStore);
 
 const errorMessage = ref('');
@@ -17,46 +17,46 @@ const previosStep = () => {
 };
 
 const nextStep = async () => {
-  errorMessage.value = '';
+  // errorMessage.value = '';
 
-  if (!disabledButton.value) {
-    createClientStore.addClient(newClient.value);
+  // if (!disabledButton.value) {
+  //   createClientStore.addClient(newClient.value);
 
-    newClient.value.email = '';
-    newClient.value.name = '';
-    newClient.value.surname = '';
-    newClient.value.patronymic = '';
-    newClient.value.phoneNumber = '';
-    newClient.value.passportSeries = '';
-    newClient.value.passportNumber = '';
-    newClient.value.issuedBy = '';
-    newClient.value.dateOfIssue = '';
+  //   newClient.value.email = '';
+  //   newClient.value.name = '';
+  //   newClient.value.surname = '';
+  //   newClient.value.patronymic = '';
+  //   newClient.value.phoneNumber = '';
+  //   newClient.value.passportSeries = '';
+  //   newClient.value.passportNumber = '';
+  //   newClient.value.issuedBy = '';
+  //   newClient.value.dateOfIssue = '';
 
-    router.push({ name: 'dashboard' }).then(() => {
-      window.location.reload();
-    });
-  }
+  //   router.push({ name: 'dashboard' }).then(() => {
+  //     window.location.reload();
+  //   });
+  // }
 };
 
 const disabledButton = computed(() => {
-  return !(
-    createClientStore.surname &&
-    createClientStore.name &&
-    createClientStore.patronymic &&
-    createClientStore.phoneNumber &&
-    createClientStore.email &&
-    createClientStore.passportSeries &&
-    createClientStore.passportNumber &&
-    createClientStore.issuedBy &&
-    createClientStore.dateOfIssue
-  );
+  // return !(
+  //   createClientStore.surname &&
+  //   createClientStore.name &&
+  //   createClientStore.patronymic &&
+  //   createClientStore.phoneNumber &&
+  //   createClientStore.email &&
+  //   createClientStore.passportSeries &&
+  //   createClientStore.passportNumber &&
+  //   createClientStore.issuedBy &&
+  //   createClientStore.dateOfIssue
+  // );
 });
 
-watch(() => newClient.value.email, () => {
-  if (errorMessage.value) {
-    errorMessage.value = '';
-  }
-});
+// watch(() => newClient.value.email, () => {
+//   if (errorMessage.value) {
+//     errorMessage.value = '';
+//   }
+// });
 </script>
 
 <template>
@@ -76,7 +76,7 @@ watch(() => newClient.value.email, () => {
       </section>
       <footer class="footer-actions">
         <ButtonCansel title="Отмена" :onClick="previosStep" />
-        <ButtonConfirm title="Сохранить" :disabled="disabledButton" @click="nextStep" :class="{'dis' : disabledButton}"/>
+        <ButtonConfirm title="Сохранить" :disabled="true" @click="nextStep" :class="{'dis' : disabledButton}"/>
       </footer>
     </div>
   </div>

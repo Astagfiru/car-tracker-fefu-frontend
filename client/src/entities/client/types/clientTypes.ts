@@ -11,4 +11,17 @@ export interface ClientType {
   dateOfIssue: string;
 }
 
+export interface ClientTypeResponse {
+  id: number;
+  surname: string;
+  name: string;
+  patronymic: string;
+  phone: string;
+  email: string;
+  passportSeries: string;
+  passportNumber: string;
+  passportIssuer: string;
+  passportIssueDate:string;
+}
+
 export type NewClient = Omit<ClientType, "id">;

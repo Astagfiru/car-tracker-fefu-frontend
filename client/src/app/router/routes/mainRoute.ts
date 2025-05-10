@@ -1,25 +1,37 @@
 import { RouteRecordRaw } from 'vue-router'
 import { BASE_PAGE_PATH } from '../config'
 import AppLayout from '@/app/layout/AppLayout.vue'
-import { MainLayout } from '@/pages/AdminMainPage'
-import { AddNewClient } from '@/pages/AddUserPage'
 
 export const mainRoutes: RouteRecordRaw[] = [
   {
     path: BASE_PAGE_PATH,
     component: AppLayout,
-    children : [
+    redirect: { name: 'dashboard' },
+    children: [
       {
-        path : '',
-        name : 'dashboard',
-        component : MainLayout
+        path: '',
+        name: 'dashboard',
+        component: () => import('@/pages/DashboardPage/ui/DashboardLayout.vue'),
+        meta: { title: 'Главная' }
       },
       {
-        path : '/add',
-        name : 'add-client',
-        component : AddNewClient
+        path: '/clients',
+        name: 'clients',
+        component: () => import('@/pages/ClientControlPage/ui/ClienConrolPage.vue'),
+        meta: { title: 'Клиенты' }
       },
-
+      {
+        path: '/applications',
+        name: 'applications',
+        component: () => import('@/pages/ApplicationPage/ui/ApplicationPage.vue'),
+        meta: { title: 'Заявки' }
+      },
+      {
+        path: '/warehouse',
+        name: 'warehouse',
+        component: () => import('@/pages/CarPage/ui/CarPage.vue'),
+        meta: { title: 'Склад' }
+      },
     ]
   }
 ]

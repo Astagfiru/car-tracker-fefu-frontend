@@ -29,6 +29,7 @@ const vuetify = createVuetify({
   components,
   directives,
 })
+
 app.use(i18n);
 
 app.use(router);

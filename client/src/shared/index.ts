@@ -8,6 +8,11 @@ import BaseInput from "./ui/components/input/BaseInput.vue";
 import DateInput from "./ui/components/input/DateInput.vue";
 import MailInput from "./ui/components/input/MailInput.vue";
 import PhoneInput from "./ui/components/input/PhoneInput.vue";
+import Home from "./icons/Home.vue";
+import Client from "./icons/Client.vue";
+import Application from "./icons/Application.vue"
+import Car from "./icons/Car.vue"
+import Title from "./ui/components/Title.vue";
 
 export {
     SmallUserCard,
@@ -19,5 +24,10 @@ export {
     BaseInput,
     DateInput,
     MailInput,
-    PhoneInput
+    PhoneInput,
+    Home,
+    Client,
+    Application,
+    Car, 
+    Title
 }

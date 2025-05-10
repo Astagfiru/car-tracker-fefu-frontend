@@ -1,1 +1,1 @@
-export const CLIENT_PATH = "/api/clients"
+export const CLIENTS_PATH = "/api/clients"

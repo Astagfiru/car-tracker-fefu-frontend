@@ -3,7 +3,7 @@
     "target": "es2022",
     "moduleResolution": "node",
     "lib": ["es2022", "dom"],
-
+    "module": "es2020",
     "outDir": "dist",
     "sourceMap": true,
     "declaration": true,
@@ -18,18 +18,11 @@
     "strictPropertyInitialization": true,
     "stripInternal": true,
 
-    "typeRoots": [
-    ],
+    "typeRoots": [],
     "paths": {
       "@/*": ["./src/*"]
     }
   },
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.vue",
-    "vue-shims.d.ts"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["src/**/*.ts", "src/**/*.vue", "vue-shims.d.ts"],
+  "exclude": ["node_modules"]
 }

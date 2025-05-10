@@ -1,6 +1,5 @@
 import { defineStore } from "pinia";
 import { onMounted, reactive, toRefs } from "vue";
-import { fetchAllClients } from "../api/useGetAllClients";
 import type { ClientType, NewClient } from "@/entities/client/index";
 
 const CLENT_STORE_NAME = "clientStore";
@@ -20,6 +19,7 @@ const clientStoreInitialState: ClientStore = {
 };
 
 export const useClientStore = defineStore(CLENT_STORE_NAME, () => {
+  
   const clientStoreState = reactive<ClientStore>({
     ...clientStoreInitialState,
   });
@@ -30,9 +30,6 @@ export const useClientStore = defineStore(CLENT_STORE_NAME, () => {
     clients.value = newClients;
   };
 
-  onMounted(() => {
-    fetchAllClients()
-  })
   return {
     ...toRefs(clientStoreState),
     saveAllClients,
