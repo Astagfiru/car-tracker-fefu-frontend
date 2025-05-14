@@ -29,8 +29,22 @@ const employeesData = [
 
 const seedEmployees = async () => {
   try {
-    await Employee.bulkCreate(employeesData);
-    console.log('Employees seeded successfully');
+    const existingPhones = await Employee.findAll({
+      attributes: ['phone'],
+      where: {
+        phone: employeesData.map(e => e.phone)
+      }
+    });
+    
+    const existingPhoneSet = new Set(existingPhones.map(e => e.phone));
+    const newEmployees = employeesData.filter(e => !existingPhoneSet.has(e.phone));
+    
+    if (newEmployees.length > 0) {
+      await Employee.bulkCreate(newEmployees);
+      console.log(`Employees seeded successfully (${newEmployees.length} added)`);
+    } else {
+      console.log('All employees already exist, skipping seeding');
+    }
   } catch (err) {
     console.error('Error seeding employees:', err);
   }

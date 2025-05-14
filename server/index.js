@@ -6,7 +6,7 @@
 const express = require('express');
 const path = require('path');
 const app = express();
-const port = process.env.PORT || 3000;
+const port = 3000;
 
 
 require('dotenv').config({ path: path.join(__dirname, '..', '.env') });
@@ -19,12 +19,13 @@ const startServer = async () => {
   try {
     await sequelize.authenticate();
     console.log('Connected to PostgreSQL database');
-    await sequelize.sync();
+    
+    await sequelize.sync({ force: false });
     console.log('Database synced');
     console.log('Registered models:', Object.keys(sequelize.models));
     
-    await require('./seeders/clients')();
-    console.log('Seeders completed');
+    await require('./seeders/init-db')();
+    console.log('All seeders completed');
     
     app.listen(port, () => {
       console.log(`Server is running on port ${port}`);

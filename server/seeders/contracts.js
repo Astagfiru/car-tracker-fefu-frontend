@@ -17,8 +17,13 @@ const contractsData = [
 
 const seedContracts = async () => {
   try {
-    await Contract.bulkCreate(contractsData);
-    console.log('Contracts seeded successfully');
+    const count = await Contract.count();
+    if (count === 0) {
+      await Contract.bulkCreate(contractsData);
+      console.log('Contracts seeded successfully');
+    } else {
+      console.log('Contracts already exist, skipping seeding');
+    }
   } catch (err) {
     console.error('Error seeding contracts:', err);
   }

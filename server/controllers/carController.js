@@ -16,7 +16,7 @@ const { Car, CarModel } = require('../models');
 exports.getAllCars = async (req, res, next) => {
   try {
     const cars = await Car.findAll({
-      include: [{ model: CarModel, as: 'carModel' }]
+      include: [{ model: CarModel, as: 'model' }]
     });
     res.json({
       status: 'success',
@@ -40,7 +40,7 @@ exports.getCarById = async (req, res, next) => {
     const { id } = req.params;
     const car = await Car.findOne({
       where: { id },
-      include: [{ model: CarModel, as: 'carModel' }]
+      include: [{ model: CarModel, as: 'model' }]
     });
     
     if (!car) {

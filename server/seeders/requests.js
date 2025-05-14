@@ -26,8 +26,13 @@ const requestsData = [
 
 const seedRequests = async () => {
   try {
-    await Request.bulkCreate(requestsData);
-    console.log('Requests seeded successfully');
+    const count = await Request.count();
+    if (count === 0) {
+      await Request.bulkCreate(requestsData);
+      console.log('Requests seeded successfully');
+    } else {
+      console.log('Requests already exist, skipping seeding');
+    }
   } catch (err) {
     console.error('Error seeding requests:', err);
   }

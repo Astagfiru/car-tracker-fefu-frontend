@@ -40,8 +40,13 @@ const carsData = [
 
 const seedCars = async () => {
   try {
-    await Car.bulkCreate(carsData);
-    console.log('Cars seeded successfully');
+    const count = await Car.count();
+    if (count === 0) {
+      await Car.bulkCreate(carsData);
+      console.log('Cars seeded successfully');
+    } else {
+      console.log('Cars already exist, skipping seeding');
+    }
   } catch (err) {
     console.error('Error seeding cars:', err);
   }

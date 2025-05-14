@@ -17,7 +17,7 @@ const seedClients = async () => {
     surname: 'Лебедева',
     name: 'Екатерина',
     patronymic: 'Николаевна',
-    phone: '+79123456789',
+    phone: '+79123456788',
     email: 'lebedeva1@example.com',
     passportSeries: '4567',
     passportNumber: '012345',
@@ -138,7 +138,7 @@ const seedClients = async () => {
     surname: 'Лебедева',
     name: 'Екатерина',
     patronymic: 'Николаевна',
-    phone: '+79123456789',
+    phone: '+79123456787',
     email: 'lebedeva2@example.com',
     passportSeries: '4567',
     passportNumber: '012345',
@@ -212,9 +212,14 @@ const seedClients = async () => {
 };
 
   for (const clientData of clientsData) {
-    const existingClient = await Client.findOne({ where: { email: clientData.email } });
-    if (existingClient) {
+    const existingClientByEmail = await Client.findOne({ where: { email: clientData.email } });
+    if (existingClientByEmail) {
       console.log(`Клиент с email ${clientData.email} уже существует`);
+      continue;
+    }
+    const existingClientByPhone = await Client.findOne({ where: { phone: clientData.phone } });
+    if (existingClientByPhone) {
+      console.log(`Клиент с телефоном ${clientData.phone} уже существует`);
       continue;
     }
     await Client.create(clientData);
