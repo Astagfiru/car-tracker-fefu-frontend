@@ -1,9 +1,0 @@
-{
-  "development": {
-    "username": "postgres",
-    "password": "1992233",
-    "database": "car-tracker-fefu",
-    "host": "localhost",
-    "dialect": "postgres"
-  }
-}
