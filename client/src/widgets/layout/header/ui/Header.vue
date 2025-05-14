@@ -8,7 +8,8 @@ import { NotificationIcon } from '@/shared';
     <header class="header">
         <div class="header__left">
             <HeaderLogo class="header__logo" />
-            <h4 class="header__title">Автомир</h4>
+            <h4 class="header__title">Автомир |</h4>
+            <h4 class="header__title-admin">Админ-панель</h4>
         </div>
         <div class="header__right">
             <NotificationIcon class="mr-5" />
@@ -39,6 +40,13 @@ import { NotificationIcon } from '@/shared';
 .header__title {
     font-size: 1.25rem;
     margin: 0;
+}
+
+.header__title-admin {
+    font-size: 1.25rem;
+    margin: 0;
+    color: #4A73CB;
+    font-weight: 500;
 }
 
 .header__right {

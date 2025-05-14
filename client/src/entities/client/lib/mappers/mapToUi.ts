@@ -3,10 +3,10 @@ import { ClientTypeResponse, ClientType } from "../../types/clientTypes";
 export const mapClientApiResponseToClientUi = (client: ClientTypeResponse): ClientType => {
   return {
     id: Number(client.id),
-    secondName: client.name,
+    secondName: client.surname,
     firstName: client.name,
     patronymic: client.patronymic,
-    phoneNumber: client.passportNumber,
+    phoneNumber: client.phone,
     email: client.email,
     passportSeries: client.passportSeries,
     passportNumber: client.passportNumber,

@@ -1,37 +1,34 @@
 import type { DataTableHeader } from "vuetify";
 
+import { CarType } from "@/entities/car";
+
+export type CarsTableView = Omit<CarType, "id" | "vin">
+
 export const TABLE_HEADERS: DataTableHeader[] = [
   {
-    title: "Фамилия",
-    key: "secondName",
+    title: "Название",
+    key: "model_id",
     headerProps: {
       class: "table__title",
     },
   },
   {
-    title: "Имя",
-    key: "firstName",
+    title: "Доступность",
+    key: "avaliable",
     headerProps: {
       class: "table__title",
     },
   },
   {
-    title: "Отчество",
-    key: "patronymic",
+    title: "Пробег",
+    key: "mileage",
     headerProps: {
       class: "table__title",
     },
   },
   {
-    title: "Телефон",
-    key: "phoneNumber",
-    headerProps: {
-      class: "table__title",
-    },
-  },
-  {
-    title: "Email",
-    key: "email",
+    title: "Цена",
+    key: "price",
     headerProps: {
       class: "table__title",
     },

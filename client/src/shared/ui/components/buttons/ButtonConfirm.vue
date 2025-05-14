@@ -35,7 +35,7 @@ defineProps<ButtonProps>();
   text-transform: none;
   padding: 8px 16px;
   border-radius: 8px;
-  background-color: #2563EB!important;
+  background-color: #4e79d6!important;
   color: #ffffff;
   transition: filter 0.2s ease;
   font-weight: 700;

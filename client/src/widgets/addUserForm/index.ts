@@ -1,2 +1,3 @@
 import AddNewClientForm from './ui/AddNewClientForm.vue';
-export {AddNewClientForm}
+import AddClient from './ui/AddClient.vue';
+export { AddClient }

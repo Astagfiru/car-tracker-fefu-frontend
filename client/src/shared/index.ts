@@ -13,6 +13,8 @@ import Client from "./icons/Client.vue";
 import Application from "./icons/Application.vue"
 import Car from "./icons/Car.vue"
 import Title from "./ui/components/Title.vue";
+import type { Modify } from "./types/global";
+import TableToolbar from "./ui/components/toolbars/TableToolbar.vue";
 
 export {
     SmallUserCard,
@@ -29,5 +31,10 @@ export {
     Client,
     Application,
     Car, 
-    Title
+    Title,
+    TableToolbar
+}
+
+export {
+    Modify
 }

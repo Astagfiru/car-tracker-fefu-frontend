@@ -1,37 +1,45 @@
-import { RouteRecordRaw } from 'vue-router'
-import { BASE_PAGE_PATH } from '../config'
-import AppLayout from '@/app/layout/AppLayout.vue'
+import { RouteRecordRaw } from "vue-router";
+import { BASE_PAGE_PATH } from "../config";
+import AppLayout from "@/app/layout/AppLayout.vue";
 
 export const mainRoutes: RouteRecordRaw[] = [
   {
     path: BASE_PAGE_PATH,
     component: AppLayout,
-    redirect: { name: 'dashboard' },
+    redirect: { name: "dashboard" },
     children: [
       {
-        path: '',
-        name: 'dashboard',
-        component: () => import('@/pages/DashboardPage/ui/DashboardLayout.vue'),
-        meta: { title: 'Главная' }
+        path: "",
+        name: "dashboard",
+        component: () => import("@/pages/DashboardPage/ui/DashboardLayout.vue"),
+        meta: { title: "Главная" },
       },
       {
-        path: '/clients',
-        name: 'clients',
-        component: () => import('@/pages/ClientControlPage/ui/ClienConrolPage.vue'),
-        meta: { title: 'Клиенты' }
+        path: "/clients",
+        name: "clients",
+        component: () =>
+          import("@/pages/ClientControlPage/ui/ClienConrolPage.vue"),
+        meta: { title: "Клиенты" },
       },
       {
-        path: '/applications',
-        name: 'applications',
-        component: () => import('@/pages/ApplicationPage/ui/ApplicationPage.vue'),
-        meta: { title: 'Заявки' }
+        path: "clientForm",
+        name: "clients-add",
+        component: () => import("@/pages/AddUserPage/ui/AddNewClient.vue"),
+        meta: { title: "Добавление нового клиента" },
       },
       {
-        path: '/warehouse',
-        name: 'warehouse',
-        component: () => import('@/pages/CarPage/ui/CarPage.vue'),
-        meta: { title: 'Склад' }
+        path: "/applications",
+        name: "applications",
+        component: () =>
+          import("@/pages/ApplicationPage/ui/ApplicationPage.vue"),
+        meta: { title: "Заявки" },
       },
-    ]
-  }
-]
+      {
+        path: "/warehouse",
+        name: "warehouse",
+        component: () => import("@/pages/CarPage/ui/CarPage.vue"),
+        meta: { title: "Склад" },
+      },
+    ],
+  },
+];

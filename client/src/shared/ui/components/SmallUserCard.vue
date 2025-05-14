@@ -6,7 +6,7 @@ interface SmallUserCardTypes {
 }
 
 const props = withDefaults(defineProps<SmallUserCardTypes>(), {
-  img: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  
 })
 </script>
 
@@ -48,7 +48,7 @@ const props = withDefaults(defineProps<SmallUserCardTypes>(), {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #ccc;
+    background-color: #95a5ff;
     flex-shrink: 0;
     margin-right: 10px;
   }
@@ -63,7 +63,7 @@ const props = withDefaults(defineProps<SmallUserCardTypes>(), {
   .placeholder {
     width: 100%;
     height: 100%;
-    background-color: #999;
+    background-color: #95a5ff;
     border-radius: 50%;
   }
   </style>

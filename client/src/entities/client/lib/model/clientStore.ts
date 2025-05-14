@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { onMounted, reactive, toRefs } from "vue";
+import { reactive, toRefs } from "vue";
 import type { ClientType, NewClient } from "@/entities/client/index";
 
 const CLENT_STORE_NAME = "clientStore";
@@ -26,12 +26,17 @@ export const useClientStore = defineStore(CLENT_STORE_NAME, () => {
 
   const { clients } = toRefs(clientStoreState);
 
-  const saveAllClients = (newClients: ClientType[]) => {
+  const saveAllClients = (newClients: ClientType[]): void => {
     clients.value = newClients;
   };
+
+  const addClient = (newClients: ClientType) => {
+    clients.value?.unshift(newClients)
+  }
 
   return {
     ...toRefs(clientStoreState),
     saveAllClients,
+    addClient
   };
 });

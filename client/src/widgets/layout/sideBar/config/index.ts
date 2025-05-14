@@ -24,7 +24,7 @@ export const SIDE_BAR_ROWS: SideBar[] = [
   },
   {
     id: 2,
-    label: "Автомобили",
+    label: "Склад",
     icon: Car,
     to: "/warehouse",
   },
