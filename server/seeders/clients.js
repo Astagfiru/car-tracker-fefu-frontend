@@ -1,16 +1,28 @@
 const { Client } = require('../models');
 
-const clientsData = [
+const seedClients = async () => {
+  const clientsData = [
   {
     surname: 'Иванов',
     name: 'Иван',
     patronymic: 'Иванович',
     phone: '+79123456789',
-    email: 'ivanov@example.com',
+    email: 'ivanov1@example.com',
     passportSeries: '1234',
     passportNumber: '567890',
     passportIssuer: 'ОВД района Теплый Стан г. Москвы',
     passportIssueDate: '2020-01-15'
+  },
+  {
+    surname: 'Лебедева',
+    name: 'Екатерина',
+    patronymic: 'Николаевна',
+    phone: '+79123456789',
+    email: 'lebedeva1@example.com',
+    passportSeries: '4567',
+    passportNumber: '012345',
+    passportIssuer: 'УМВД России по Забайкальскому краю',
+    passportIssueDate: '2022-04-11'
   },
   {
     surname: 'Петрова',
@@ -24,169 +36,169 @@ const clientsData = [
     passportIssueDate: '2019-05-20'
   },
   {
-    surname: 'Сидоров',
+    surname: 'Смирнов',
     name: 'Алексей',
     patronymic: 'Петрович',
-    phone: '+79261112233',
-    email: 'sidorov@mail.ru',
+    phone: '+79234567890',
+    email: 'smirnov@example.com',
     passportSeries: '5678',
     passportNumber: '123456',
-    passportIssuer: 'ОУФМС по г. Екатеринбургу',
-    passportIssueDate: '2021-03-10'
+    passportIssuer: 'УМВД России по Приморскому краю',
+    passportIssueDate: '2018-07-12'
   },
   {
-    surname: 'Смирнова',
+    surname: 'Кузнецова',
     name: 'Елена',
-    patronymic: 'Викторовна',
-    phone: '89035556677',
-    email: 'smirnova.elena@yandex.ru',
-    passportSeries: '7890',
-    passportNumber: '654321',
-    passportIssuer: 'МВД по Республике Татарстан',
-    passportIssueDate: '2018-12-01'
+    patronymic: 'Александровна',
+    phone: '+79345678901',
+    email: 'kuznetsova@example.com',
+    passportSeries: '6789',
+    passportNumber: '234567',
+    passportIssuer: 'УМВД России по Хабаровскому краю',
+    passportIssueDate: '2021-03-25'
   },
   {
-    surname: 'Кузнецов',
+    surname: 'Попов',
     name: 'Дмитрий',
-    patronymic: 'Александрович',
-    phone: '+79659998877',
-    email: 'kuznetsov_d@gmail.com',
-    passportSeries: '9012',
-    passportNumber: '789012',
-    passportIssuer: 'ОТД УФМС по Ростовской области',
-    passportIssueDate: '2022-07-05'
-  },
-  {
-    surname: 'Васильева',
-    name: 'Ольга',
-    patronymic: 'Ивановна',
-    phone: '89852223344',
-    email: 'vasilyeva.olga@outlook.com',
-    passportSeries: '0123',
-    passportNumber: '890123',
-    passportIssuer: 'УВД по Краснодарскому краю',
-    passportIssueDate: '2017-09-18'
-  },
-  {
-    surname: 'Морозов',
-    name: 'Сергей',
-    patronymic: 'Дмитриевич',
-    phone: '+79167778899',
-    email: 'morozov.s@rambler.ru',
-    passportSeries: '2345',
-    passportNumber: '901234',
-    passportIssuer: 'ОУФМС по Самарской области',
-    passportIssueDate: '2023-02-28'
-  },
-  {
-    surname: 'Волкова',
-    name: 'Анастасия',
-    patronymic: 'Алексеевна',
-    phone: '89094445566',
-    email: 'volkova.a@mail.ru',
-    passportSeries: '3456',
-    passportNumber: '012345',
-    passportIssuer: 'ГУ МВД по Воронежской области',
-    passportIssueDate: '2016-06-12'
-  },
-  {
-    surname: 'Лебедев',
-    name: 'Максим',
     patronymic: 'Сергеевич',
-    phone: '+79058889900',
-    email: 'lebedev.m@yandex.ru',
-    passportSeries: '4567',
-    passportNumber: '123456',
-    passportIssuer: 'УФМС по Новосибирской области',
-    passportIssueDate: '2024-04-01'
+    phone: '+79456789012',
+    email: 'popov@example.com',
+    passportSeries: '7890',
+    passportNumber: '345678',
+    passportIssuer: 'УМВД России по Амурской области',
+    passportIssueDate: '2017-11-08'
   },
   {
     surname: 'Соколова',
-    name: 'Татьяна',
+    name: 'Анна',
     patronymic: 'Владимировна',
-    phone: '89251112233',
-    email: 'sokolova.t@gmail.com',
-    passportSeries: '5678',
-    passportNumber: '234567',
-    passportIssuer: 'ОТД УФМС по Пермскому краю',
-    passportIssueDate: '2015-11-20'
-  },
-  {
-    surname: 'Андреев',
-    name: 'Роман',
-    patronymic: 'Игоревич',
-    phone: '+79153334455',
-    email: 'andreev.r@outlook.com',
-    passportSeries: '6789',
-    passportNumber: '345678',
-    passportIssuer: 'УВД по Алтайскому краю',
-    passportIssueDate: '2019-08-08'
-  },
-  {
-    surname: 'Козлова',
-    name: 'Наталья',
-    patronymic: 'Дмитриевна',
-    phone: '89604445566',
-    email: 'kozlova.n@rambler.ru',
-    passportSeries: '7890',
-    passportNumber: '456789',
-    passportIssuer: 'ОУФМС по Тюменской области',
-    passportIssueDate: '2020-05-03'
-  },
-  {
-    surname: 'Николаев',
-    name: 'Кирилл',
-    patronymic: 'Андреевич',
-    phone: '+79065556677',
-    email: 'nikolaev.k@mail.ru',
+    phone: '+79567890123',
+    email: 'sokolova@example.com',
     passportSeries: '8901',
-    passportNumber: '567890',
-    passportIssuer: 'ГУ МВД по Республике Башкортостан',
-    passportIssueDate: '2018-01-25'
+    passportNumber: '456789',
+    passportIssuer: 'УМВД России по Камчатскому краю',
+    passportIssueDate: '2022-01-30'
   },
   {
-    surname: 'Егорова',
-    name: 'Светлана',
-    patronymic: 'Михайловна',
-    phone: '89192223344',
-    email: 'egorova.s@yandex.ru',
+    surname: 'Михайлов',
+    name: 'Сергей',
+    patronymic: 'Андреевич',
+    phone: '+79678901234',
+    email: 'mikhailov@example.com',
     passportSeries: '9012',
-    passportNumber: '678901',
-    passportIssuer: 'УФМС по Калининградской области',
-    passportIssueDate: '2021-10-14'
-  },
-  {
-    surname: 'Зайцев',
-    name: 'Павел',
-    patronymic: 'Александрович',
-    phone: '+79857778899',
-    email: 'zaitsev.p@gmail.com',
-    passportSeries: '0123',
-    passportNumber: '789012',
-    passportIssuer: 'ОТД УФМС по Хабаровскому краю',
-    passportIssueDate: '2022-09-07'
+    passportNumber: '567890',
+    passportIssuer: 'УМВД России по Сахалинской области',
+    passportIssueDate: '2019-09-14'
   },
   {
     surname: 'Федорова',
-    name: 'Виктория',
-    patronymic: 'Сергеевна',
-    phone: '89506667788',
-    email: 'fedorova.v@outlook.com',
-    passportSeries: '1234',
-    passportNumber: '890123',
-    passportIssuer: 'УВД по Иркутской области',
-    passportIssueDate: '2017-04-19'
+    name: 'Ольга',
+    patronymic: 'Игоревна',
+    phone: '+79789012345',
+    email: 'fedorova@example.com',
+    passportSeries: '0123',
+    passportNumber: '678901',
+    passportIssuer: 'УМВД России по Магаданской области',
+    passportIssueDate: '2020-06-22'
   },
   {
-    surname: 'Макаров',
-    name: 'Игорь',
+    surname: 'Морозов',
+    name: 'Николай',
     patronymic: 'Дмитриевич',
-    phone: '+79298889900',
-    email: 'makarov.i@rambler.ru',
+    phone: '+79890123456',
+    email: 'morozov@example.com',
+    passportSeries: '1234',
+    passportNumber: '789012',
+    passportIssuer: 'УМВД России по Еврейской автономной области',
+    passportIssueDate: '2018-04-17'
+  },
+  {
+    surname: 'Волкова',
+    name: 'Татьяна',
+    patronymic: 'Михайловна',
+    phone: '+79901234567',
+    email: 'volkova@example.com',
+    passportSeries: '2345',
+    passportNumber: '890123',
+    passportIssuer: 'УМВД России по Чукотскому автономному округу',
+    passportIssueDate: '2021-08-05'
+  },
+  {
+    surname: 'Алексеев',
+    name: 'Владимир',
+    patronymic: 'Александрович',
+    phone: '+79012345678',
+    email: 'alekseev@example.com',
+    passportSeries: '3456',
+    passportNumber: '901234',
+    passportIssuer: 'УМВД России по Республике Саха (Якутия)',
+    passportIssueDate: '2017-02-28'
+  },
+  {
+    surname: 'Лебедева',
+    name: 'Екатерина',
+    patronymic: 'Николаевна',
+    phone: '+79123456789',
+    email: 'lebedeva2@example.com',
     passportSeries: '4567',
-    passportNumber: '212345',
-    passportIssuer: 'ОУФМС по Курской области',
-    passportIssueDate: '2023-06-01'
+    passportNumber: '012345',
+    passportIssuer: 'УМВД России по Забайкальскому краю',
+    passportIssueDate: '2022-04-11'
+  },
+  {
+    surname: 'Семенов',
+    name: 'Артем',
+    patronymic: 'Валерьевич',
+    phone: '+79234567890',
+    email: 'semenov@example.com',
+    passportSeries: '5678',
+    passportNumber: '123456',
+    passportIssuer: 'УМВД России по Иркутской области',
+    passportIssueDate: '2019-12-03'
+  },
+  {
+    surname: 'Егорова',
+    name: 'Наталья',
+    patronymic: 'Андреевна',
+    phone: '+79345678901',
+    email: 'egorova@example.com',
+    passportSeries: '6789',
+    passportNumber: '234567',
+    passportIssuer: 'УМВД России по Республике Бурятия',
+    passportIssueDate: '2020-10-19'
+  },
+  {
+    surname: 'Павлов',
+    name: 'Игорь',
+    patronymic: 'Сергеевич',
+    phone: '+79456789012',
+    email: 'pavlov@example.com',
+    passportSeries: '7890',
+    passportNumber: '345678',
+    passportIssuer: 'УМВД России по Красноярскому краю',
+    passportIssueDate: '2018-08-27'
+  },
+  {
+    surname: 'Козлова',
+    name: 'Светлана',
+    patronymic: 'Дмитриевна',
+    phone: '+79567890123',
+    email: 'kozlova@example.com',
+    passportSeries: '8901',
+    passportNumber: '456789',
+    passportIssuer: 'УМВД России по Кемеровской области',
+    passportIssueDate: '2021-05-14'
+  },
+  {
+    surname: 'Степанов',
+    name: 'Максим',
+    patronymic: 'Владимирович',
+    phone: '+79678901234',
+    email: 'stepanov@example.com',
+    passportSeries: '9012',
+    passportNumber: '567890',
+    passportIssuer: 'УМВД России по Новосибирской области',
+    passportIssueDate: '2017-07-09'
   }
 
 ];
@@ -197,6 +209,16 @@ const seedClients = async () => {
     console.log('Clients seeded successfully');
   } catch (err) {
     console.error('Error seeding clients:', err);
+  }
+};
+
+  for (const clientData of clientsData) {
+    const existingClient = await Client.findOne({ where: { email: clientData.email } });
+    if (existingClient) {
+      console.log(`Клиент с email ${clientData.email} уже существует`);
+      continue;
+    }
+    await Client.create(clientData);
   }
 };
 

@@ -124,6 +124,15 @@ exports.getClientById = async (req, res, next) => {
 exports.createClient = async (req, res, next) => {
   try {
     const { surname, name, patronymic, phone, email, passportSeries, passportNumber, passportIssuer, passportIssueDate } = req.body;
+    
+    const existingClient = await Client.findOne({ where: { email } });
+    if (existingClient) {
+      return res.status(409).json({ 
+        status: 'error',
+        message: 'Клиент с таким email уже существует'
+      });
+    }
+    
     const client = await Client.create({ 
       surname, 
       name, 
