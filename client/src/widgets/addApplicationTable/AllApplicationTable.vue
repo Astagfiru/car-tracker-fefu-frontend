@@ -2,7 +2,7 @@
   <div class="client-page">
     <div class="header">
       <TableToolbar
-        add-button-title="Добавить клиента"
+        add-button-title="Добавить заяыку"
         :add-redirect="redirect"
       />
     </div>
@@ -12,7 +12,6 @@
       :tableItems="mappedClients"
       table-title="Клиенты"
     />
-    <Pagination v-model:elements="clients" :current-page="4" :items-pure-page="10" />
   </div>
 </template>
 
@@ -26,7 +25,6 @@ import { useGetAllClients } from "../../../entities/client";
 import { onMounted, computed, watch } from "vue";
 import { ClientTableView } from "../types/types";
 import { TableToolbar } from "@/shared";
-import { Pagination } from "@/widgets";
 const router = useRouter();
 
 const clientStore = useClientStore();

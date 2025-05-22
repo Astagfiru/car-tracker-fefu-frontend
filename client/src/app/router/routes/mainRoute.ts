@@ -34,6 +34,12 @@ export const mainRoutes: RouteRecordRaw[] = [
           import("@/pages/ApplicationPage/ui/ApplicationPage.vue"),
         meta: { title: "Заявки" },
       },
+       {
+        path: "applicationForm",
+        name: "application-add",
+        component: () => import("@/pages/AddApplicationPage/ui/ApplicationForm.vue"),
+        meta: { title: "Добавление новой заявки" },
+      },
       {
         path: "/warehouse",
         name: "warehouse",

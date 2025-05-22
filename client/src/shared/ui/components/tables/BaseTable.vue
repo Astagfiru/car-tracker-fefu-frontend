@@ -12,9 +12,10 @@
         <v-toolbar class="title">
           <v-toolbar-title>{{ tableTitle }}</v-toolbar-title>
           <v-spacer></v-spacer>
-          <span class="mr-4">Всего: {{ totalItems }}</span>
+          <span class="mr-4">Всего: {{ tableItems?.length }}</span>
         </v-toolbar>
       </template>
+      
     </v-data-table>
   </v-container>
 </template>

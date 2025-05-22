@@ -10,6 +10,4 @@
 import { Title } from "@/shared";
 </script>
 
-<style scoped lang="scss">
-
-</style>
+<style scoped lang="scss"></style>

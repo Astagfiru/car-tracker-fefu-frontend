@@ -2,17 +2,12 @@
 import { ButtonCansel, ButtonConfirm } from "@/shared";
 import { useRouter } from "vue-router";
 import AddNewClientForm from "./AddNewClientForm.vue";
-import { computed, ref, watch, nextTick, reactive } from "vue";
+import { computed, ref, reactive } from "vue";
 import { useClientStore } from "@/entities/client";
-import { storeToRefs } from "pinia";
-import { useAddClient, useGetAllClients } from "@/entities/client";
-
 import { NewClient } from "../../../entities/client/types/clientTypes";
 
 const router = useRouter();
 const clientStore = useClientStore();
-
-const { addClient, saveAllClients } = clientStore;
 
 const errorMessage = ref("");
 
@@ -32,7 +27,7 @@ const requiredFields = [
   "dateOfIssue",
 ] as const;
 
-const newClient: NewClient = reactive({
+const newClient = reactive<NewClient>({
   firstName: "",
   secondName: "",
   patronymic: "",
@@ -51,22 +46,31 @@ const nextStep = async () => {
     return;
   }
 
-  addNewClient(newClient)
-  router.push({ name: 'clients'})
+  try {
+    clientStore.addClient({...newClient, id : Date.now()});
+
+    router.push({ name: 'clients' });
+
+  } catch (error) {
+    errorMessage.value = "Ошибка при сохранении клиента";
+    console.error(error);
+  }
 };
 
+// Закомментированный API-запрос
+/*
 const addNewClient = async (client: NewClient) => {
   try {
-    const fetchNewClient = await useAddClient(client);
+    await useAddClient(client);
     const fetchedClients = await useGetAllClients();
-
     if (fetchedClients) {
-      saveAllClients(fetchedClients);
+      clientStore.saveAllClients(fetchedClients);
     }
   } catch (error) {
     throw error;
   }
 };
+*/
 
 const disabledButton = computed(() => {
   return !requiredFields.every((field) => Boolean(newClient[field]));
@@ -80,11 +84,9 @@ const disabledButton = computed(() => {
         <h1>Добавление нового клиента</h1>
         <h3 class="grey-lighten-5">Заполните личные данные клиента</h3>
       </header>
-
       <section class="form-content">
         <AddNewClientForm :client="newClient" />
       </section>
-
       <section v-if="errorMessage" class="error-message">
         {{ errorMessage }}
       </section>
@@ -92,7 +94,7 @@ const disabledButton = computed(() => {
         <ButtonCansel title="Отмена" :onClick="previosStep" />
         <ButtonConfirm
           title="Сохранить"
-          :disabled="true"
+          :disabled="disabledButton"
           @click="nextStep"
           :class="{ dis: disabledButton }"
         />
@@ -100,7 +102,6 @@ const disabledButton = computed(() => {
     </div>
   </div>
 </template>
-
 <style scoped lang="scss">
 .dis {
   opacity: 0.5;

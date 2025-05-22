@@ -10,11 +10,12 @@ import MailInput from "./ui/components/input/MailInput.vue";
 import PhoneInput from "./ui/components/input/PhoneInput.vue";
 import Home from "./icons/Home.vue";
 import Client from "./icons/Client.vue";
-import Application from "./icons/Application.vue"
+import ApplicationResponse from "./icons/Application.vue"
 import Car from "./icons/Car.vue"
 import Title from "./ui/components/Title.vue";
 import type { Modify } from "./types/global";
 import TableToolbar from "./ui/components/toolbars/TableToolbar.vue";
+import Selector from './ui/components/selectors/Selector.vue'
 
 export {
     SmallUserCard,
@@ -29,10 +30,11 @@ export {
     PhoneInput,
     Home,
     Client,
-    Application,
+    ApplicationResponse,
     Car, 
     Title,
-    TableToolbar
+    TableToolbar,
+    Selector
 }
 
 export {
