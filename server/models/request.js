@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
 
-const Request = sequelize.define('Request', {
+const Application = sequelize.define('Application', {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
@@ -31,7 +31,7 @@ const Request = sequelize.define('Request', {
       key: 'id'
     }
   },
-  date: {
+  application_date: {
     type: DataTypes.DATEONLY,
     allowNull: false,
   },
@@ -39,32 +39,32 @@ const Request = sequelize.define('Request', {
     type: DataTypes.STRING(30),
     allowNull: false,
     validate: {
-      isIn: [['НОВАЯ', 'В РАБОТЕ', 'ЗАВЕРШЕНА', 'ОТМЕНЕНА']]
+      isIn: [['new', 'in_progress', 'completed', 'canceled']]
     }
   },
 }, {
-  tableName: 'requests',
+  tableName: 'applications',
   timestamps: true,
 });
 
 // Определение связей
-Request.associate = function(models) {
-  Request.belongsTo(models.Client, {
+Application.associate = function(models) {
+  Application.belongsTo(models.Client, {
     foreignKey: 'client_id',
     as: 'client'
   });
-  Request.belongsTo(models.Employee, {
+  Application.belongsTo(models.Employee, {
     foreignKey: 'employee_id',
     as: 'employee'
   });
-  Request.belongsTo(models.Car, {
+  Application.belongsTo(models.Car, {
     foreignKey: 'car_id',
     as: 'car'
   });
-  Request.hasOne(models.Contract, {
-    foreignKey: 'request_id',
+  Application.hasOne(models.Contract, {
+    foreignKey: 'id',
     as: 'contract'
   });
 };
 
-module.exports = Request;
+module.exports = Application;

@@ -11,11 +11,11 @@ const Car = sequelize.define('Car', {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: 'car_models',
+      model: 'car_model',
       key: 'id'
     }
   },
-  available: {
+  in_stock: {
     type: DataTypes.BOOLEAN,
     defaultValue: true,
   },
@@ -39,7 +39,7 @@ const Car = sequelize.define('Car', {
     allowNull: false,
     validate: {
       isDecimal: true,
-      min: 0
+      min: 0.01
     }
   },
 }, {
@@ -53,9 +53,9 @@ Car.associate = function(models) {
     foreignKey: 'model_id',
     as: 'model'
   });
-  Car.hasMany(models.Request, {
+  Car.hasMany(models.Application, {
     foreignKey: 'car_id',
-    as: 'requests'
+    as: 'applications'
   });
 };
 

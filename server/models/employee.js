@@ -7,21 +7,21 @@ const Employee = sequelize.define('Employee', {
     autoIncrement: true,
     primaryKey: true,
   },
-  surname: {
+  last_name: {
     type: DataTypes.STRING(50),
     allowNull: false,
     validate: {
       notEmpty: true
     }
   },
-  name: {
+  first_name: {
     type: DataTypes.STRING(50),
     allowNull: false,
     validate: {
       notEmpty: true
     }
   },
-  patronymic: {
+  middle_name: {
     type: DataTypes.STRING(50),
     allowNull: true,
   },
@@ -52,9 +52,9 @@ const Employee = sequelize.define('Employee', {
 
 // Определение связей
 Employee.associate = function(models) {
-  Employee.hasMany(models.Request, {
+  Employee.hasMany(models.Application, {
     foreignKey: 'employee_id',
-    as: 'requests'
+    as: 'applications'
   });
 };
 

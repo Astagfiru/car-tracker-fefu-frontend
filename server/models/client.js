@@ -7,21 +7,21 @@ const Client = sequelize.define('Client', {
     autoIncrement: true,
     primaryKey: true,
   },
-  surname: {
+  last_name: {
     type: DataTypes.STRING(50),
     allowNull: false,
     validate: {
       notEmpty: true
     }
   },
-  name: {
+  first_name: {
     type: DataTypes.STRING(50),
     allowNull: false,
     validate: {
       notEmpty: true
     }
   },
-  patronymic: {
+  middle_name: {
     type: DataTypes.STRING(50),
     allowNull: true,
   },
@@ -41,27 +41,27 @@ const Client = sequelize.define('Client', {
       isEmail: true
     },
   },
-  passportSeries: {
+  passport_series: {
     type: DataTypes.CHAR(4),
     allowNull: false,
     validate: {
       is: /^\d{4}$/
     }
   },
-  passportNumber: {
+  passport_number: {
     type: DataTypes.CHAR(6),
     allowNull: false,
     validate: {
       is: /^\d{6}$/
     }
   },
-  passportIssuer: {
+  issued_by: {
     type: DataTypes.STRING(100),
     allowNull: true,
   },
-  passportIssueDate: {
+  issue_date: {
     type: DataTypes.DATEONLY,
-    allowNull: false,
+    allowNull: true,
     validate: {
       isDate: true
     }
@@ -73,7 +73,7 @@ const Client = sequelize.define('Client', {
 
 // Определение связей
 Client.associate = function(models) {
-  Client.hasMany(models.Request, {
+  Client.hasMany(models.Application, {
     foreignKey: 'client_id',
     as: 'requests'
   });

@@ -7,12 +7,12 @@ const Contract = sequelize.define('Contract', {
     autoIncrement: true,
     primaryKey: true,
   },
-  request_id: {
+  application_id: {
     type: DataTypes.INTEGER,
     allowNull: false,
     unique: true,
     references: {
-      model: 'requests',
+      model: 'applications',
       key: 'id'
     }
   },
@@ -20,7 +20,7 @@ const Contract = sequelize.define('Contract', {
     type: DataTypes.DATEONLY,
     allowNull: false,
   },
-  number: {
+  contract_number: {
     type: DataTypes.STRING(20),
     allowNull: false,
     unique: true,
@@ -33,7 +33,7 @@ const Contract = sequelize.define('Contract', {
     allowNull: false,
     validate: {
       isDecimal: true,
-      min: 0
+      min: 0.01
     }
   },
 }, {
@@ -43,9 +43,9 @@ const Contract = sequelize.define('Contract', {
 
 // Определение связей
 Contract.associate = function(models) {
-  Contract.belongsTo(models.Request, {
-    foreignKey: 'request_id',
-    as: 'request'
+  Contract.belongsTo(models.Application, {
+    foreignKey: 'application_id',
+    as: 'application'
   });
 };
 
