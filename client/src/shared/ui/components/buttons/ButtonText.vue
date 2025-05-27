@@ -5,7 +5,8 @@
     class="square-button"
     :class="{ dis: disabled }"
   >
-    <slot name="icon"></slot>
+    <slot>
+    </slot>
   </button>
 </template>
 
@@ -23,8 +24,6 @@ defineProps<ButtonProps>();
 
 <style scoped lang="scss">
 .square-button {
-  width: 70px;
-  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -32,7 +31,7 @@ defineProps<ButtonProps>();
   background-color: #4e79d6 !important;
   color: #ffffff;
   border: none;
-  padding: 0;
+  padding: 10px;
   cursor: pointer;
   transition: filter 0.2s ease;
 

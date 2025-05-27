@@ -1,18 +1,11 @@
 <template>
   <div class="client-page">
     <div class="header">
-      <TableToolbar
-        add-button-title="Добавить клиента"
-        :add-redirect="redirect"
-      />
+      <TableToolbar :add-redirect="redirect" />
     </div>
-    <BaseTable
-      :key="mappedClients?.length"
-      :tableHeader="TABLE_HEADERS"
-      :tableItems="mappedClients"
-      table-title="Клиенты"
-    />
-    <Pagination v-model:elements="clients" :current-page="4" :items-pure-page="10" />
+    <BaseTable :key="mappedClients?.length" :tableHeader="TABLE_HEADERS" :tableItems="mappedClients"
+      table-title="Клиенты" />
+    <Pagination v-model:elements="mappedClients" :items-per-page="5" :current-page="1" ref="pagination" />
   </div>
 </template>
 
@@ -27,6 +20,7 @@ import { onMounted, computed, watch } from "vue";
 import { ClientTableView } from "../types/types";
 import { TableToolbar } from "@/shared";
 import { Pagination } from "@/widgets";
+
 const router = useRouter();
 
 const clientStore = useClientStore();

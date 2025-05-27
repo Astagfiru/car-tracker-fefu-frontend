@@ -4,7 +4,7 @@ import { EMPLOYEE_PATH } from "../consts/baseUrl";
 
 export type NewClient = Omit<Employee, "id">;
 
-export const useGetAllClients = async (): Promise<Employee[]> => {
+export const useGetAllEmployeers = async (): Promise<Employee[]> => {
   try {
     const response = await axios.get<Employee[]>(EMPLOYEE_PATH);
     

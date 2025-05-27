@@ -5,12 +5,14 @@
     <input
       :id="id"
       v-model="model"
-      :type="type"
-      :placeholder="placeholder"
+      type="email"
+      :placeholder="placeholder || 'Enter your email'"
       :disabled="disabled"
       :aria-invalid="!!error"
-      :class="['input-common', { error: error }]"
+      :class="['input-common', { error }]"
       @blur="validate"
+      maxlength="254"
+      required
     />
 
     <p v-if="error" class="text-danger">{{ error }}</p>
@@ -25,7 +27,6 @@ const model = defineModel<string>()
 interface Props {
   label?: string
   placeholder?: string
-  type?: string
   disabled?: boolean
   id?: string
 }
@@ -35,9 +36,17 @@ defineProps<Props>()
 const error = ref<string | null>(null)
 
 function validate() {
-  error.value = !model.value?.trim()
-    ? 'Поле не может быть пустым'
-    : null
+  const value = model.value?.trim() ?? ''
+
+  if (!value) {
+    error.value = 'Email обязателен'
+  } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+    error.value = 'Введите корректный email'
+  } else if (value.length > 254) {
+    error.value = 'Email слишком длинный (максимум 254 символа)'
+  } else {
+    error.value = null
+  }
 }
 </script>
 

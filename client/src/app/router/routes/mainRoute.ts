@@ -22,7 +22,7 @@ export const mainRoutes: RouteRecordRaw[] = [
         meta: { title: "Клиенты" },
       },
       {
-        path: "clientForm",
+        path: "/clientForm",
         name: "clients-add",
         component: () => import("@/pages/AddUserPage/ui/AddNewClient.vue"),
         meta: { title: "Добавление нового клиента" },
@@ -35,7 +35,7 @@ export const mainRoutes: RouteRecordRaw[] = [
         meta: { title: "Заявки" },
       },
        {
-        path: "applicationForm",
+        path: "/applicationForm",
         name: "application-add",
         component: () => import("@/pages/AddApplicationPage/ui/ApplicationForm.vue"),
         meta: { title: "Добавление новой заявки" },
@@ -45,6 +45,24 @@ export const mainRoutes: RouteRecordRaw[] = [
         name: "warehouse",
         component: () => import("@/pages/CarPage/ui/CarPage.vue"),
         meta: { title: "Склад" },
+      },
+       {
+        path: "/warehouseForm",
+        name: "add-warehouse",
+        component: () => import("@/pages/CarPage/ui/CarPage.vue"),
+        meta: { title: "Добавление нового товара" },
+      },
+       {
+        path: "/employeers",
+        name: "employeers",
+        component: () => import("@/pages/EmployeersPage/ui/EmployeersMainPage.vue"),
+        meta: { title: "Сотрудники" },
+      },
+      {
+        path: "/employeersForm",
+        name: "add-employeers",
+        component: () => import("@/pages/AddEmployeerPAge/ui/AddEmployeerPage.vue"),
+        meta: { title: "Добавление нового сотрудника" },
       },
     ],
   },

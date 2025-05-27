@@ -6,7 +6,7 @@ import Plus from "./icons/Plus.vue";
 import ButtonCansel from "./ui/components/buttons/ButtonCansel.vue";
 import BaseInput from "./ui/components/input/BaseInput.vue";
 import DateInput from "./ui/components/input/DateInput.vue";
-import MailInput from "./ui/components/input/MailInput.vue";
+import MailInput from "./ui/components/input/EmailInput.vue";
 import PhoneInput from "./ui/components/input/PhoneInput.vue";
 import Home from "./icons/Home.vue";
 import Client from "./icons/Client.vue";
@@ -16,6 +16,10 @@ import Title from "./ui/components/Title.vue";
 import type { Modify } from "./types/global";
 import TableToolbar from "./ui/components/toolbars/TableToolbar.vue";
 import Selector from './ui/components/selectors/Selector.vue'
+import SearchInput from "./ui/components/input/SearchInput.vue";
+import ButtonText from "./ui/components/buttons/ButtonText.vue";
+import { formatDateRuLocale } from "./helpers/date";
+import BaseViewForm from "./ui/components/view/BaseViewForm.vue";
 
 export {
     SmallUserCard,
@@ -34,9 +38,13 @@ export {
     Car, 
     Title,
     TableToolbar,
-    Selector
+    Selector,
+    SearchInput,
+    ButtonText,
+    BaseViewForm
 }
 
 export {
-    Modify
+    Modify,
+    formatDateRuLocale
 }

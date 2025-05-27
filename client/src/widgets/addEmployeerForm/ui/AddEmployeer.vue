@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import { ButtonCansel, ButtonConfirm } from "@/shared";
 import { useRouter } from "vue-router";
-import AddNewClientForm from "./AddNewClientForm.vue";
+import AddNewEmployeerForm from "./AddNewEmployeerForm.vue";
 import { computed, ref, reactive } from "vue";
 import { useClientStore } from "@/entities/client";
 import { NewClient } from "../../../entities/client/types/clientTypes";
 import { ButtonText } from "@/shared";
-
 const router = useRouter();
 const clientStore = useClientStore();
 
@@ -28,7 +27,7 @@ const requiredFields = [
   "dateOfIssue",
 ] as const;
 
-let newClient = reactive<NewClient>({
+const newClient = reactive<NewClient>({
   firstName: "",
   secondName: "",
   patronymic: "",
@@ -48,19 +47,7 @@ const nextStep = async () => {
   }
 
   try {
-    clientStore.addClient({ ...newClient, id: Date.now() });
-
-    newClient = {
-      firstName: "",
-      secondName: "",
-      patronymic: "",
-      phoneNumber: "",
-      passportNumber: "",
-      passportSeries: "",
-      issuedBy: "",
-      dateOfIssue: "",
-      email: "",
-    }
+    clientStore.addClient({...newClient, id : Date.now()});
 
     router.push({ name: 'clients' });
 
@@ -94,8 +81,8 @@ const disabledButton = computed(() => {
   <div class="layout">
     <div class="content-box">
       <header class="page-header">
-        <h1>Добавление нового клиента</h1>
-        <h3 class="grey-lighten-5">Заполните личные данные клиента</h3>
+        <h1>Добавление нового сотрудника</h1>
+        <h3 class="grey-lighten-5">Заполните личные данные сотрудника</h3>
       </header>
       <section class="form-content">
         <AddNewClientForm :client="newClient" />
@@ -105,7 +92,11 @@ const disabledButton = computed(() => {
       </section>
       <footer class="footer-actions">
         <ButtonCansel title="Отмена" :onClick="previosStep" />
-        <ButtonText :disabled="disabledButton" @click="nextStep" :class="{ dis: disabledButton }">Сохранить</ButtonText>
+        <ButtonText
+          :disabled="disabledButton"
+          @click="nextStep"
+          :class="{ dis: disabledButton }"
+        >Сохранить</ButtonText>
       </footer>
     </div>
   </div>
@@ -116,7 +107,6 @@ const disabledButton = computed(() => {
   cursor: not-allowed;
   pointer-events: none;
 }
-
 .layout {
   min-height: 60vh;
   display: flex;

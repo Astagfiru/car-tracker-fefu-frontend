@@ -1,17 +1,39 @@
 <template>
-<v-pagination :length="elements?.length"></v-pagination>
+  <div>
+    <v-pagination
+      v-model="currentPage"
+      :length="totalPages"
+    />
+    </div>
 </template>
-<script setup lang=ts>
+
+<script setup lang="ts">
+import { computed, ref, watch } from 'vue'
+
 interface PaginationProps {
-    itemsPurePage: number;
-    currentPage: number;
+  itemsPerPage: number
+  currentPage: number
 }
 
-const elements = defineModel<[]>('elemets')
+const props = defineProps<PaginationProps>()
 
-const returnElementsAfterPagination = () => {
+const elements = defineModel<any>('elements')
 
-}
+const currentPage = ref(props.currentPage)
 
-defineProps<PaginationProps>()
+const totalPages = computed(() => {
+  if (!elements?.value) return 1
+  return Math.ceil(elements.value.length / props.itemsPerPage)
+})
+
+const paginatedItems = computed(() => {
+  const start = (currentPage.value - 1) * props.itemsPerPage
+  const end = start + props.itemsPerPage
+  return elements?.value?.slice(start, end) ?? []
+})
+
+watch(currentPage, (newVal) => {
+})
+
+defineExpose({ paginatedItems, currentPage, totalPages })
 </script>

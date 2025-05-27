@@ -16,22 +16,29 @@ export const SIDE_BAR_ROWS: SideBar[] = [
     icon: Home,
     to: "/",
   },
-   {
+    {
     id: 2,
+    label: "Сотрудники",
+    icon: Client,
+    to: "/Employeers",
+  },
+   {
+    id: 3,
     label: "Клиенты",
     icon: Client,
     to: "/clients",
   },
   {
-    id: 2,
+    id: 4,
     label: "Склад",
     icon: Car,
     to: "/warehouse",
   },
   {
-    id: 3,
+    id: 5,
     label: "Заявки",
     icon: ApplicationResponse,
     to: "/applications",
   },
+
 ];
