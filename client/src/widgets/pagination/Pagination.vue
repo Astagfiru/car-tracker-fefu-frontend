@@ -2,7 +2,8 @@
   <div>
     <v-pagination
       v-model="currentPage"
-      :length="totalPages"
+      :length="100"
+      light
     />
     </div>
 </template>
@@ -36,4 +37,8 @@ watch(currentPage, (newVal) => {
 })
 
 defineExpose({ paginatedItems, currentPage, totalPages })
+
 </script>
+<style scoped lang="scss">
+ 
+</style>

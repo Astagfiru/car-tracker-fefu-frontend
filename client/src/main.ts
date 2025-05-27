@@ -1,7 +1,6 @@
 import { createApp } from "vue";
 import { createPinia } from "pinia";
 import { createI18n } from "vue-i18n";
-import { createRouter, createWebHistory } from "vue-router";
 import { router } from "./app/router";
 import "@/shared/styles/index.scss";
 import { createVuetify } from 'vuetify'
@@ -33,12 +32,15 @@ const vuetify = createVuetify({
     locale: 'ru',
     messages: { ru },
   },
+  theme: {
+    defaultTheme: 'light',
+  }
 })
 
 app.use(i18n);
 
 app.use(router);
-app.use(vuetify)
+app.use(vuetify);
 
 app.mount("#app");
 

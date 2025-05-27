@@ -16,8 +16,7 @@
         </v-toolbar>
       </template>
     </v-data-table>
-            <BaseViewForm :id="1" :config="testConfig" title="Окно" :model-value="true"/>
-
+            <!-- <BaseViewForm :id="1" :config="testConfig" title="Окно" :model-value="true"/> -->
   </v-container>
 </template>
 

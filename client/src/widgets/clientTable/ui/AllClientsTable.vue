@@ -1,36 +1,39 @@
 <template>
   <div class="client-page">
     <div class="header">
-      <TableToolbar :add-redirect="redirect" />
+      <AllClientsTableToolbar v-model:clients="filteredClients" :origin-clients="clients"/>
     </div>
-    <BaseTable :key="mappedClients?.length" :tableHeader="TABLE_HEADERS" :tableItems="mappedClients"
+    <BaseTable :key="filteredClients.length" :tableHeader="TABLE_HEADERS" :tableItems="filteredClients"
       table-title="Клиенты" />
-    <Pagination v-model:elements="mappedClients" :items-per-page="5" :current-page="1" ref="pagination" />
+    <Pagination v-model:elements="filteredClients" :items-per-page="5" :current-page="1" ref="pagination" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { BaseTable } from "@/shared";
-import { useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
 import { TABLE_HEADERS } from "../types/config";
 import { ClientType, useClientStore } from "@/entities/client";
 import { useGetAllClients } from "../../../entities/client";
-import { onMounted, computed, watch } from "vue";
+import { onMounted, computed, watch, ref } from "vue";
 import { ClientTableView } from "../types/types";
-import { TableToolbar } from "@/shared";
 import { Pagination } from "@/widgets";
-
-const router = useRouter();
+import AllClientsTableToolbar from "./AllClientsTableToolbar.vue";
 
 const clientStore = useClientStore();
-
 const { clients } = storeToRefs(clientStore);
-const { saveAllClients } = clientStore;
 
-const redirect = () => {
-  router.push({ name: "clients-add" });
-};
+const filteredClients = ref<ClientType[]>([]);
+
+watch(clients, (newClients) => {
+  if (newClients) {
+    filteredClients.value = [...newClients];
+  } else {
+    filteredClients.value = [];
+  }
+}, { immediate: true });
+
+const { saveAllClients } = clientStore;
 
 const getAllClients = async () => {
   try {
@@ -43,8 +46,6 @@ const getAllClients = async () => {
     throw error;
   }
 };
-
-watch(() => clients, getAllClients);
 
 onMounted(() => {
   getAllClients();
@@ -64,12 +65,8 @@ const mapClientsToTableView = (clients: ClientType[]): ClientTableView[] => {
   return clients.map(mapClientToTableView);
 };
 
-const mappedClients = computed((): ClientTableView[] | null => {
-  if (!clients.value) {
-    return null;
-  }
-
-  return mapClientsToTableView(clients.value);
+const mappedClients = computed(() => {
+  return mapClientsToTableView(filteredClients.value);
 });
 </script>
 
