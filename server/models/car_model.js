@@ -47,7 +47,7 @@ const CarModel = sequelize.define('CarModel', {
     allowNull: true,
   },
 }, {
-  tableName: 'car_model',
+  tableName: 'car_models',
   timestamps: true,
 });
 
