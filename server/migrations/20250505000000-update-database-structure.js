@@ -50,9 +50,8 @@ module.exports = {
     await safeRenameColumn('employees', 'patronymic', 'middle_name');
 
     // 3. Изменение таблицы car_models
-    await safeRenameTable('car_models', 'car_model');
-    await safeRenameColumn('car_model', 'additionalInfo', 'additional_info');
-    await safeRenameColumn('car_model', 'fuelConsumption', 'fuel_consumption');
+    await safeRenameColumn('car_models', 'additionalInfo', 'additional_info');
+    await safeRenameColumn('car_models', 'fuelConsumption', 'fuel_consumption');
 
     // 4. Изменение таблицы cars
     await safeRenameColumn('cars', 'available', 'in_stock');
@@ -111,9 +110,9 @@ module.exports = {
     await safeRenameColumn('cars', 'in_stock', 'available');
 
     // 3. Возврат изменений таблицы car_model
-    await safeRenameColumn('car_model', 'fuel_consumption', 'fuelConsumption');
-    await safeRenameColumn('car_model', 'additional_info', 'additionalInfo');
-    await safeRenameTable('car_model', 'car_models');
+    await safeRenameColumn('car_models', 'fuel_consumption', 'fuelConsumption');
+    await safeRenameColumn('car_models', 'additional_info', 'additionalInfo');
+
 
     // 2. Возврат изменений таблицы employees
     await safeRenameColumn('employees', 'middle_name', 'patronymic');
