@@ -7,11 +7,15 @@ const CarModel = sequelize.define('CarModel', {
     autoIncrement: true,
     primaryKey: true,
   },
+  doors: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+  },
   seats: {
     type: DataTypes.INTEGER,
     allowNull: true,
   },
-  additionalInfo: {
+  additional_info: {
     type: DataTypes.TEXT,
     allowNull: true,
     comment: 'JSON с техническими характеристиками'
@@ -30,14 +34,6 @@ const CarModel = sequelize.define('CarModel', {
       notEmpty: true
     }
   },
-  fuelConsumption: {
-    type: DataTypes.DECIMAL(4, 1),
-    allowNull: true,
-  },
-  doors: {
-    type: DataTypes.INTEGER,
-    allowNull: true,
-  },
   year: {
     type: DataTypes.INTEGER,
     allowNull: true,
@@ -46,8 +42,12 @@ const CarModel = sequelize.define('CarModel', {
       max: 2100
     }
   },
+  fuel_consumption: {
+    type: DataTypes.DECIMAL(4, 1),
+    allowNull: true,
+  },
 }, {
-  tableName: 'car_models',
+  tableName: 'car_model',
   timestamps: true,
 });
 
