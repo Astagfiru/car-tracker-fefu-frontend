@@ -18,14 +18,26 @@ exports.getAllCars = async (req, res, next) => {
     const cars = await Car.findAll({
       include: [{ model: CarModel, as: 'model' }]
     });
+
+    const parsedCars = cars.map(car => {
+      const carJSON = car.toJSON();
+      try {
+        carJSON.model.additional_info = JSON.parse(carJSON.model.additional_info);
+      } catch (e) {
+        carJSON.model.additional_info = null;
+      }
+      return carJSON;
+    });
+
     res.json({
       status: 'success',
-      data: cars
+      data: parsedCars
     });
   } catch (err) {
     next(err);
   }
 };
+
 
 /**
  * @function getCarById
@@ -42,22 +54,31 @@ exports.getCarById = async (req, res, next) => {
       where: { id },
       include: [{ model: CarModel, as: 'model' }]
     });
-    
+
     if (!car) {
-      return res.status(404).json({ 
+      return res.status(404).json({
         status: 'error',
-        message: 'Автомобиль не найден' 
+        message: 'Автомобиль не найден'
       });
     }
-    
+
+    const carJSON = car.toJSON();
+
+    try {
+      carJSON.model.additional_info = JSON.parse(carJSON.model.additional_info);
+    } catch (e) {
+      carJSON.model.additional_info = null;
+    }
+
     res.json({
       status: 'success',
-      data: car
+      data: carJSON
     });
   } catch (err) {
     next(err);
   }
 };
+
 
 /**
  * @function createCar

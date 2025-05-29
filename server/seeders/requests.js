@@ -1,71 +1,41 @@
+/**
+ * @module seeders/seedApplications
+ * @description Простая инициализация таблицы applications
+ */
+
 const { Application } = require('../models');
 
-const requestsData = [
+const applicationsData = [
   {
-    client_id: 1, // Иванов Иван Иванович
-    employee_id: 1, // Смирнов Алексей Петрович
-    car_id: 1, // Toyota Camry
+    client_id: 1,
+    employee_id: 1,
+    car_id: 1,
     application_date: '2023-10-15',
-    status: 'completed'
+    status: 'Выполнено'
   },
   {
-    client_id: 2, // Петрова Мария Сергеевна
-    employee_id: 2, // Козлова Екатерина Александровна
-    car_id: 3, // Volkswagen Tiguan
+    client_id: 2,
+    employee_id: 2,
+    car_id: 3,
     application_date: '2023-11-20',
-    status: 'in_progress'
+    status: 'В обработке'
   },
   {
-    client_id: 1, // Иванов Иван Иванович
-    employee_id: 3, // Новиков Дмитрий Сергеевич
-    car_id: 4, // Kia Rio
+    client_id: 1,
+    employee_id: 3,
+    car_id: 4,
     application_date: '2023-12-05',
-    status: 'new'
+    status: 'В обработке'
   }
 ];
 
-const seedRequests = async () => {
-  try {
-    const count = await Application.count();
-    if (count === 0) {
-      const existingRequests = await Application.findAll({
-        attributes: ['client_id', 'employee_id', 'car_id', 'application_date'],
-        where: {
-          client_id: requestsData.map(r => r.client_id),
-          employee_id: requestsData.map(r => r.employee_id),
-          car_id: requestsData.map(r => r.car_id),
-          application_date: requestsData.map(r => r.application_date)
-        }
-      });
-      
-      const existingRequestSet = new Set(existingRequests.map(r => `${r.client_id}-${r.employee_id}-${r.car_id}-${r.application_date}`));
-      const newRequests = requestsData.filter(r => !existingRequestSet.has(`${r.client_id}-${r.employee_id}-${r.car_id}-${r.application_date}`));
-      
-      if (newRequests.length > 0) {
-        console.log(`Добавляем ${newRequests.length} заявок:`);
-        process.stdout.write('Прогресс: [');
-      
-        for (const [index, request] of newRequests.entries()) {
-          await Application.create(request);
-          process.stdout.write('.');
-          if ((index + 1) % 5 === 0) process.stdout.write('|');
-        }
-      
-        console.log(']\nУспешно добавлены заявки:');
-        newRequests.forEach(r => 
-          console.log(`- Клиент ID: ${r.client_id}, Сотрудник ID: ${r.employee_id}, Автомобиль ID: ${r.car_id}`)
-        );
-      } else {
-        console.log('Все заявки уже существуют в базе');
-      }
-      await Application.bulkCreate(requestsData);
-      console.log('Applications seeded successfully');
-    } else {
-      console.log('Applications already exist, skipping seeding');
-    }
-  } catch (err) {
-    console.error('Error seeding applications:', err);
+module.exports = async function seedApplications() {
+  const count = await Application.count();
+  if (count > 0) {
+    console.log('Applications already exist, skipping seeding');
+    return;
   }
-};
 
-module.exports = seedRequests;
+  await Application.bulkCreate(applicationsData);
+  console.log('Applications seeded successfully');
+};

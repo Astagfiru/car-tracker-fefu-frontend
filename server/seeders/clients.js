@@ -1,7 +1,6 @@
 const { Client } = require('../models');
 
-const seedClients = async () => {
-  const clientsData = [
+const clientsData = [
   {
     last_name: 'Иванов',
     first_name: 'Иван',
@@ -202,56 +201,9 @@ const seedClients = async () => {
   }
 ];
 
-const seedClients = async () => {
-  try {
-    console.log('Проверка существующих клиентов...');
-    const existingClients = await Client.findAll({
-      attributes: ['email', 'phone'],
-      where: {
-        email: clientsData.map(c => c.email),
-        phone: clientsData.map(c => c.phone)
-      }
-    });
-    
-    const existingClientSet = new Set(existingClients.map(c => `${c.email}-${c.phone}`));
-    const newClients = clientsData.filter(c => !existingClientSet.has(`${c.email}-${c.phone}`));
-    
-    if (newClients.length > 0) {
-      console.log(`Добавляем ${newClients.length} клиентов:`);
-      process.stdout.write('Прогресс: [');
-    
-      for (const [index, client] of newClients.entries()) {
-        await Client.create(client);
-        process.stdout.write('.');
-        if ((index + 1) % 5 === 0) process.stdout.write('|');
-      }
-    
-      console.log(']\nУспешно добавлены клиенты:');
-      newClients.forEach(c => 
-        console.log(`- ${c.last_name} ${c.first_name} (${c.email})`)
-      );
-    } else {
-      console.log('Все клиенты уже существуют в базе');
-    }
-    console.log('Clients seeded successfully');
-  } catch (err) {
-    console.error('Error seeding clients:', err);
-  }
-};
+module.exports = async function seedClients() {
+  if (await Client.count() > 0) return;
 
-  for (const clientData of clientsData) {
-    const existingClientByEmail = await Client.findOne({ where: { email: clientData.email } });
-    if (existingClientByEmail) {
-      console.log(`Клиент с email ${clientData.email} уже существует`);
-      continue;
-    }
-    const existingClientByPhone = await Client.findOne({ where: { phone: clientData.phone } });
-    if (existingClientByPhone) {
-      console.log(`Клиент с телефоном ${clientData.phone} уже существует`);
-      continue;
-    }
-    await Client.create(clientData);
-  }
+  await Client.bulkCreate(clientsData);
+  console.log('Clients seeded successfully');
 };
-
-module.exports = seedClients;
