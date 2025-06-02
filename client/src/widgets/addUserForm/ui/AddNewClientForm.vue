@@ -13,10 +13,10 @@
 </template>
 <script setup lang="ts">
 import {  MailInput, BaseInput, PhoneInput} from '@/shared';
-import type { NewClient } from '@/entities/client';
+import type { ClientForm } from '@/entities/client';
 
 interface ClientFormProps {
-    client: NewClient;
+    client: ClientForm;
 }
 
 defineProps<ClientFormProps>()

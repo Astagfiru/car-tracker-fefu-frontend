@@ -10,14 +10,14 @@
 import { ref, watch, withDefaults } from "vue";
 import { TableToolbar } from "@/shared";
 import { useRouter } from "vue-router";
-import { ClientType } from "@/entities/client";
+import { Client } from "@/entities/client";
 
 const router = useRouter();
 
 interface ToolbarProps {
   addButtonTitle?: string;
   addButtonDisables?: boolean;
-  originClients: ClientType[] | null;
+  originClients: Client[] | null;
 }
 
 const { originClients } = withDefaults(defineProps<ToolbarProps>(), {
@@ -25,9 +25,9 @@ const { originClients } = withDefaults(defineProps<ToolbarProps>(), {
   addButtonTitle: "Добавить",
 });
 
-const clients = ref<ClientType[] | null>(null);
+const clients = ref<Client[] | null>(null);
 
-const originalClients = ref<ClientType[] | null>(originClients ? [...originClients] : []);
+const originalClients = ref<Client[] | null>(originClients ? [...originClients] : []);
 
 const searchString = ref<string>("");
 
@@ -42,7 +42,7 @@ watch(searchString, (newVal) => {
     clients.value = [...(originalClients.value || [])];
   } else {
     const query = newVal.toLowerCase().trim();
-    clients.value = (originalClients.value || []).filter((client: ClientType) => {
+    clients.value = (originalClients.value || []).filter((client: Client) => {
       return (
         client.firstName.toLowerCase().includes(query) ||
         client.secondName.toLowerCase().includes(query) ||

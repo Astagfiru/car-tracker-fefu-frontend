@@ -1,8 +1,12 @@
-import type { ClientType } from './types/clientTypes';
-import type { NewClient } from './api/useAddClient';
-import { useClientStore } from './lib/model/clientStore';
-import { useAddClient } from './api/useAddClient';
-import { useGetAllClients } from './api/useGetAllClients';
-import { useDeleteClient } from './api/useDeleteClient';
+import type {
+  Client,
+  ClientRequest,
+  ClientResponse,
+  ClientForm,
+} from "./types/clientTypes";
+import { useClientStore } from "./lib/model/clientStore";
+import { getAllClients } from "./api/getAllClients";
+import { useGetAllClients } from "./lib/composible/useGetAllClients";
 
-export { ClientType, useClientStore, useAddClient, useGetAllClients, useDeleteClient, NewClient };
+export { useClientStore, useGetAllClients };
+export type { Client, ClientRequest, ClientResponse, ClientForm };

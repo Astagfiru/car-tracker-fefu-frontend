@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { reactive, toRefs } from "vue";
-import type { ApplicationResponse, ApplicationStatuses } from "../index";
-
+import type { ApplicationResponse } from "../types/applicationTypes"
+ 
 const APPLICATIONS_STORE_NAME = "applicationsStore";
 
 interface ApplicationsStore {

@@ -1,18 +1,33 @@
-export interface Employee {
-    id: number;
-    surname: string;
-    name: string;
-    patronomic?: string;
-    postion: Postion;
-    phone: string;
-    email: string;
-}
 
-export type EmployeeForm = Omit<Employee, 'id'>
 
-export type Postion = 'position1' | 'position2'
+export type Position = 'manager' | 'admin';
 
 export const enum Positions {
-    'position1',
-    'position2'
+  position1 = 'manager',
+  position2 = 'admin',
 }
+
+export interface EmployeeType {
+  id: number;
+  last_name: string;
+  first_name: string;
+  middle_name?: string;
+  position: Position;
+  phone: string;
+  email: string;
+}
+
+export interface EmployeeResponse {
+  id: number;
+  last_name: string;
+  first_name: string;
+  middle_name?: string;
+  position: Position;
+  phone: string;
+  email: string;
+}
+
+export type EmployeeRequest = Omit<EmployeeResponse, 'id'>
+
+
+export type EmployeeForm = Omit<EmployeeType, 'id'>;

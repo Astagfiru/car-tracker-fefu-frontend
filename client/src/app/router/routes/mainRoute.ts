@@ -64,6 +64,12 @@ export const mainRoutes: RouteRecordRaw[] = [
         component: () => import("@/pages/AddEmployeerPAge/ui/AddEmployeerPage.vue"),
         meta: { title: "Добавление нового сотрудника" },
       },
+       {
+        path: "/createRequest",
+        name: "create-request",
+        component: () => import("@/pages/SellCar/SellCarPage.vue"),
+        meta: { title: "Создание договора купли-продажи" },
+      },
     ],
   },
 ];

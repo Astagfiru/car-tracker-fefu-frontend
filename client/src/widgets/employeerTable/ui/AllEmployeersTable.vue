@@ -21,7 +21,8 @@ import { useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
 import { BaseTable } from "@/shared";
 import { TABLE_HEADERS } from "../types/config";
-import { useEmployeeStore, type EmployeeForm } from "@/entities/employee";
+import { EmployeeForm } from "@/entities/employee/types/employeeTypes";
+import { useEmployeeStore } from "@/entities/employee";
 import { useGetAllEmployeers } from "@/entities/employee";
 import { TableToolbar } from "@/shared";
 import { Pagination } from "@/widgets";
@@ -40,7 +41,7 @@ const redirect = () => {
 const getAllEmployeers = async () => {
   try {
     const fetchedEmployeers = await useGetAllEmployeers();
-
+    console.log(fetchedEmployeers)
     if (fetchedEmployeers) {
       saveAllEmployees(fetchedEmployeers);
     }

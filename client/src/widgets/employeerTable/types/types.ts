@@ -1,3 +1,3 @@
-import type { EmployeeForm } from '@/entities/employee';
+import type { EmployeeType } from "@/entities/employee/types/employeeTypes";
 
-export interface EmployeerTable extends EmployeeForm {}
+export interface EmployeerTable extends EmployeeType {}

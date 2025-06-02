@@ -1,3 +1,3 @@
-import type { ClientType } from "@/entities/client";
+import type { Client } from "@/entities/client";
 
-export type ClientTableView = Omit<ClientType, "id" | "passportSeries" | "passportNumber" | "issuedBy" | "dateOfIssue">
+export type ClientTableView = Omit<Client, "id" | "passportSeries" | "passportNumber" | "issuedBy" | "dateOfIssue">

@@ -1,4 +1,4 @@
-export interface ClientType {
+export interface Client {
   id: number;
   secondName: string;
   firstName: string;
@@ -11,17 +11,19 @@ export interface ClientType {
   dateOfIssue: string;
 }
 
-export interface ClientTypeResponse {
+export interface ClientResponse {
   id: number;
-  surname: string;
-  name: string;
-  patronymic: string;
+  last_name: string;
+  first_name: string;
+  middle_name: string;
   phone: string;
   email: string;
-  passportSeries: string;
-  passportNumber: string;
-  passportIssuer: string;
-  passportIssueDate:string;
+  passport_series: string;
+  passport_number: string;
+  issue_by: string;
+  issue_date: string;
 }
 
-export type NewClient = Omit<ClientType, "id">;
+export type ClientRequest = Omit<ClientResponse, 'id'>
+
+export type ClientForm = Omit<Client, "id">;

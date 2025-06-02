@@ -1,57 +1,29 @@
 <template>
   <div class="client-page">
     <div class="header">
-      <AllClientsTableToolbar v-model:clients="filteredClients" :origin-clients="clients"/>
+      <AllClientsTableToolbar v-model:clients="filteredClients" :origin-clients="clientsResponse"/>
     </div>
-    <BaseTable :key="filteredClients.length" :tableHeader="TABLE_HEADERS" :tableItems="filteredClients"
-      table-title="Клиенты" />
+    <BaseTable :key="filteredClients.length" :tableHeader="TABLE_HEADERS" :tableItems="mappedClients"
+      table-title="Клиенты" :is-loading="isLoading"/>
     <Pagination v-model:elements="filteredClients" :items-per-page="5" :current-page="1" ref="pagination" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { BaseTable } from "@/shared";
-import { storeToRefs } from "pinia";
+import { BaseTable } from '@/shared';
 import { TABLE_HEADERS } from "../types/config";
-import { ClientType, useClientStore } from "@/entities/client";
+import { Client, } from "@/entities/client";
 import { useGetAllClients } from "../../../entities/client";
-import { onMounted, computed, watch, ref } from "vue";
+import { computed, ref } from "vue";
 import { ClientTableView } from "../types/types";
 import { Pagination } from "@/widgets";
 import AllClientsTableToolbar from "./AllClientsTableToolbar.vue";
 
-const clientStore = useClientStore();
-const { clients } = storeToRefs(clientStore);
+const filteredClients = ref<Client[]>([]);
 
-const filteredClients = ref<ClientType[]>([]);
+const { clientsResponse, isLoading} = useGetAllClients()
 
-watch(clients, (newClients) => {
-  if (newClients) {
-    filteredClients.value = [...newClients];
-  } else {
-    filteredClients.value = [];
-  }
-}, { immediate: true });
-
-const { saveAllClients } = clientStore;
-
-const getAllClients = async () => {
-  try {
-    const fetchedClients = await useGetAllClients();
-
-    if (fetchedClients) {
-      saveAllClients(fetchedClients);
-    }
-  } catch (error) {
-    throw error;
-  }
-};
-
-onMounted(() => {
-  getAllClients();
-});
-
-const mapClientToTableView = (client: ClientType): ClientTableView => {
+const mapClientToTableView = (client: Client): ClientTableView => {
   return {
     secondName: client.secondName,
     firstName: client.firstName,
@@ -61,7 +33,7 @@ const mapClientToTableView = (client: ClientType): ClientTableView => {
   };
 };
 
-const mapClientsToTableView = (clients: ClientType[]): ClientTableView[] => {
+const mapClientsToTableView = (clients: Client[]): ClientTableView[] => {
   return clients.map(mapClientToTableView);
 };
 

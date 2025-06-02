@@ -2,11 +2,7 @@
   <div class="app">
     <template v-if="isLoading">
       <div class="loader-container">
-        <fulfilling-square-spinner
-          :animation-duration="1000"
-          :size="50"
-          color="#95A4FB"
-        />
+        <FulfillingSquareSpinner :animation-duration="500" :size="50" color="#95A4FB" />
       </div>
     </template>
     <template v-else>
@@ -37,13 +33,14 @@ import { FulfillingSquareSpinner } from "epic-spinners";
 
 const isLoading = ref(true);
 
+// Заглушка для имитации загрузки приложения
 onMounted(() => {
   setTimeout(() => {
     isLoading.value = false;
   }, 1000);
 });
-</script>
 
+</script>
 <style scoped lang="scss">
 .app {
   min-height: 100vh;

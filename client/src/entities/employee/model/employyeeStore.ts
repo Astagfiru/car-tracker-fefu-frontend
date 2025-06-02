@@ -1,11 +1,11 @@
 import { defineStore } from "pinia";
 import { reactive, toRefs } from "vue";
-import type { Employee, EmployeeForm } from "../types/employeeTypes";
+import { EmployeeType, EmployeeForm } from "../types/employeeTypes";
 
 const EMPLOYEE_STORE_NAME = "employeeStore";
 
 interface EmployeeStore {
-  employees: Employee[] | null;
+  employees: EmployeeType[] | null;
   newEmployee: EmployeeForm | null;
   isLoading: boolean;
   errorMessage: string | null;
@@ -25,11 +25,11 @@ export const useEmployeeStore = defineStore(EMPLOYEE_STORE_NAME, () => {
 
   const { employees } = toRefs(state);
 
-  const saveAllEmployees = (newEmployees: Employee[]): void => {
+  const saveAllEmployees = (newEmployees: EmployeeType[]): void => {
     state.employees = newEmployees;
   };
 
-  const addEmployee = (newEmployee: Employee) => {
+  const addEmployee = (newEmployee: EmployeeType) => {
     employees.value?.unshift(newEmployee);
   };
 

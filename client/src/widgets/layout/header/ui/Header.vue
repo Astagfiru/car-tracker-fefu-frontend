@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import HeaderLogo from './HeaderLogo.vue';
-import SmallUserCard from '@/shared/ui/components/SmallUserCard.vue';
+import SmallUserCard from '@/shared/ui/SmallUserCard.vue';
 import { NotificationIcon } from '@/shared';
 </script>
 

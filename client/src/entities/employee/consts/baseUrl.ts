@@ -1,1 +1,1 @@
-export const EMPLOYEE_PATH = "/api/employee"
+export const EMPLOYEE_PATH = "/api/employees"

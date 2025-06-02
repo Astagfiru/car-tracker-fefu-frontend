@@ -3,21 +3,21 @@ import type { DataTableHeader } from "vuetify";
 export const TABLE_HEADERS: DataTableHeader[] = [
   {
     title: "Фамилия",
-    key: "surname",
+    key: "last_name",
     headerProps: {
       class: "table__title",
     },
   },
   {
     title: "Имя",
-    key: "name",
+    key: "first_name",
     headerProps: {
       class: "table__title",
     },
   },
   {
     title: "Отчество",
-    key: "patronymic",
+    key: "middle_name",
     headerProps: {
       class: "table__title",
     },

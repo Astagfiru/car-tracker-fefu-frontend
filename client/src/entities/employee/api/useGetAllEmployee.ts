@@ -1,15 +1,15 @@
 import axios from "axios";
-import { Employee } from "../types/employeeTypes";
+import { EmployeeType } from "../types/employeeTypes";
 import { EMPLOYEE_PATH } from "../consts/baseUrl";
 
-export type NewClient = Omit<Employee, "id">;
+export type ClientForm = Omit<EmployeeType, "id">;
 
-export const useGetAllEmployeers = async (): Promise<Employee[]> => {
+export const useGetAllEmployeers = async (): Promise<EmployeeType[]> => {
   try {
-    const response = await axios.get<Employee[]>(EMPLOYEE_PATH);
+    const response = await axios.get<EmployeeType[]>(EMPLOYEE_PATH);
     
     const { data } = response;
-
+    console.log("Сотрудники", data)
     return (data);
     
   } catch (error) {

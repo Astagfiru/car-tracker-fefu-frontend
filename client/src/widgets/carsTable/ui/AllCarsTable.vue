@@ -11,69 +11,47 @@
       :tableHeader="TABLE_HEADERS"
       :tableItems="mappedCars"
       table-title="Автомобили"
+      :is-loading="isLoading"
     />
   </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted, computed, watch } from "vue";
+import { computed } from "vue";
 import { BaseTable } from "@/shared";
 import { useRouter } from "vue-router";
-import { storeToRefs } from "pinia";
-import { TABLE_HEADERS, CarsTableView } from "../types/config";
-import { useCarsStore } from "@/entities/car/lib/model/carStore";
-import { useGetAllCars } from "@/entities/car/api/useGetAllCars";
+import { TABLE_HEADERS, CarsTableView } from "../config/config";
+import { useGetAllCars } from "@/entities/car/lib/composible/useGetAllCars";
 import { TableToolbar } from "@/shared";
-import { CarType } from '../../../entities/car/types/carTypes';
+import { Car } from '../../../entities/car/types/carTypes';
 
 const router = useRouter();
-
-const carsStore = useCarsStore();
-
-const { cars } = storeToRefs(carsStore);
-const { saveAllCars } = carsStore;
 
 const redirect = () => {
   router.push({ name: "" });
 };
 
-const getAllClients = async () => {
-  try {
-    const fetchedCars = await useGetAllCars();
+const { isLoading, responseCars} = useGetAllCars()
 
-    if (fetchedCars) {
-      saveAllCars(fetchedCars);
-    }
-  } catch (error) {
-    throw error;
-  }
-};
-
-watch(() => cars, getAllClients);
-
-onMounted(() => {
-  getAllClients();
-});
-
-const mapCarsToTableView = (car: CarType): CarsTableView => {
+const mapCarsToTableView = (car: Car): CarsTableView => {
   return {
-    model_id: car.model_id,
-    avaliable: car.avaliable,
+    model: car.model,
+    inStock: car.inStock,
     mileage: car.mileage,
     price: car.price
   };
 };
 
-const mapClientsToTableView = (cars: CarType[]): CarsTableView[] => {
+const mapClientsToTableView = (cars: Car[]): CarsTableView[] => {
   return cars.map(mapCarsToTableView);
 };
 
 const mappedCars = computed((): CarsTableView[] | null => {
-  if (!cars.value) {
+  if (!responseCars.value) {
     return null;
   }
 
-  return mapClientsToTableView(cars.value);
+  return mapClientsToTableView(responseCars.value);
 });
 </script>
 

@@ -1,12 +1,12 @@
 import { defineStore } from "pinia";
 import { reactive, toRefs } from "vue";
-import type { ClientType, NewClient } from "@/entities/client/index";
+import type { Client, ClientForm } from "@/entities/client/index";
 
 const CLENT_STORE_NAME = "clientStore";
 
 interface ClientStore {
-  clients: ClientType[] | null;
-  newClient: NewClient | null;
+  clients: Client[] | null;
+  newClient: ClientForm | null;
   isLoading: boolean;
   errorMessage: string | null;
 }
@@ -26,11 +26,11 @@ export const useClientStore = defineStore(CLENT_STORE_NAME, () => {
 
   const { clients } = toRefs(clientStoreState);
 
-  const saveAllClients = (newClients: ClientType[]): void => {
+  const saveAllClients = (newClients: Client[]): void => {
     clients.value = newClients;
   };
 
-  const addClient = (newClients: ClientType) => {
+  const addClient = (newClients: Client) => {
     clients.value?.unshift(newClients)
   }
 

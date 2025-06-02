@@ -11,72 +11,46 @@
       :tableHeader="TABLE_HEADERS"
       :tableItems="mappedCarModels"
       table-title="Модели авто"
+      :is-loading="isLoading"
     />
   </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted, computed, watch } from "vue";
-import { BaseTable } from "@/shared";
+import { computed } from "vue";
 import { useRouter } from "vue-router";
-import { storeToRefs } from "pinia";
-import { CarModelsTableView } from "../types/types";
-import { TABLE_HEADERS } from "../types/config";
-import { useCarModelsStore } from "@/entities/car/lib/model/carModelStore";
-import { useGetAllCarModels } from "@/entities/car/api/useGetAllCarModels";
-import { TableToolbar } from "@/shared";
-import { CarModelType } from "@/entities/car";
+import { BaseTable, TableToolbar } from "@/shared";
+import { TABLE_HEADERS } from "../config/config";
+import { CarModelsTableView } from "../config/types";
+import { useGetAllCarModels } from "@/entities/car/lib/composible/useGetAllModelCars";
+import { CarModel } from "@/entities/car";
 
 const router = useRouter();
-
-const carsModelsStore = useCarModelsStore();
-
-const { carModels } = storeToRefs(carsModelsStore);
-const { saveAllCarModels } = carsModelsStore;
 
 const redirect = () => {
   router.push({ name: "" });
 };
 
-const getAllCarModels = async () => {
-  try {
-    const fetchedCarModels = await useGetAllCarModels();
+const { carModelsResponse, isLoading } = useGetAllCarModels();
 
-    if (fetchedCarModels) {
-      saveAllCarModels(fetchedCarModels);
-    }
-  } catch (error) {
-    throw error;
-  }
-};
-
-watch(() => carModels, getAllCarModels);
-
-onMounted(() => {
-  getAllCarModels();
-});
-
-const mapCarsToTableView = (carModel: CarModelType): CarModelsTableView => {
-  return {
-    brand: carModel.brand,
+const mapCarsToTableView = (carModel: CarModel): CarModelsTableView => ({
     model: carModel.model,
+    additionalInfo: carModel.additionalInfo,
+    brand: carModel.brand,
     fuelConsumption: carModel.fuelConsumption,
     year: carModel.year
-  };
-};
+});
 
-const mapCarModelsToTableView = (carModels: CarModelType[]): CarModelsTableView[] => {
+const mapCarModelsToTableView = (carModels: CarModel[]): CarModelsTableView[] => {
   return carModels.map(mapCarsToTableView);
 };
 
 const mappedCarModels = computed((): CarModelsTableView[] | null => {
-  if (!carModels.value) {
-    return null;
-  }
-
-  return mapCarModelsToTableView(carModels.value);
+  if (!carModelsResponse.value) return null;
+  return mapCarModelsToTableView(carModelsResponse.value);
 });
 </script>
+
 
 <style scoped lang="scss">
 .client-page {

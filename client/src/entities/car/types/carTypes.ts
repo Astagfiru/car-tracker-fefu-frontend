@@ -1,19 +1,35 @@
-export interface CarType {
+export interface Car {
     id: number;
-    model_id: number[];
-    avaliable: boolean;
+    model: CarModel;
+    inStock: boolean;
     vin: string;
     mileage: string;
     price: number;
 }
 
-export type CarFormType = Omit<CarType, 'id'>
-export interface CarTypeResponse extends CarType {}
+export interface CarResponse {
+    id: number;
+    model_id: number;
+    in_stock: boolean;
+    vin: string;
+    mileage: string;
+    price: number;
+}
 
-export interface CarModelType {
+export interface CarRequest {
+    model_id: number[];
+    in_stock: boolean;
+    vin: string;
+    mileage: string;
+    price: number;
+}
+
+export type CarForm = Omit<Car, 'id'>
+
+export interface CarModel {
     id: number;
     seats: number;
-    addiitonalInfo: string;
+    additionalInfo: string;
     brand: string;
     model: string;
     fuelConsumption: number;
@@ -21,5 +37,25 @@ export interface CarModelType {
     year: number;
 }
 
-export type CarModelFormType = Omit<CarModelType, 'id'>
-export interface CarModelResponse extends CarModelType {}
+export interface CarModelsResponse {
+    id: number;
+    seats: number;
+    additional_info: string;
+    brand: string;
+    model: string;
+    fuel_consumption: number;
+    doors: number;
+    year: number;
+}
+
+export interface CarModelsRequest {
+    seats: number;
+    addiitonal_info: string;
+    brand: string;
+    model: string;
+    fuel_consumption: number;
+    doors: number;
+    year: number;
+}
+
+export type CarModelForm = Omit<CarModel, 'id'>

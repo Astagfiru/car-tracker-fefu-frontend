@@ -1,12 +1,12 @@
 import { defineStore } from "pinia";
 import { reactive, toRefs } from "vue";
-import type { CarFormType, CarType } from "@/entities/car";
+import type { CarForm, Car } from "@/entities/car";
 
 const CARS_STORE_NAME = "carsStore";
 
 interface CarStore {
-  cars: CarType[] | null;
-  newCar: CarFormType | null;
+  cars: Car[] | null;
+  newCar: CarForm | null;
   isLoading: boolean;
   errorMessage: string | null;
 }
@@ -25,11 +25,11 @@ export const useCarsStore = defineStore(CARS_STORE_NAME, () => {
 
   const { cars } = toRefs(state);
 
-  const saveAllCars = (newCars: CarType[]): void => {
+  const saveAllCars = (newCars: Car[]): void => {
     state.cars = newCars;
   };
 
-  const addCar = (newCar: CarType) => {
+  const addCar = (newCar: Car) => {
     cars.value?.unshift(newCar);
   };
 

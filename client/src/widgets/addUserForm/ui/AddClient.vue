@@ -4,7 +4,7 @@ import { useRouter } from "vue-router";
 import AddNewClientForm from "./AddNewClientForm.vue";
 import { computed, ref, reactive } from "vue";
 import { useClientStore } from "@/entities/client";
-import { NewClient } from "../../../entities/client/types/clientTypes";
+import { ClientForm } from "../../../entities/client/types/clientTypes";
 import { ButtonText } from "@/shared";
 
 const router = useRouter();
@@ -28,7 +28,7 @@ const requiredFields = [
   "dateOfIssue",
 ] as const;
 
-let newClient = reactive<NewClient>({
+let newClient = reactive<ClientForm>({
   firstName: "",
   secondName: "",
   patronymic: "",
@@ -72,7 +72,7 @@ const nextStep = async () => {
 
 // Закомментированный API-запрос
 /*
-const addNewClient = async (client: NewClient) => {
+const addNewClient = async (client: ClientForm) => {
   try {
     await useAddClient(client);
     const fetchedClients = await useGetAllClients();
