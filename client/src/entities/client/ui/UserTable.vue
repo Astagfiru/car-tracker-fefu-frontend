@@ -43,7 +43,7 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const dialog = ref(false);
-const selectedItem = ref<Client | null>(null);
+const selectedItem = ref<ClientTableView | null>(null);
 
 const handleConfirm = () => {
 };
