@@ -30,7 +30,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    text-transform: none;
     padding: 8px 16px;
     border-radius: 8px;
     background-color: #E5E7EB !important;
@@ -47,7 +46,6 @@
   }
 
   .close-button-text {
-    margin-left: 8px;
     font-size: 14px;
     font-weight: 500;
   }

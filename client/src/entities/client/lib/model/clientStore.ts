@@ -28,6 +28,7 @@ export const useClientStore = defineStore(CLENT_STORE_NAME, () => {
 
   const saveAllClients = (newClients: Client[]): void => {
     clients.value = newClients;
+    console.log(clients.value)
   };
 
   const addClient = (newClients: Client) => {

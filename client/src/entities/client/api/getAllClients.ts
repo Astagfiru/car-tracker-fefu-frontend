@@ -2,8 +2,6 @@ import axios from "axios";
 import { Client, ClientResponse } from "../types/clientTypes";
 import { CLIENTS_PATH } from "../consts/baseUrl";
 
-export type ClientForm = Omit<Client, "id">;
-
 export const getAllClients = async (): Promise<ClientResponse[]> => {
   try {
     const response = await axios.get<ClientResponse[]>(CLIENTS_PATH);

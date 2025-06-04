@@ -1,15 +1,21 @@
 import {
-  ClientRequest,
   ClientResponse,
   Client,
 } from "./../../types/clientTypes";
-import { ref, watchEffect } from "vue";
+import { ref, watch, Ref } from "vue";
 import { useClientStore } from "../model/clientStore";
 import { useFetch } from "@/shared";
 import { getAllClients } from "../../api/getAllClients";
-import { mapClientsResponceToApi } from "../mappers";
+import { mapClientsResponceToUi } from "../mappers";
 
-export const useGetAllClients = () => {
+interface GetAllClientsReturn {
+  clientsResponse: Ref<Client[] | null>,
+  error: Ref<unknown | null>,
+  isLoading: Ref<boolean>,
+  refetch: () => void,
+}
+
+export const useGetAllClients =  (): GetAllClientsReturn => {
   const { responseData, error, isLoading, sendRequest } =
     useFetch<ClientResponse[]>(getAllClients);
 
@@ -19,13 +25,15 @@ export const useGetAllClients = () => {
 
   const { saveAllClients } = clientStore;
 
-  watchEffect(() => {
+  watch(responseData, () => {
+    
     if (responseData.value) {
-      mappedClients.value = mapClientsResponceToApi(responseData.value);
+      mappedClients.value = mapClientsResponceToUi(responseData.value);
 
       saveAllClients(mappedClients.value);
     }
   });
+
   sendRequest();
 
   return {

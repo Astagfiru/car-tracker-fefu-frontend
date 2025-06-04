@@ -10,32 +10,29 @@ interface UseFetchReturn<ResponseData, RequestData> {
 export function useFetch<ResponseData, RequestData = void>(
   apiMethod: (params: RequestData) => Promise<ResponseData>
 ): UseFetchReturn<ResponseData, RequestData> {
-    
-  const data = ref<ResponseData | null>(null)
-  const error = ref<unknown | null>(null)
-  const isLoading = ref<boolean>(false)
+  
+  const data: Ref<ResponseData | null> = ref(null);
+  const error: Ref<unknown | null> = ref(null);
+  const isLoading: Ref<boolean> = ref(false);
 
   const sendRequest = async (params: RequestData): Promise<void> => {
-    isLoading.value = true
-    error.value = null
+    isLoading.value = true;
+    error.value = null;
 
     try {
-      const response = await apiMethod(params)
-
-      data.value = response
+      const response = await apiMethod(params);
+      data.value = response;
     } catch (err) {
-
-      error.value = err
+      error.value = err;
     } finally {
-      
-      isLoading.value = false
+      isLoading.value = false;
     }
-  }
+  };
 
   return {
-    responseData : data.value,
+    responseData: data,
     error,
     isLoading,
     sendRequest
-  }
+  };
 }

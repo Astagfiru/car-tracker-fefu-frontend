@@ -70,21 +70,6 @@ const nextStep = async () => {
   }
 };
 
-// Закомментированный API-запрос
-/*
-const addNewClient = async (client: ClientForm) => {
-  try {
-    await useAddClient(client);
-    const fetchedClients = await useGetAllClients();
-    if (fetchedClients) {
-      clientStore.saveAllClients(fetchedClients);
-    }
-  } catch (error) {
-    throw error;
-  }
-};
-*/
-
 const disabledButton = computed(() => {
   return !requiredFields.every((field) => Boolean(newClient[field]));
 });

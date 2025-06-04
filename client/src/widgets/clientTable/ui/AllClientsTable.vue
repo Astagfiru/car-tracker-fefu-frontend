@@ -1,45 +1,59 @@
 <template>
   <div class="client-page">
     <div class="header">
-      <AllClientsTableToolbar v-model:clients="filteredClients" :origin-clients="clientsResponse"/>
+      <AllClientsTableToolbar
+        v-model:clients="filteredClients"
+        :origin-clients="clientsResponse"
+      />
     </div>
-    <BaseTable :key="filteredClients.length" :tableHeader="TABLE_HEADERS" :tableItems="mappedClients"
-      table-title="Клиенты" :is-loading="isLoading"/>
-    <Pagination v-model:elements="filteredClients" :items-per-page="5" :current-page="1" ref="pagination" />
+    <UserTable
+      :key="paginatedClients.length"
+      :tableItems="paginatedClients"
+      table-title="Клиенты"
+      :is-loading="isLoading"
+      :totalItems="clientsResponse?.length"
+    />
+    <Pagination
+      v-model:elements="paginatedClients"
+      v-model:originalList="filteredClients"
+      v-model:currentPage="currentPage"
+      :items-per-page="5"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
 import { BaseTable } from '@/shared';
-import { TABLE_HEADERS } from "../types/config";
-import { Client, } from "@/entities/client";
-import { useGetAllClients } from "../../../entities/client";
-import { computed, ref } from "vue";
-import { ClientTableView } from "../types/types";
-import { Pagination } from "@/widgets";
-import AllClientsTableToolbar from "./AllClientsTableToolbar.vue";
+import { TABLE_HEADERS } from '../types/config';
+import { Client } from '@/entities/client';
+import { useGetAllClients } from '../../../entities/client';
+import { ref, watch } from 'vue';
+import { Pagination } from '@/widgets';
+import AllClientsTableToolbar from './AllClientsTableToolbar.vue';
+import { ClientTableView } from '../types/types';
+import UserTable from '@/entities/client/ui/UserTable.vue';
 
+const { clientsResponse, isLoading } = useGetAllClients();
+
+const currentPage = ref<number>(1);
 const filteredClients = ref<Client[]>([]);
 
-const { clientsResponse, isLoading} = useGetAllClients()
+const paginatedClients = ref<ClientTableView[]>([]);
 
-const mapClientToTableView = (client: Client): ClientTableView => {
-  return {
-    secondName: client.secondName,
-    firstName: client.firstName,
-    patronymic: client.patronymic,
-    phoneNumber: client.phoneNumber,
-    email: client.email,
-  };
-};
-
-const mapClientsToTableView = (clients: Client[]): ClientTableView[] => {
-  return clients.map(mapClientToTableView);
-};
-
-const mappedClients = computed(() => {
-  return mapClientsToTableView(filteredClients.value);
+const mapClientToTableView = (client: Client): ClientTableView => ({
+  secondName: client.secondName,
+  firstName: client.firstName,
+  patronymic: client.patronymic,
+  phoneNumber: client.phoneNumber,
+  email: client.email,
 });
+
+watch(clientsResponse, (clients) => {
+  if (clients) {
+    filteredClients.value = clients;
+  }
+}, { immediate: true });
+
 </script>
 
 <style scoped lang="scss">

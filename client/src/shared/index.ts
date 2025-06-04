@@ -24,6 +24,7 @@ import RedirectButton from "./ui/buttons/RedirectButton.vue";
 import PurhaseAndSaleFormVue from "./ui/PurchaseAndSaleForm/PurhaseAndSaleForm.vue";
 import Back from "./icons/Back.vue";
 import ButtonBack from "./ui/buttons/ButtonBack.vue";
+import ButtonDanger from "./ui/buttons/ButtonDanger.vue";
 
 import { useFetch } from "./api/fetch/useFetch";
 
@@ -52,6 +53,7 @@ export {
   PurhaseAndSaleFormVue,
   Back,
   ButtonBack,
+  ButtonDanger
 };
 
 export { Modify, formatDateRuLocale, useFetch };

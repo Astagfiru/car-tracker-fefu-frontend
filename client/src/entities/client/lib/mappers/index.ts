@@ -5,7 +5,7 @@ import {
   ClientForm,
 } from "../../types/clientTypes";
 
-export const mapClientResponceToApi = (client: ClientResponse): Client => {
+export const mapClientResponceToUi = (client: ClientResponse): Client => {
   return {
     id: client.id,
     secondName: client.last_name,
@@ -20,6 +20,20 @@ export const mapClientResponceToApi = (client: ClientResponse): Client => {
   };
 };
 
-export const mapClientsResponceToApi = (client: ClientResponse[]): Client[] => {
-  return client.map(mapClientResponceToApi);
+export const mapClientUiToApi = (client: ClientForm): ClientRequest => {
+  return {
+    last_name: client.secondName,
+    first_name: client.firstName,
+    middle_name: client.patronymic,
+    phone: client.phoneNumber,
+    email: client.email,
+    passport_series: client.passportSeries,
+    passport_number: client.passportNumber,
+    issue_by: client.issuedBy,
+    issue_date: client.dateOfIssue,
+  };
+};
+
+export const mapClientsResponceToUi = (client: ClientResponse[]): Client[] => {
+  return client.map(mapClientResponceToUi);
 };
