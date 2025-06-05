@@ -10,6 +10,7 @@ const applicationController = require('../controllers/applicationController');
 const employeeController = require('../controllers/employeeController');
 const carModelController = require('../controllers/carModelController');
 const carController = require('../controllers/carController');
+const contractsController = require('../controllers/contractsController');
 
 /**
  * @route GET /api/
@@ -169,5 +170,34 @@ router.put('/cars/:id', carController.updateCar);
  * @description Удалить автомобиль по ID
  */
 router.delete('/cars/:id', carController.deleteCar);
+/*/
+ * @route GET /api/contracts
+ * @description Получить все контракты
+ */
+router.get('/contracts', contractsController.getAllContracts);
+
+/**
+ * @route GET /api/contracts/:id
+ * @description Получить контракт по ID
+ */
+router.get('/contracts/:id', contractsController.getContractById);
+
+/**
+ * @route POST /api/contracts
+ * @description Создать новый контракт
+ */
+router.post('/contracts', contractsController.createContract);
+
+/**
+ * @route PUT /api/contracts/:id
+ * @description Обновить контракт по ID
+ */
+router.put('/contracts/:id', contractsController.updateContract);
+
+/**
+ * @route DELETE /api/contracts/:id
+ * @description Удалить контракт по ID
+ */
+router.delete('/contracts/:id', contractsController.deleteContract);
 
 module.exports = router;
