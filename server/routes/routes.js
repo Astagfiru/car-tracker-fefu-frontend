@@ -11,6 +11,10 @@ const employeeController = require('../controllers/employeeController');
 const carModelController = require('../controllers/carModelController');
 const carController = require('../controllers/carController');
 const contractsController = require('../controllers/contractsController');
+const userController = require('../controllers/userController');
+const authController = require('../controllers/authController');
+
+router.post('/login', authController.login);
 
 /**
  * @route GET /api/
@@ -170,7 +174,8 @@ router.put('/cars/:id', carController.updateCar);
  * @description Удалить автомобиль по ID
  */
 router.delete('/cars/:id', carController.deleteCar);
-/*/
+
+/**
  * @route GET /api/contracts
  * @description Получить все контракты
  */
@@ -199,5 +204,23 @@ router.put('/contracts/:id', contractsController.updateContract);
  * @description Удалить контракт по ID
  */
 router.delete('/contracts/:id', contractsController.deleteContract);
+
+/**
+ * @route GET /api/users/:login/role
+ * @description Получить роль пользователя по логину
+ */
+router.get('/users/:login/role', userController.getUserRoleByLogin);
+
+/**
+ * @route GET /api/users/:login/employee
+ * @description Получить информацию о сотруднике и его роли по логину
+ */
+router.get('/users/:login/employee', userController.getEmployeeWithRoleByLogin);
+
+// Создание нового пользователя
+router.post('/users', userController.createUser);
+
+// Удаление пользователя по логину
+router.delete('/users/:login', userController.deleteUser);
 
 module.exports = router;

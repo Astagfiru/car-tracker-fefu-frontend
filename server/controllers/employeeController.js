@@ -61,7 +61,7 @@ exports.getEmployeeById = async (req, res, next) => {
 
 /**
  * @function createEmployee
- * @description Создание нового сотрудника
+ * @description Создание нового сотрудника с привязкой к пользователю
  * @param {Object} req - Express request object
  * @param {Object} res - Express response object
  * @param {Function} next - Express next middleware function
@@ -69,16 +69,25 @@ exports.getEmployeeById = async (req, res, next) => {
  */
 exports.createEmployee = async (req, res, next) => {
   try {
-    const { surname, name, patronymic, phone, email, position } = req.body;
+    const { surname, name, patronymic, phone, email, position, user_id } = req.body;
+
+    if (!user_id) {
+      return res.status(400).json({
+        status: 'error',
+        message: 'Поле user_id обязательно для создания сотрудника.'
+      });
+    }
+
     const employee = await Employee.create({ 
       surname, 
       name, 
       patronymic, 
       phone, 
       email, 
-      position 
+      position,
+      user_id
     });
-    
+
     res.status(201).json({
       status: 'success',
       data: employee
@@ -87,6 +96,7 @@ exports.createEmployee = async (req, res, next) => {
     next(err);
   }
 };
+
 
 /**
  * @function updateEmployee

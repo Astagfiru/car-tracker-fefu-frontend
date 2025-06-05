@@ -12,6 +12,15 @@
  * @param {Function} next - Express next middleware function
  * @returns {void}
  */
+/**
+ * @function errorHandler
+ * @description Middleware для обработки ошибок
+ * @param {Error} err - Объект ошибки
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @param {Function} next - Express next middleware function
+ * @returns {void}
+ */
 const errorHandler = (err, req, res, next) => {
   console.error('Error:', err.message);
   
@@ -34,5 +43,6 @@ const errorHandler = (err, req, res, next) => {
   
   res.status(statusCode).json(errorResponse);
 };
+
 
 module.exports = errorHandler;

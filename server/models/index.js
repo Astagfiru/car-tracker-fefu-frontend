@@ -5,28 +5,30 @@ const sequelize = require('../config/db');
 
 const models = {};
 
-
 fs.readdirSync(__dirname)
-  .filter(file => {
-    return (
-      file.indexOf('.') !== 0 && 
-      file !== 'index.js' && 
-      file.slice(-3) === '.js'
-    );
-  })
+  .filter(file => file !== 'index.js' && file.endsWith('.js'))
   .forEach(file => {
-    const modelPath = path.join(__dirname, file);
-    // Проверка существования файла модели перед загрузкой
-    if (fs.existsSync(modelPath)) {
-      const model = require(modelPath);
-      models[model.name] = model;
+    try {
+      const model = require(path.join(__dirname, file));
+      if (model && model.name) {
+        models[model.name] = model;
+        console.log(`Loaded model: ${model.name}`);
+      } else {
+        console.warn(`Skipping file ${file}: not a valid Sequelize model`);
+      }
+    } catch (error) {
+      console.error(`Error loading model from ${file}:`, error);
     }
   });
 
-
 Object.keys(models).forEach(modelName => {
   if (models[modelName].associate) {
-    models[modelName].associate(models);
+    try {
+      models[modelName].associate(models);
+      console.log(`Associations set for model: ${modelName}`);
+    } catch (error) {
+      console.error(`Error setting associations for ${modelName}:`, error);
+    }
   }
 });
 
