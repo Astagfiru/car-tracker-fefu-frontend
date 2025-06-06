@@ -2,12 +2,12 @@
   <div class="client-page">
     <div class="header">
       <AllClientsTableToolbar
-        v-model:clients="filteredClients"
+        v-model:filtererdClients="filteredClients"
         :origin-clients="clientsResponse"
       />
     </div>
     <UserTable
-      :key="paginatedClients.length"
+      :key="filteredClients.length"
       :tableItems="paginatedClients"
       table-title="Клиенты"
       :is-loading="isLoading"
@@ -17,14 +17,13 @@
       v-model:elements="paginatedClients"
       v-model:originalList="filteredClients"
       v-model:currentPage="currentPage"
+      :totalItemslenght="filteredClients.length"
       :items-per-page="5"
     />
   </div>
 </template>
 
 <script setup lang="ts">
-import { BaseTable } from '@/shared';
-import { TABLE_HEADERS } from '../types/config';
 import { Client } from '@/entities/client';
 import { useGetAllClients } from '../../../entities/client';
 import { ref, watch } from 'vue';
@@ -32,6 +31,11 @@ import { Pagination } from '@/widgets';
 import AllClientsTableToolbar from './AllClientsTableToolbar.vue';
 import { ClientTableView } from '../types/types';
 import UserTable from '@/entities/client/ui/UserTable.vue';
+import { useClientStore } from '@/entities/client';
+import { storeToRefs } from 'pinia';
+
+const clientStore = useClientStore()
+const { clients } = storeToRefs(clientStore)
 
 const { clientsResponse, isLoading } = useGetAllClients();
 
@@ -39,14 +43,6 @@ const currentPage = ref<number>(1);
 const filteredClients = ref<Client[]>([]);
 
 const paginatedClients = ref<ClientTableView[]>([]);
-
-const mapClientToTableView = (client: Client): ClientTableView => ({
-  secondName: client.secondName,
-  firstName: client.firstName,
-  patronymic: client.patronymic,
-  phoneNumber: client.phoneNumber,
-  email: client.email,
-});
 
 watch(clientsResponse, (clients) => {
   if (clients) {

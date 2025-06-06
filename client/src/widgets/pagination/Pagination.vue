@@ -16,10 +16,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue';
+import { computed, watch } from 'vue';
 
 interface Props {
   itemsPerPage: number;
+  totalItemslenght: number;
 }
 
 const props = defineProps<Props>();
@@ -59,6 +60,12 @@ const nextPage = () => {
 
   if (currentPage.value < totalPages.value) currentPage.value++;
 };
+
+watch(() => props.totalItemslenght, () => {
+    if(props.totalItemslenght <= 5) {
+      currentPage.value = 1
+    }
+})
 
 defineExpose({ currentPage, totalPages });
 </script>

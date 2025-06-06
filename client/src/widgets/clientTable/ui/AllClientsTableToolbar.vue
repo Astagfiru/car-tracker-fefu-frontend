@@ -25,9 +25,7 @@ const { originClients } = withDefaults(defineProps<ToolbarProps>(), {
   addButtonTitle: "Добавить",
 });
 
-const clients = ref<Client[] | null>(null);
-
-const originalClients = ref<Client[] | null>(originClients ? [...originClients] : []);
+const filtererdClients = defineModel<Client[]>('filtererdClients')
 
 const searchString = ref<string>("");
 
@@ -35,19 +33,18 @@ const redirect = () => {
   router.push({ name: "clients-add" });
 };
 
-clients.value = [...(originalClients.value || [])];
+filtererdClients.value = [...(originClients || [])];
 
 watch(searchString, (newVal) => {
+  console.log(" Вызов watch", filtererdClients.value)
   if (!newVal) {
-    clients.value = [...(originalClients.value || [])];
+    filtererdClients.value = [...(originClients || [])];
   } else {
-    const query = newVal.toLowerCase().trim();
-    clients.value = (originalClients.value || []).filter((client: Client) => {
+    const query = searchString.value.toLowerCase().trim();
+
+    filtererdClients.value = (originClients || []).filter((client: Client) => {
       return (
-        client.firstName.toLowerCase().includes(query) ||
-        client.secondName.toLowerCase().includes(query) ||
-        client.email.toLowerCase().includes(query) ||
-        client.phoneNumber.replace(/\D/g, "").includes(query.replace(/\D/g, ""))
+        client.secondName.toLowerCase().includes(query)
       );
     });
   }
