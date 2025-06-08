@@ -2,7 +2,7 @@
   <div class="app">
     <template v-if="isLoading">
       <div class="loader-container">
-        <FulfillingSquareSpinner :animation-duration="500" :size="50" color="#95A4FB" />
+        <FulfillingSquareSpinner :animation-duration="1000" :size="50" color="#95A4FB" />
       </div>
     </template>
     <template v-else>

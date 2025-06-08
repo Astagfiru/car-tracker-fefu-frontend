@@ -11,7 +11,6 @@
 </template>
 
 <script setup lang="ts">
-const color = 'grey-lighten-3';
 const disabled = false;
 
 interface ButtonProps {
