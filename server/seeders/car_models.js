@@ -1,3 +1,8 @@
+/**
+ * @module seeders/seedCarModels
+ * @description Инициализация таблицы car_models
+ */
+
 const { CarModel } = require('../models');
 
 const carModelsData = [
@@ -59,46 +64,8 @@ const carModelsData = [
   }
 ];
 
-const seedCarModels = async () => {
-  try {
-    const count = await CarModel.count();
-    if (count === 0) {
-      const existingCarModels = await CarModel.findAll({
-        attributes: ['brand', 'model', 'year'],
-        where: {
-          brand: carModelsData.map(c => c.brand),
-          model: carModelsData.map(c => c.model),
-          year: carModelsData.map(c => c.year)
-        }
-      });
-      
-      const existingCarModelSet = new Set(existingCarModels.map(c => `${c.brand}-${c.model}-${c.year}`));
-      const newCarModels = carModelsData.filter(c => !existingCarModelSet.has(`${c.brand}-${c.model}-${c.year}`));
-      
-      if (newCarModels.length > 0) {
-        console.log(`Добавляем ${newCarModels.length} моделей автомобилей:`);
-        process.stdout.write('Прогресс: [');
-      
-        for (const [index, carModel] of newCarModels.entries()) {
-          await CarModel.create(carModel);
-          process.stdout.write('.');
-          if ((index + 1) % 5 === 0) process.stdout.write('|');
-        }
-      
-        console.log(']\nУспешно добавлены модели автомобилей:');
-        newCarModels.forEach(c => 
-          console.log(`- ${c.brand} ${c.model} (${c.year})`)
-        );
-      } else {
-        console.log('Все модели автомобилей уже существуют в базе');
-      }
-      console.log('Car models seeded successfully');
-    } else {
-      console.log('Car models already exist, skipping seeding');
-    }
-  } catch (err) {
-    console.error('Error seeding car models:', err);
-  }
+module.exports = async function seedCarModels() {
+  if (await CarModel.count() > 0) return;
+  await CarModel.bulkCreate(carModelsData);
+  console.log('CarModels seeded successfully');
 };
-
-module.exports = seedCarModels;

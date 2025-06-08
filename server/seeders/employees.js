@@ -4,62 +4,36 @@ const employeesData = [
   {
     last_name: 'Смирнов',
     first_name: 'Алексей',
-    middle_name: 'Петрович',
-    phone: '+79001234567',
+    middle_name: 'Иванович',
     email: 'smirnov@cartracker.ru',
-    position: 'Менеджер по продажам'
+    phone: '+79991234567',
+    position: 'Администратор',
   },
   {
     last_name: 'Козлова',
-    first_name: 'Екатерина',
-    middle_name: 'Александровна',
-    phone: '+79009876543',
+    first_name: 'Елена',
+    middle_name: 'Сергеевна',
     email: 'kozlova@cartracker.ru',
-    position: 'Старший менеджер'
+    phone: '+79991234568',
+    position: 'Бухгалтер',
   },
   {
     last_name: 'Новиков',
     first_name: 'Дмитрий',
-    middle_name: 'Сергеевич',
-    phone: '+79005554433',
+    middle_name: 'Александрович',
     email: 'novikov@cartracker.ru',
-    position: 'Консультант'
-  }
+    phone: '+79991234569',
+    position: 'Менеджер по продажам',
+  },
 ];
 
-const seedEmployees = async () => {
-  try {
-    console.log('Проверка существующих сотрудников...');
-    const existingPhones = await Employee.findAll({
-      attributes: ['phone'],
-      where: {
-        phone: employeesData.map(e => e.phone)
-      }
-    });
-    
-    const existingPhoneSet = new Set(existingPhones.map(e => e.phone));
-    const newEmployees = employeesData.filter(e => !existingPhoneSet.has(e.phone));
-    
-    if (newEmployees.length > 0) {
-      console.log(`Добавляем ${newEmployees.length} сотрудников:`);
-      process.stdout.write('Прогресс: [');
-      
-      for (const [index, employee] of newEmployees.entries()) {
-        await Employee.create(employee);
-        process.stdout.write('.');
-        if ((index + 1) % 5 === 0) process.stdout.write('|');
-      }
-      
-      console.log(']\nУспешно добавлены сотрудники:');
-      newEmployees.forEach(e => 
-        console.log(`- ${e.last_name} ${e.first_name} (${e.position})`)
-      );
-    } else {
-      console.log('Все сотрудники уже существуют в базе');
-    }
-  } catch (err) {
-    console.error('Ошибка заполнения сотрудников:', err);
+module.exports = async function seedEmployees() {
+  const count = await Employee.count();
+  if (count > 0) {
+    console.log('Employees already seeded, skipping.');
+    return;
   }
-};
 
-module.exports = seedEmployees;
+  await Employee.bulkCreate(employeesData);
+  console.log('Employees seeded successfully');
+};

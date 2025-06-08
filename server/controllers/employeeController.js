@@ -3,7 +3,7 @@
  * @description Контроллер для управления сотрудниками
  */
 
-const { Employee, Request } = require('../models');
+const { Employee, Request, User } = require('../models');
 
 /**
  * @function getAllEmployees
@@ -61,7 +61,7 @@ exports.getEmployeeById = async (req, res, next) => {
 
 /**
  * @function createEmployee
- * @description Создание нового сотрудника
+ * @description Создание нового сотрудника с привязкой к пользователю
  * @param {Object} req - Express request object
  * @param {Object} res - Express response object
  * @param {Function} next - Express next middleware function
@@ -69,16 +69,66 @@ exports.getEmployeeById = async (req, res, next) => {
  */
 exports.createEmployee = async (req, res, next) => {
   try {
-    const { surname, name, patronymic, phone, email, position } = req.body;
+    const {  last_name, first_name, middle_name, phone, email, position, user_id } = req.body;
+
+    // Проверка наличия обязательного поля user_id
+    if (!user_id) {
+      return res.status(400).json({
+        status: 'error',
+        message: 'Поле user_id обязательно для создания сотрудника.'
+      });
+    }
+
+    // Проверка существования пользователя и получение его email
+    const user = await User.findByPk(user_id);
+    if (!user) {
+      return res.status(400).json({
+        status: 'error',
+        message: 'Пользователь с указанным user_id не существует.'
+      });
+    }
+
+    // Проверка уникальности user_id
+    const existingEmployeeByUserId = await Employee.findOne({ where: { user_id } });
+    if (existingEmployeeByUserId) {
+      return res.status(409).json({
+        status: 'error',
+        message: 'Пользователь с указанным user_id уже связан с сотрудником.'
+      });
+    }
+
+    let employeeEmail = user.email;
+    if (email) {
+      if (email !== user.email) {
+        return res.status(400).json({
+          status: 'error',
+          message: 'Email сотрудника должен совпадать с email связанного пользователя.'
+        });
+      }
+      employeeEmail = email;
+    }
+
+    if (employeeEmail) {
+      const existingEmployeeByEmail = await Employee.findOne({ where: { email: employeeEmail } });
+      if (existingEmployeeByEmail) {
+        return res.status(409).json({
+          status: 'error',
+          message: 'Email уже используется другим сотрудником.'
+        });
+      }
+    }
+
     const employee = await Employee.create({ 
-      surname, 
-      name, 
-      patronymic, 
+      last_name, 
+      first_name, 
+      middle_name, 
       phone, 
-      email, 
-      position 
+      email: employeeEmail, 
+      position,
+      user_id
     });
-    
+
+    // Ответ с данными созданного сотрудника
     res.status(201).json({
       status: 'success',
       data: employee
@@ -87,6 +137,7 @@ exports.createEmployee = async (req, res, next) => {
     next(err);
   }
 };
+
 
 /**
  * @function updateEmployee
@@ -99,7 +150,7 @@ exports.createEmployee = async (req, res, next) => {
 exports.updateEmployee = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { surname, name, patronymic, phone, email, position } = req.body;
+    const { last_name, first_name, middle_name, phone, email, position } = req.body;
     
     const employee = await Employee.findByPk(id);
     
@@ -111,9 +162,9 @@ exports.updateEmployee = async (req, res, next) => {
     }
     
     await employee.update({ 
-      surname, 
-      name, 
-      patronymic, 
+      last_name, 
+      first_name, 
+      middle_name, 
       phone, 
       email, 
       position 

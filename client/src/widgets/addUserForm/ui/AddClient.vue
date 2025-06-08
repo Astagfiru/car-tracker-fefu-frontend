@@ -6,6 +6,7 @@ import { computed, ref, reactive } from "vue";
 import { useClientStore } from "@/entities/client";
 import { ClientForm } from "../../../entities/client/types/clientTypes";
 import { ButtonText } from "@/shared";
+import { useAddClient } from "@/entities/client/lib/composible/useAddClient";
 
 const router = useRouter();
 const clientStore = useClientStore();
@@ -40,6 +41,8 @@ let newClient = reactive<ClientForm>({
   email: "",
 });
 
+const { addClient } = useAddClient(newClient)
+
 const nextStep = async () => {
   errorMessage.value = "";
 
@@ -48,7 +51,9 @@ const nextStep = async () => {
   }
 
   try {
-    clientStore.addClient({ ...newClient, id: Date.now() });
+   // clientStore.addClient({ ...newClient, id: Date.now() });
+  console.log("Добавление клиента")
+   addClient()
 
     newClient = {
       firstName: "",

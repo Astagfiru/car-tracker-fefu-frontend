@@ -18,14 +18,26 @@ exports.getAllCars = async (req, res, next) => {
     const cars = await Car.findAll({
       include: [{ model: CarModel, as: 'model' }]
     });
+
+    const parsedCars = cars.map(car => {
+      const carJSON = car.toJSON();
+      try {
+        carJSON.model.additional_info = JSON.parse(carJSON.model.additional_info);
+      } catch (e) {
+        carJSON.model.additional_info = null;
+      }
+      return carJSON;
+    });
+
     res.json({
       status: 'success',
-      data: cars
+      data: parsedCars
     });
   } catch (err) {
     next(err);
   }
 };
+
 
 /**
  * @function getCarById
@@ -42,22 +54,31 @@ exports.getCarById = async (req, res, next) => {
       where: { id },
       include: [{ model: CarModel, as: 'model' }]
     });
-    
+
     if (!car) {
-      return res.status(404).json({ 
+      return res.status(404).json({
         status: 'error',
-        message: 'Автомобиль не найден' 
+        message: 'Автомобиль не найден'
       });
     }
-    
+
+    const carJSON = car.toJSON();
+
+    try {
+      carJSON.model.additional_info = JSON.parse(carJSON.model.additional_info);
+    } catch (e) {
+      carJSON.model.additional_info = null;
+    }
+
     res.json({
       status: 'success',
-      data: car
+      data: carJSON
     });
   } catch (err) {
     next(err);
   }
 };
+
 
 /**
  * @function createCar
@@ -69,7 +90,7 @@ exports.getCarById = async (req, res, next) => {
  */
 exports.createCar = async (req, res, next) => {
   try {
-    const { model_id, available, vin, mileage, price } = req.body;
+    const { model_id, in_stock, vin, mileage, price } = req.body;
     
     // Проверяем существование модели
     const carModel = await CarModel.findByPk(model_id);
@@ -82,7 +103,7 @@ exports.createCar = async (req, res, next) => {
     
     const car = await Car.create({ 
       model_id, 
-      available, 
+      in_stock, 
       vin, 
       mileage, 
       price 
@@ -108,7 +129,7 @@ exports.createCar = async (req, res, next) => {
 exports.updateCar = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { model_id, available, vin, mileage, price } = req.body;
+    const { model_id, in_stoke, vin, mileage, price } = req.body;
     
     const car = await Car.findByPk(id);
     
@@ -132,7 +153,7 @@ exports.updateCar = async (req, res, next) => {
     
     await car.update({ 
       model_id, 
-      available, 
+      in_stoke, 
       vin, 
       mileage, 
       price 

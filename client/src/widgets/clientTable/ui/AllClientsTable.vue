@@ -2,7 +2,7 @@
   <div class="client-page">
     <div class="header">
       <AllClientsTableToolbar
-        v-model:filtererdClients="filteredClients"
+        v-model:filteredClients="filteredClients"
         :origin-clients="clientsResponse"
       />
     </div>
@@ -31,11 +31,6 @@ import { Pagination } from '@/widgets';
 import AllClientsTableToolbar from './AllClientsTableToolbar.vue';
 import { ClientTableView } from '../types/types';
 import UserTable from '@/entities/client/ui/UserTable.vue';
-import { useClientStore } from '@/entities/client';
-import { storeToRefs } from 'pinia';
-
-const clientStore = useClientStore()
-const { clients } = storeToRefs(clientStore)
 
 const { clientsResponse, isLoading } = useGetAllClients();
 
@@ -47,6 +42,7 @@ const paginatedClients = ref<ClientTableView[]>([]);
 watch(clientsResponse, (clients) => {
   if (clients) {
     filteredClients.value = clients;
+    console.log('filtered', filteredClients.value)
   }
 }, { immediate: true });
 

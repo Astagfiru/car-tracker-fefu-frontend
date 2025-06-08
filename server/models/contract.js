@@ -41,7 +41,7 @@ const Contract = sequelize.define('Contract', {
   timestamps: true,
 });
 
-// Определение связей
+
 Contract.associate = function(models) {
   Contract.belongsTo(models.Application, {
     foreignKey: 'application_id',
