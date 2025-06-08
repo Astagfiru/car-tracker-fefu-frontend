@@ -20,7 +20,7 @@ export interface ClientResponse {
   email: string;
   passport_series: string;
   passport_number: string;
-  issue_by: string;
+ issued_by: string;
   issue_date: string;
 }
 

@@ -67,7 +67,7 @@ const nextStep = async () => {
       email: "",
     }
 
-    // router.push({ name: 'clients' });
+    router.push({ name: 'clients' });
 
   } catch (error) {
     errorMessage.value = "Ошибка при сохранении клиента";

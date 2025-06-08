@@ -25,6 +25,11 @@ export const useAddClient = (newClient: ClientForm): AddClientReturn => {
       console.log('Mapped client data:', mappedClient);
       
       await sendRequest(mappedClient);
+
+       clientStore.addClient({
+        id: Number(Date.now()),
+        ...newClient
+    });
       
       if (responseData.value) {
         clientStore.addClient({
