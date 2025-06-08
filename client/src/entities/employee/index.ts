@@ -4,8 +4,8 @@ import type{
     EmployeeResponse,
     EmployeeForm
 } from "./types/employeeTypes"
-import { useGetAllEmployeers } from "./api/useGetAllEmployee";
-import { useEmployeeStore } from "./model/employyeeStore";
+import { usegetAllEmployeers } from "./api/usegetAllEmployee";
+import { useEmployeeStore } from "./model/employeeStore";
 
-export { useGetAllEmployeers,  useEmployeeStore }
+export { usegetAllEmployeers,  useEmployeeStore }
 export {EmployeeForm, EmployeeRequest, EmployeeResponse, EmployeeType}

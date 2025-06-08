@@ -1,22 +1,23 @@
 import {
     EmployeeResponse,
     EmployeeType
-} from "./../../types/employeeTypes";
+} from "../../types/employeeTypes";
 import { ref, watch, Ref } from "vue";
-import { useEmployeeStore } from "../model/employyeeStore";
-import { useFetch } from "";
-import { GetAllEmployee } from "../../api/getAllEmployee";
+import { useEmployeeStore } from "../model/employeeStore";
+import { useFetch } from "@/shared";
+import { getAllEmployee } from "../../api/getAllEmployee";
+import {mapEmployeesResponseToUi} from "../mappers"
 
-interface GetAllEmployeeReturn {
+interface getAllEmployeeReturn {
   employeeResponse: Ref<EmployeeType[] | null>,
   error: Ref<unknown | null>,
   isLoading: Ref<boolean>,
   refetch: () => void,
 }
 
-export const useGetAllEmployee =  (): GetAllEmployeeReturn => {
+export const usegetAllEmployee =  (): getAllEmployeeReturn => {
   const { responseData, error, isLoading, sendRequest } =
-    useFetch<EmployeeResponse[]>(useGetAllEmployee);
+    useFetch<EmployeeResponse[]>(getAllEmployee);
 
   const mappedEmployees = ref<EmployeeType[]>([]);
 
@@ -27,7 +28,7 @@ export const useGetAllEmployee =  (): GetAllEmployeeReturn => {
   watch(responseData, () => {
     
     if (responseData.value) {
-      mappedEmployees.value = responseData.value;
+      mappedEmployees.value = mapEmployeesResponseToUi(responseData.value);
 
       saveAllEmployees(mappedEmployees.value);
     }
