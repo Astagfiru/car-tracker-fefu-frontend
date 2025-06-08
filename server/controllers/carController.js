@@ -103,7 +103,7 @@ exports.createCar = async (req, res, next) => {
     
     const car = await Car.create({ 
       model_id, 
-      available, 
+      in_stock: available, 
       vin, 
       mileage, 
       price 
@@ -153,7 +153,7 @@ exports.updateCar = async (req, res, next) => {
     
     await car.update({ 
       model_id, 
-      available, 
+      in_stoke: available, 
       vin, 
       mileage, 
       price 

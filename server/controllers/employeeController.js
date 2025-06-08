@@ -69,7 +69,7 @@ exports.getEmployeeById = async (req, res, next) => {
  */
 exports.createEmployee = async (req, res, next) => {
   try {
-    const { last_name, first_name, middle_name, phone, email, position, user_id } = req.body;
+    const {  surname, name, patronymic, phone, email, position, user_id } = req.body;
 
     // Проверка наличия обязательного поля user_id
     if (!user_id) {
@@ -120,9 +120,9 @@ exports.createEmployee = async (req, res, next) => {
     }
 
     const employee = await Employee.create({ 
-      last_name, 
-      first_name, 
-      middle_name, 
+      last_name: surname, 
+      first_name: name, 
+      middle_name: patronymic, 
       phone, 
       email: employeeEmail, 
       position,
