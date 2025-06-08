@@ -1,0 +1,44 @@
+import {
+    EmployeeResponse,
+    EmployeeType
+} from "./../../types/employeeTypes";
+import { ref, watch, Ref } from "vue";
+import { useEmployeeStore } from "../model/employyeeStore";
+import { useFetch } from "";
+import { GetAllEmployee } from "../../api/getAllEmployee";
+
+interface GetAllEmployeeReturn {
+  employeeResponse: Ref<EmployeeType[] | null>,
+  error: Ref<unknown | null>,
+  isLoading: Ref<boolean>,
+  refetch: () => void,
+}
+
+export const useGetAllEmployee =  (): GetAllEmployeeReturn => {
+  const { responseData, error, isLoading, sendRequest } =
+    useFetch<EmployeeResponse[]>(useGetAllEmployee);
+
+  const mappedEmployees = ref<EmployeeType[]>([]);
+
+  const employeeStore = useEmployeeStore();
+
+  const { saveAllEmployees } = employeeStore;
+
+  watch(responseData, () => {
+    
+    if (responseData.value) {
+      mappedEmployees.value = responseData.value;
+
+      saveAllEmployees(mappedEmployees.value);
+    }
+  });
+
+  sendRequest();
+
+  return {
+    employeeResponse: mappedEmployees,
+    error,
+    isLoading,
+    refetch: () => sendRequest(undefined),
+  };
+};
