@@ -86,8 +86,8 @@ exports.createCarModel = async (req, res, next) => {
       year,
       seats,
       doors,
-      fuelConsumption,
-      additionalInfo,
+      fuel_consumption,
+      additional_info,
     } = req.body;
 
     const carModel = await CarModel.create({
@@ -96,8 +96,8 @@ exports.createCarModel = async (req, res, next) => {
       year,
       seats,
       doors,
-      fuel_consumption: fuelConsumption,
-      additional_info: additionalInfo ? JSON.stringify(additionalInfo) : null,
+      fuel_consumption,
+      additional_info: additional_info ? JSON.stringify(additional_info) : null,
     });
 
     const json = carModel.toJSON();
@@ -130,8 +130,8 @@ exports.updateCarModel = async (req, res, next) => {
       year,
       seats,
       doors,
-      fuelConsumption,
-      additionalInfo,
+      fuel_consumption,
+      additional_info,
     } = req.body;
 
     const carModel = await CarModel.findByPk(id);
@@ -145,8 +145,8 @@ exports.updateCarModel = async (req, res, next) => {
       year,
       seats,
       doors,
-      fuel_consumption: fuelConsumption,
-      additional_info: additionalInfo ? JSON.stringify(additionalInfo) : null,
+      fuel_consumption,
+      additional_info: additional_info ? JSON.stringify(additional_info) : null,
     });
 
     const json = carModel.toJSON();

@@ -69,7 +69,7 @@ exports.getEmployeeById = async (req, res, next) => {
  */
 exports.createEmployee = async (req, res, next) => {
   try {
-    const {  surname, name, patronymic, phone, email, position, user_id } = req.body;
+    const {  last_name, first_name, middle_name, phone, email, position, user_id } = req.body;
 
     // Проверка наличия обязательного поля user_id
     if (!user_id) {
@@ -97,8 +97,7 @@ exports.createEmployee = async (req, res, next) => {
       });
     }
 
-    // Проверка email: если предоставлен, он должен совпадать с email пользователя
-    let employeeEmail = user.email; // По умолчанию используем email пользователя
+    let employeeEmail = user.email;
     if (email) {
       if (email !== user.email) {
         return res.status(400).json({
@@ -120,9 +119,9 @@ exports.createEmployee = async (req, res, next) => {
     }
 
     const employee = await Employee.create({ 
-      last_name: surname, 
-      first_name: name, 
-      middle_name: patronymic, 
+      last_name, 
+      first_name, 
+      middle_name, 
       phone, 
       email: employeeEmail, 
       position,
@@ -151,7 +150,7 @@ exports.createEmployee = async (req, res, next) => {
 exports.updateEmployee = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { surname, name, patronymic, phone, email, position } = req.body;
+    const { last_name, first_name, middle_name, phone, email, position } = req.body;
     
     const employee = await Employee.findByPk(id);
     
@@ -163,9 +162,9 @@ exports.updateEmployee = async (req, res, next) => {
     }
     
     await employee.update({ 
-      surname, 
-      name, 
-      patronymic, 
+      last_name, 
+      first_name, 
+      middle_name, 
       phone, 
       email, 
       position 

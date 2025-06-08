@@ -90,7 +90,7 @@ exports.getCarById = async (req, res, next) => {
  */
 exports.createCar = async (req, res, next) => {
   try {
-    const { model_id, available, vin, mileage, price } = req.body;
+    const { model_id, in_stock, vin, mileage, price } = req.body;
     
     // Проверяем существование модели
     const carModel = await CarModel.findByPk(model_id);
@@ -103,7 +103,7 @@ exports.createCar = async (req, res, next) => {
     
     const car = await Car.create({ 
       model_id, 
-      in_stock: available, 
+      in_stock, 
       vin, 
       mileage, 
       price 
@@ -129,7 +129,7 @@ exports.createCar = async (req, res, next) => {
 exports.updateCar = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { model_id, available, vin, mileage, price } = req.body;
+    const { model_id, in_stoke, vin, mileage, price } = req.body;
     
     const car = await Car.findByPk(id);
     
@@ -153,7 +153,7 @@ exports.updateCar = async (req, res, next) => {
     
     await car.update({ 
       model_id, 
-      in_stoke: available, 
+      in_stoke, 
       vin, 
       mileage, 
       price 
