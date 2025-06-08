@@ -27,23 +27,26 @@ module.exports = async function seedUsers() {
       email: 'smirnov@cartracker.ru',
       password_hash: await hashPassword('Admin123'),
       role_id: adminRole.id,
+      profile_image: 'https://example.com/profiles/admin.jpg',
     },
     {
       login: 'accountant',
       email: 'kozlova@cartracker.ru',
       password_hash: await hashPassword('Account123'),
       role_id: accountantRole.id,
+      profile_image: 'https://example.com/profiles/accountant.jpg',
     },
     {
       login: 'salesmgr',
       email: 'novikov@cartracker.ru',
       password_hash: await hashPassword('Sales123'),
       role_id: accountantRole.id,
+      profile_image: 'https://example.com/profiles/salesmgr.jpg',
     },
   ];
 
   const createdUsers = await User.bulkCreate(usersData, { returning: true });
-  console.log('Users seeded successfully');
+  console.log('Users seeded successfully with profile images');
 
   // Связывание с Employee
   for (const user of createdUsers) {

@@ -123,7 +123,7 @@ exports.getClientById = async (req, res, next) => {
  */
 exports.createClient = async (req, res, next) => {
   try {
-    const { last_name, first_name, middle_name, phone, email, passport_series, passport_number, issued_by, issue_date } = req.body;
+     const { surname, name, patronymic, phone, email, passportSeries, passportNumber, passportIssuer, passportIssueDate } = req.body;
     
     const existingClient = await Client.findOne({ where: { email } });
     if (existingClient) {
@@ -134,12 +134,15 @@ exports.createClient = async (req, res, next) => {
     }
     
     const client = await Client.create({ 
-      last_name, 
-      first_name, 
-      middle_name, 
+      surname,
+      name,
+      patronymic,  
       phone, 
       email, 
-      passport_series, passport_number, issued_by, issue_date
+      passportSeries, 
+      passportNumber, 
+      passportIssuer, 
+      passportIssueDate 
     });
     res.status(201).json(client);
   } catch (err) {

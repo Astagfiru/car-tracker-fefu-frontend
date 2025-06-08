@@ -40,8 +40,13 @@ const User = sequelize.define('User', {
       model: 'roles',
       key: 'id',
     },
-    onDelete: 'RESTRICT', 
+    onDelete: 'RESTRICT',
     onUpdate: 'CASCADE',
+  },
+  profile_image: { 
+    type: DataTypes.STRING(255),
+    allowNull: true,
+    defaultValue: null,
   },
 }, {
   tableName: 'users',

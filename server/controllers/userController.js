@@ -1,7 +1,5 @@
 const { User, Role, Employee } = require('../models');
-/**
- * @description Получить роль пользователя по логину
- */
+const bcrypt = require('bcrypt');
 
 exports.getUserRoleByLogin = async (req, res, next) => {
   try {
@@ -19,11 +17,13 @@ exports.getUserRoleByLogin = async (req, res, next) => {
     if (!user) {
       return res.status(404).json({ status: 'error', message: 'Пользователь не найден' });
     }
+    
     res.json({
       status: 'success',
       data: {
         login: user.login,
         role: user.roles.name,
+        profile_image: user.profile_image 
       }
     });
   } catch (err) {
@@ -31,9 +31,6 @@ exports.getUserRoleByLogin = async (req, res, next) => {
   }
 };
 
-/**
- * @description Получить информацию о сотруднике и его роли по логину
- */
 exports.getEmployeeWithRoleByLogin = async (req, res, next) => {
   try {
     const { login } = req.params;
@@ -68,7 +65,8 @@ exports.getEmployeeWithRoleByLogin = async (req, res, next) => {
       data: {
         user: {
           login: user.login,
-          email: user.email
+          email: user.email,
+          profile_image: user.profile_image 
         },
         employee: {
           last_name: employee.last_name,
@@ -88,27 +86,19 @@ exports.getEmployeeWithRoleByLogin = async (req, res, next) => {
   }
 };
 
-const bcrypt = require('bcrypt');
-
-/**
- * @description Создание нового пользователя
- */
 exports.createUser = async (req, res, next) => {
   try {
-    const { login, email, password, role_id } = req.body;
+    const { login, email, password, role_id, profile_image } = req.body; 
 
-    // Проверка наличия всех обязательных полей
     if (!login || !email || !password || !role_id) {
       return res.status(400).json({ status: 'error', message: 'Все поля обязательны' });
     }
 
-    // Проверка существования роли
     const role = await Role.findByPk(role_id);
     if (!role) {
       return res.status(400).json({ status: 'error', message: 'Роль не найдена' });
     }
 
-    // Проверка уникальности email
     const existingUser = await User.findOne({ where: { email } });
     if (existingUser) {
       return res.status(409).json({ status: 'error', message: 'Email уже используется' });
@@ -119,13 +109,16 @@ exports.createUser = async (req, res, next) => {
       return res.status(409).json({ status: 'error', message: 'Login уже используется' });
     }
 
-    // Хеширование пароля
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Создание пользователя
-    const newUser = await User.create({ login, email, password_hash: hashedPassword, role_id });
+    const newUser = await User.create({ 
+      login, 
+      email, 
+      password_hash: hashedPassword, 
+      role_id,
+      profile_image: profile_image || null 
+    });
 
-    // Исключение пароля из ответа
     const userData = newUser.toJSON();
     delete userData.password_hash;
 
@@ -135,14 +128,10 @@ exports.createUser = async (req, res, next) => {
   }
 };
 
-/**
- * @description Удаление пользователя по логину
- */
 exports.deleteUser = async (req, res, next) => {
   try {
     const { login } = req.params;
 
-    // Удаление пользователя
     const deleted = await User.destroy({ where: { login } });
 
     if (deleted) {
@@ -155,3 +144,39 @@ exports.deleteUser = async (req, res, next) => {
   }
 };
 
+exports.updateProfileImage = async (req, res, next) => {
+  try {
+    const { login } = req.params;
+    const { profile_image } = req.body;
+
+    if (!profile_image) {
+      return res.status(400).json({ 
+        status: 'error', 
+        message: 'URL изображения обязателен' 
+      });
+    }
+
+    const [updated] = await User.update(
+      { profile_image },
+      { where: { login } }
+    );
+
+    if (updated) {
+      const updatedUser = await User.findOne({ 
+        where: { login },
+        attributes: { exclude: ['password_hash'] }
+      });
+      return res.json({
+        status: 'success',
+        data: updatedUser
+      });
+    } else {
+      return res.status(404).json({ 
+        status: 'error', 
+        message: 'Пользователь не найден' 
+      });
+    }
+  } catch (err) {
+    next(err);
+  }
+};
