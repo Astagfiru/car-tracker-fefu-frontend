@@ -39,7 +39,7 @@ const Application = sequelize.define('Application', {
     type: DataTypes.STRING(30),
     allowNull: false,
     validate: {
-      isIn: [['new', 'in_progress', 'completed', 'canceled']]
+      isIn: [['В обработке', 'Выполнено', 'Отменено']]
     }
   },
 }, {

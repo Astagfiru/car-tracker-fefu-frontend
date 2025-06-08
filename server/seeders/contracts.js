@@ -1,32 +1,28 @@
+/**
+ * @module seeders/seedContracts
+ * @description Инициализация таблицы contracts
+ */
+
 const { Contract } = require('../models');
 
 const contractsData = [
   {
-    application_id: 1, // Заявка от Иванова на Toyota Camry
+    application_id: 1,
     signing_date: '2023-10-20',
     contract_number: 'CT-2023-001',
     amount: 250000.00
   },
   {
-    application_id: 2, // Заявка от Петровой на Volkswagen Tiguan
+    application_id: 2,
     signing_date: '2023-11-25',
     contract_number: 'CT-2023-002',
     amount: 320000.00
   }
 ];
 
-const seedContracts = async () => {
-  try {
-    const count = await Contract.count();
-    if (count === 0) {
-      await Contract.bulkCreate(contractsData);
-      console.log('Contracts seeded successfully');
-    } else {
-      console.log('Contracts already exist, skipping seeding');
-    }
-  } catch (err) {
-    console.error('Error seeding contracts:', err);
-  }
-};
+module.exports = async function seedContracts() {
+  if (await Contract.count() > 0) return;
 
-module.exports = seedContracts;
+  await Contract.bulkCreate(contractsData);
+  console.log('Contracts seeded successfully');
+};

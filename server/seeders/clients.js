@@ -1,7 +1,6 @@
 const { Client } = require('../models');
 
-const seedClients = async () => {
-  const clientsData = [
+const clientsData = [
   {
     last_name: 'Иванов',
     first_name: 'Иван',
@@ -50,7 +49,7 @@ const seedClients = async () => {
     last_name: 'Кузнецова',
     first_name: 'Елена',
     middle_name: 'Александровна',
-    phone: '+79345678901',
+    phone: '+79345278401',
     email: 'kuznetsova@example.com',
     passport_series: '6789',
     passport_number: '234567',
@@ -61,7 +60,7 @@ const seedClients = async () => {
     last_name: 'Попов',
     first_name: 'Дмитрий',
     middle_name: 'Сергеевич',
-    phone: '+79456789012',
+    phone: '+79426781012',
     email: 'popov@example.com',
     passport_series: '7890',
     passport_number: '345678',
@@ -72,7 +71,7 @@ const seedClients = async () => {
     last_name: 'Соколова',
     first_name: 'Анна',
     middle_name: 'Владимировна',
-    phone: '+79567890123',
+    phone: '+79527890123',
     email: 'sokolova@example.com',
     passport_series: '8901',
     passport_number: '456789',
@@ -149,7 +148,7 @@ const seedClients = async () => {
     last_name: 'Семенов',
     first_name: 'Артем',
     middle_name: 'Валерьевич',
-    phone: '+79234567890',
+    phone: '+79174567890',
     email: 'semenov@example.com',
     passport_series: '5678',
     passport_number: '123456',
@@ -193,7 +192,7 @@ const seedClients = async () => {
     last_name: 'Степанов',
     first_name: 'Максим',
     middle_name: 'Владимирович',
-    phone: '+79678901234',
+    phone: '+79678701234',
     email: 'stepanov@example.com',
     passport_series: '9012',
     passport_number: '567890',
@@ -203,56 +202,9 @@ const seedClients = async () => {
 
 ];
 
-const seedClients = async () => {
-  try {
-    console.log('Проверка существующих клиентов...');
-    const existingClients = await Client.findAll({
-      attributes: ['email', 'phone'],
-      where: {
-        email: clientsData.map(c => c.email),
-        phone: clientsData.map(c => c.phone)
-      }
-    });
-    
-    const existingClientSet = new Set(existingClients.map(c => `${c.email}-${c.phone}`));
-    const newClients = clientsData.filter(c => !existingClientSet.has(`${c.email}-${c.phone}`));
-    
-    if (newClients.length > 0) {
-      console.log(`Добавляем ${newClients.length} клиентов:`);
-      process.stdout.write('Прогресс: [');
-    
-      for (const [index, client] of newClients.entries()) {
-        await Client.create(client);
-        process.stdout.write('.');
-        if ((index + 1) % 5 === 0) process.stdout.write('|');
-      }
-    
-      console.log(']\nУспешно добавлены клиенты:');
-      newClients.forEach(c => 
-        console.log(`- ${c.last_name} ${c.first_name} (${c.email})`)
-      );
-    } else {
-      console.log('Все клиенты уже существуют в базе');
-    }
-    console.log('Clients seeded successfully');
-  } catch (err) {
-    console.error('Error seeding clients:', err);
-  }
-};
+module.exports = async function seedClients() {
+  if (await Client.count() > 0) return;
 
-  for (const clientData of clientsData) {
-    const existingClientByEmail = await Client.findOne({ where: { email: clientData.email } });
-    if (existingClientByEmail) {
-      console.log(`Клиент с email ${clientData.email} уже существует`);
-      continue;
-    }
-    const existingClientByPhone = await Client.findOne({ where: { phone: clientData.phone } });
-    if (existingClientByPhone) {
-      console.log(`Клиент с телефоном ${clientData.phone} уже существует`);
-      continue;
-    }
-    await Client.create(clientData);
-  }
+  await Client.bulkCreate(clientsData);
+  console.log('Clients seeded successfully');
 };
-
-module.exports = seedClients;

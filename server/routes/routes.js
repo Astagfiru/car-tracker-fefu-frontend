@@ -6,10 +6,15 @@
 const express = require('express');
 const router = express.Router();
 const clientController = require('../controllers/clientController');
-const requestController = require('../controllers/requestController');
+const applicationController = require('../controllers/applicationController');
 const employeeController = require('../controllers/employeeController');
 const carModelController = require('../controllers/carModelController');
 const carController = require('../controllers/carController');
+const contractsController = require('../controllers/contractsController');
+const userController = require('../controllers/userController');
+const authController = require('../controllers/authController');
+
+router.post('/login', authController.login);
 
 /**
  * @route GET /api/
@@ -29,7 +34,6 @@ router.get('/clients', clientController.getAllClients);
  * @route POST /api/clients
  * @description Создать нового клиента
  */
-
 router.post('/clients', clientController.createClient);
 
 /**
@@ -51,35 +55,35 @@ router.get('/clients/:id', clientController.getClientById);
 router.put('/clients/:id', clientController.updateClient);
 
 /**
- * @route GET /api/requests
+ * @route GET /api/applications
  * @description Получить все заявки
  */
-router.get('/requests', requestController.getAllRequests);
+router.get('/applications', applicationController.getAllApplications);
 
 /**
- * @route GET /api/requests/:id
+ * @route GET /api/applications/:id
  * @description Получить заявку по ID
  */
-router.get('/requests/:id', requestController.getRequestById);
+router.get('/applications/:id', applicationController.getApplicationById);
 
 /**
- * @route POST /api/requests
+ * @route POST /api/applications
  * @description Создать новую заявку
  */
-const requestValidator = require('../middleware/requestValidator');
-router.post('/requests', requestValidator.validateCreateRequest, requestController.createRequest);
+const applicationValidator = require('../middleware/applicationValidator');
+router.post('/applications', applicationValidator.CreateApplication, applicationController.createApplication);
 
 /**
- * @route PUT /api/requests/:id
+ * @route PUT /api/applications/:id
  * @description Обновить заявку по ID
  */
-router.put('/requests/:id', requestValidator.validateUpdateRequest, requestController.updateRequest);
+router.put('/applications/:id', applicationValidator.UpdateApplication, applicationController.updateApplication);
 
 /**
- * @route DELETE /api/requests/:id
+ * @route DELETE /api/applications/:id
  * @description Удалить заявку по ID
  */
-router.delete('/requests/:id', requestController.deleteRequest);
+router.delete('/applications/:id', applicationController.deleteApplication);
 
 /**
  * @route GET /api/employees
@@ -170,5 +174,53 @@ router.put('/cars/:id', carController.updateCar);
  * @description Удалить автомобиль по ID
  */
 router.delete('/cars/:id', carController.deleteCar);
+
+/**
+ * @route GET /api/contracts
+ * @description Получить все контракты
+ */
+router.get('/contracts', contractsController.getAllContracts);
+
+/**
+ * @route GET /api/contracts/:id
+ * @description Получить контракт по ID
+ */
+router.get('/contracts/:id', contractsController.getContractById);
+
+/**
+ * @route POST /api/contracts
+ * @description Создать новый контракт
+ */
+router.post('/contracts', contractsController.createContract);
+
+/**
+ * @route PUT /api/contracts/:id
+ * @description Обновить контракт по ID
+ */
+router.put('/contracts/:id', contractsController.updateContract);
+
+/**
+ * @route DELETE /api/contracts/:id
+ * @description Удалить контракт по ID
+ */
+router.delete('/contracts/:id', contractsController.deleteContract);
+
+/**
+ * @route GET /api/users/:login/role
+ * @description Получить роль пользователя по логину
+ */
+router.get('/users/:login/role', userController.getUserRoleByLogin);
+
+/**
+ * @route GET /api/users/:login/employee
+ * @description Получить информацию о сотруднике и его роли по логину
+ */
+router.get('/users/:login/employee', userController.getEmployeeWithRoleByLogin);
+
+// Создание нового пользователя
+router.post('/users', userController.createUser);
+
+// Удаление пользователя по логину
+router.delete('/users/:login', userController.deleteUser);
 
 module.exports = router;

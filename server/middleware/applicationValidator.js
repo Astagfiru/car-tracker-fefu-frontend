@@ -1,18 +1,18 @@
 /**
- * @module middleware/requestValidator
- * @description Валидация данных для заявок
+ * @module middleware/applicationValidator
+ * @description Валидация данных для заявок (applications)
  */
 
 /**
- * @function validateCreateRequest
- * @description Валидация данных при создании заявки
+ * @function CreateApplication
+ * @description Валидация данных при создании заявки (application)
  * @param {Object} req - Express request object
  * @param {Object} res - Express response object
  * @param {Function} next - Express next middleware function
  * @returns {void}
  */
-exports.validateCreateRequest = (req, res, next) => {
-  const { client_id, employee_id, car_id, date, status } = req.body;
+exports.CreateApplication = (req, res, next) => {
+  const { client_id, employee_id, car_id, application_date, status } = req.body;
   const errors = [];
 
   // Проверка обязательных полей
@@ -34,39 +34,36 @@ exports.validateCreateRequest = (req, res, next) => {
     errors.push({ field: 'car_id', message: 'ID автомобиля должен быть положительным целым числом' });
   }
 
-  if (!date) {
-    errors.push({ field: 'date', message: 'Дата заявки обязательна' });
+  if (!application_date) {
+    errors.push({ field: 'application_date', message: 'Дата заявки обязательна' });
   } else {
-    // Проверка формата даты (YYYY-MM-DD)
     const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
-    if (!dateRegex.test(date)) {
-      errors.push({ field: 'date', message: 'Дата должна быть в формате YYYY-MM-DD' });
+    if (!dateRegex.test(application_date)) {
+      errors.push({ field: 'application_date', message: 'Дата должна быть в формате YYYY-MM-DD' });
     } else {
-      // Проверка валидности даты
-      const dateObj = new Date(date);
+      const dateObj = new Date(application_date);
       if (isNaN(dateObj.getTime())) {
-        errors.push({ field: 'date', message: 'Указана некорректная дата' });
+        errors.push({ field: 'application_date', message: 'Указана некорректная дата' });
       }
     }
   }
 
   // Проверка статуса, если он указан
   if (status !== undefined) {
-    const validStatuses = ['НОВАЯ', 'В РАБОТЕ', 'ЗАВЕРШЕНА', 'ОТМЕНЕНА'];
+    const validStatuses = ['В обработке', 'Выполнено', 'Отменено'];
     if (!validStatuses.includes(status)) {
-      errors.push({ 
-        field: 'status', 
-        message: `Статус должен быть одним из: ${validStatuses.join(', ')}` 
+      errors.push({
+        field: 'status',
+        message: `Статус должен быть одним из: ${validStatuses.join(', ')}`
       });
     }
   }
 
-  // Если есть ошибки, возвращаем их
   if (errors.length > 0) {
     return res.status(400).json({
       status: 'error',
       message: 'Ошибка валидации данных',
-      errors: errors
+      errors
     });
   }
 
@@ -74,14 +71,14 @@ exports.validateCreateRequest = (req, res, next) => {
 };
 
 /**
- * @function validateUpdateRequest
- * @description Валидация данных при обновлении заявки
+ * @function UpdateApplication
+ * @description Валидация данных при обновлении заявки (application)
  * @param {Object} req - Express request object
  * @param {Object} res - Express response object
  * @param {Function} next - Express next middleware function
  * @returns {void}
  */
-exports.validateUpdateRequest = (req, res, next) => {
+exports.UpdateApplication = (req, res, next) => {
   const { client_id, employee_id, car_id, date, status } = req.body;
   const errors = [];
 
@@ -111,36 +108,32 @@ exports.validateUpdateRequest = (req, res, next) => {
   }
 
   if (date !== undefined) {
-    // Проверка формата даты (YYYY-MM-DD)
     const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
     if (!dateRegex.test(date)) {
-      errors.push({ field: 'date', message: 'Дата должна быть в формате YYYY-MM-DD' });
+      errors.push({ field: 'application_date', message: 'Дата должна быть в формате YYYY-MM-DD' });
     } else {
-      // Проверка валидности даты
       const dateObj = new Date(date);
       if (isNaN(dateObj.getTime())) {
-        errors.push({ field: 'date', message: 'Указана некорректная дата' });
+        errors.push({ field: 'application_date', message: 'Указана некорректная дата' });
       }
     }
   }
 
-  // Проверка статуса, если он указан
   if (status !== undefined) {
-    const validStatuses = ['НОВАЯ', 'В РАБОТЕ', 'ЗАВЕРШЕНА', 'ОТМЕНЕНА'];
+    const validStatuses = ['В обработке', 'Выполнено', 'Отменено'];
     if (!validStatuses.includes(status)) {
-      errors.push({ 
-        field: 'status', 
-        message: `Статус должен быть одним из: ${validStatuses.join(', ')}` 
+      errors.push({
+        field: 'status',
+        message: `Статус должен быть одним из: ${validStatuses.join(', ')}`
       });
     }
   }
 
-  // Если есть ошибки, возвращаем их
   if (errors.length > 0) {
     return res.status(400).json({
       status: 'error',
       message: 'Ошибка валидации данных',
-      errors: errors
+      errors
     });
   }
 

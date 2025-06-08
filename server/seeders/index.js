@@ -1,41 +1,25 @@
-/**
- * @module seeders/index
- * @description Главный файл для запуска всех сидеров
- */
-
-const seedClients = require('./clients');
-const seedEmployees = require('./employees');
 const seedCarModels = require('./car_models');
 const seedCars = require('./cars');
-const seedRequests = require('./requests');
+const seedClients = require('./clients');
+const seedRoles = require('./roles');
+const seedUsers = require('./users');
+const seedEmployees = require('./employees');
+const seedApplications = require('./applications');
 const seedContracts = require('./contracts');
 
-/**
- * Запускает все сидеры в правильном порядке с учетом зависимостей
- */
-const runSeeders = async () => {
+module.exports = async () => {
   try {
-    console.log('Начало заполнения базы данных тестовыми данными...');
-    
-    // Сначала заполняем независимые таблицы
-    await seedClients();
-    await seedEmployees();
     await seedCarModels();
-    
-    // Затем таблицы с зависимостями
-    await seedCars(); // Зависит от car_models
-    await seedRequests(); // Зависит от clients, employees и cars
-    await seedContracts(); // Зависит от requests
-    
-    console.log('База данных успешно заполнена тестовыми данными!');
+    await seedCars();
+    await seedClients();
+    await seedRoles();
+    await seedUsers();
+    await seedEmployees();
+    await seedApplications();
+    await seedContracts();
+    console.log('All seeders completed successfully');
   } catch (err) {
-    console.error('Ошибка при заполнении базы данных:', err);
+    console.error('Error running seeders:', err);
+    throw err;
   }
 };
-
-// Если файл запущен напрямую (не импортирован)
-if (require.main === module) {
-  runSeeders();
-}
-
-module.exports = runSeeders;

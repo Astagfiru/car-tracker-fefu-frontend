@@ -80,21 +80,34 @@ exports.getCarModelById = async (req, res, next) => {
  */
 exports.createCarModel = async (req, res, next) => {
   try {
-    const { brand, model, year, seats, doors, fuelConsumption, additionalInfo } = req.body;
-    const carModel = await CarModel.create({ 
-      brand, 
-      model, 
-      year, 
-      seats, 
-      doors, 
-      fuelConsumption, 
-      additionalInfo 
+    const {
+      brand,
+      model,
+      year,
+      seats,
+      doors,
+      fuel_consumption,
+      additional_info,
+    } = req.body;
+
+    const carModel = await CarModel.create({
+      brand,
+      model,
+      year,
+      seats,
+      doors,
+      fuel_consumption,
+      additional_info: additional_info ? JSON.stringify(additional_info) : null,
     });
-    
-    res.status(201).json({
-      status: 'success',
-      data: carModel
-    });
+
+    const json = carModel.toJSON();
+    try {
+      json.additional_info = json.additional_info ? JSON.parse(json.additional_info) : null;
+    } catch {
+      json.additional_info = null;
+    }
+
+    res.status(201).json({ status: 'success', data: json });
   } catch (err) {
     next(err);
   }
@@ -111,35 +124,44 @@ exports.createCarModel = async (req, res, next) => {
 exports.updateCarModel = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { brand, model, year, seats, doors, fuelConsumption, additionalInfo } = req.body;
-    
+    const {
+      brand,
+      model,
+      year,
+      seats,
+      doors,
+      fuel_consumption,
+      additional_info,
+    } = req.body;
+
     const carModel = await CarModel.findByPk(id);
-    
     if (!carModel) {
-      return res.status(404).json({ 
-        status: 'error',
-        message: 'Модель автомобиля не найдена' 
-      });
+      return res.status(404).json({ status: 'error', message: 'Модель автомобиля не найдена' });
     }
-    
-    await carModel.update({ 
-      brand, 
-      model, 
-      year, 
-      seats, 
-      doors, 
-      fuelConsumption, 
-      additionalInfo 
+
+    await carModel.update({
+      brand,
+      model,
+      year,
+      seats,
+      doors,
+      fuel_consumption,
+      additional_info: additional_info ? JSON.stringify(additional_info) : null,
     });
-    
-    res.json({
-      status: 'success',
-      data: carModel
-    });
+
+    const json = carModel.toJSON();
+    try {
+      json.additional_info = json.additional_info ? JSON.parse(json.additional_info) : null;
+    } catch {
+      json.additional_info = null;
+    }
+
+    res.json({ status: 'success', data: json });
   } catch (err) {
     next(err);
   }
 };
+
 
 /**
  * @function deleteCarModel
