@@ -77,7 +77,7 @@ const disabledButton = computed(() => {
         <h3 class="grey-lighten-5">Заполните личные данные сотрудника</h3>
       </header>
       <section class="form-content">
-        <AddNewEmployeerForm :employee="newEmployee" />
+        <AddNewEmployeerForm :employeer="newEmployee" />
       </section>
       <section v-if="errorMessage" class="error-message">
         {{ errorMessage }}
