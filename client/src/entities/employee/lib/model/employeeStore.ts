@@ -26,7 +26,8 @@ export const useEmployeeStore = defineStore(EMPLOYEE_STORE_NAME, () => {
   const { employees } = toRefs(state);
 
   const saveAllEmployees = (newEmployees: EmployeeType[]): void => {
-    state.employees = newEmployees;
+    employees.value = newEmployees;
+    console.log("store", employees.value)
   };
 
   const addEmployee = (newEmployee: EmployeeType) => {

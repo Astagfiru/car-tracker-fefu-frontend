@@ -5,6 +5,7 @@ import { useFetch } from "@/shared";
 import { addEmployee } from "../../api/addNewEmployee";
 import { mapEmployeeUiToApi } from "../mappers";
 import { AddEmployeeResponce } from "../../types/apiTypes";
+import { client } from "@/shared/api/openapi/client/client.gen";
 
 interface AddEmployeeReturn {
   error: Ref<unknown | null>;
@@ -19,10 +20,27 @@ export const useAddEmployee = (newEmployee: EmployeeForm): AddEmployeeReturn => 
 
   const mappedEmployee = ref<EmployeeRequest>();
 
-  const refetch = () => {
-    if(!mappedEmployee.value) return
+  const refetch = async () => {
+    try {
+      const mappedEmployee = mapEmployeeUiToApi(newEmployee);
 
-    sendRequest(mappedEmployee.value);
+      await sendRequest(mappedEmployee);
+      employeeStore.addEmployee({
+        id:Number(Date.now()),
+        ...newEmployee
+      });
+
+      if (responseData.value){
+        employeeStore.addEmployee({
+          id: Number(Date.now()),
+          ...newEmployee
+        });
+      }
+
+    } catch (err){
+      console.error("Error adding employee:", err);
+      throw err;
+    }
   };
 
   watch(responseData, () => {

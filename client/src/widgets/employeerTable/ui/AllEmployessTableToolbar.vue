@@ -10,41 +10,41 @@
 import { ref, watch, withDefaults } from "vue";
 import { TableToolbar } from "@/shared";
 import { useRouter } from "vue-router";
-import {  } from "@/entities/employee/";
+import { EmployeeType } from "@/entities/employee";
 
 const router = useRouter();
 
 interface ToolbarProps {
   addButtonTitle?: string;
   addButtonDisables?: boolean;
-  originClients: Client[] | null;
+  originEmployees: EmployeeType[] | null;
 }
 
-const { originClients } = withDefaults(defineProps<ToolbarProps>(), {
+const { originEmployees } = withDefaults(defineProps<ToolbarProps>(), {
   addButtonDisables: false,
   addButtonTitle: "Добавить",
 });
 
-const filtererdClients = defineModel<Client[]>('filtererdClients')
+const filtererdEmployees = defineModel<EmployeeType[]>('filtererdEmployees')
 
 const searchString = ref<string>("");
 
 const redirect = () => {
-  router.push({ name: "clients-add" });
+  router.push({ name: "add-employeers" });
 };
 
-filtererdClients.value = [...(originClients || [])];
+filtererdEmployees.value = [...(originEmployees || [])];
 
 watch(searchString, (newVal) => {
-  console.log(" Вызов watch", filtererdClients.value)
+  console.log(" Вызов watch", filtererdEmployees.value)
   if (!newVal) {
-    filtererdClients.value = [...(originClients || [])];
+    filtererdEmployees.value = [...(originEmployees || [])];
   } else {
     const query = searchString.value.toLowerCase().trim();
 
-    filtererdClients.value = (originClients || []).filter((client: Client) => {
+    filtererdEmployees.value = (originEmployees || []).filter((employee: EmployeeType) => {
       return (
-        client.secondName.toLowerCase().includes(query)
+        employee.last_name.toLowerCase().includes(query)
       );
     });
   }

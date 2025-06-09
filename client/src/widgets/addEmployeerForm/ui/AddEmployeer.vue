@@ -3,11 +3,11 @@ import { ButtonCansel, ButtonConfirm } from "@/shared";
 import { useRouter } from "vue-router";
 import AddNewEmployeerForm from "./AddNewEmployeerForm.vue";
 import { computed, ref, reactive } from "vue";
-import { useClientStore } from "@/entities/client";
-import { ClientForm } from "../../../entities/client/types/clientTypes";
+import { useEmployeeStore } from "@/entities/employee";
+import { EmployeeForm } from "../../../entities/employee/types/employeeTypes";
 import { ButtonText } from "@/shared";
 const router = useRouter();
-const clientStore = useClientStore();
+const employeeStore = useEmployeeStore();
 
 const errorMessage = ref("");
 
@@ -16,27 +16,19 @@ const previosStep = () => {
 };
 
 const requiredFields = [
-  "firstName",
-  "secondName",
-  "patronymic",
-  "phoneNumber",
-  "passportNumber",
-  "passportSeries",
-  "email",
-  "issuedBy",
-  "dateOfIssue",
+  "first_name",
+  "last_name",
+  "phone",
+  "position"
 ] as const;
 
-const newClient = reactive<ClientForm>({
-  firstName: "",
-  secondName: "",
-  patronymic: "",
-  phoneNumber: "",
-  passportNumber: "",
-  passportSeries: "",
-  issuedBy: "",
-  dateOfIssue: "",
+const newEmployee = reactive<EmployeeForm>({
+  first_name: "",
+  last_name: "",
+  middle_name: "",
+  phone: "",
   email: "",
+  position: "manager", 
 });
 
 const nextStep = async () => {
@@ -47,12 +39,12 @@ const nextStep = async () => {
   }
 
   try {
-    clientStore.addClient({...newClient, id : Date.now()});
+    employeeStore.addEmployee({...newEmployee, id : Date.now()});
 
-    router.push({ name: 'clients' });
+    router.push({ name: 'employees' });
 
   } catch (error) {
-    errorMessage.value = "Ошибка при сохранении клиента";
+    errorMessage.value = "Ошибка при сохранении сотрудника";
     console.error(error);
   }
 };
@@ -73,7 +65,7 @@ const addNewClient = async (client: ClientForm) => {
 */
 
 const disabledButton = computed(() => {
-  return !requiredFields.every((field) => Boolean(newClient[field]));
+  return !requiredFields.every((field) => Boolean(newEmployee[field]));
 });
 </script>
 
@@ -85,7 +77,7 @@ const disabledButton = computed(() => {
         <h3 class="grey-lighten-5">Заполните личные данные сотрудника</h3>
       </header>
       <section class="form-content">
-        <AddNewClientForm :client="newClient" />
+        <AddNewEmployeerForm :employee="newEmployee" />
       </section>
       <section v-if="errorMessage" class="error-message">
         {{ errorMessage }}

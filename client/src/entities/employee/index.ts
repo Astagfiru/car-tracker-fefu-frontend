@@ -4,8 +4,11 @@ import type{
     EmployeeResponse,
     EmployeeForm
 } from "./types/employeeTypes"
-import { usegetAllEmployeers } from "./api/usegetAllEmployee";
-import { useEmployeeStore } from "./model/employeeStore";
+import { usegetAllEmployee } from "./lib/composible/useGetAllEmployee";
+import { useEmployeeStore } from "./lib/model/employeeStore";
+import { getAllEmployee } from "./api/getAllEmployee"
+import employeeTable from "./ui/employeeTable.vue";
 
-export { usegetAllEmployeers,  useEmployeeStore }
+export { usegetAllEmployee,  useEmployeeStore }
 export {EmployeeForm, EmployeeRequest, EmployeeResponse, EmployeeType}
+export {employeeTable}

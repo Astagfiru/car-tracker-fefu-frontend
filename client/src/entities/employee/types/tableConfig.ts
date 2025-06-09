@@ -17,7 +17,7 @@ export const TABLE_HEADERS: DataTableHeader[] = [
   },
   {
     title: "Имя",
-    key: "first_Name",
+    key: "first_name",
     headerProps: {
       class: "table__title",
     },
@@ -39,6 +39,13 @@ export const TABLE_HEADERS: DataTableHeader[] = [
   {
     title: "Email",
     key: "email",
+    headerProps: {
+      class: "table__title",
+    },
+  },
+  {
+    title: "Должность",
+    key: "position",
     headerProps: {
       class: "table__title",
     },
