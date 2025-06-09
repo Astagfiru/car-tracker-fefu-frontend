@@ -15,6 +15,7 @@ export interface EmployeeType {
   position: Position;
   phone: string;
   email: string;
+  user_id: number;
 }
 
 export interface EmployeeResponse {
@@ -25,9 +26,10 @@ export interface EmployeeResponse {
   position: Position;
   phone: string;
   email: string;
+  user_id: number;
 }
 
-export type EmployeeRequest = Omit<EmployeeResponse, 'id'>
+export type EmployeeRequest = Omit<EmployeeResponse, 'id'| 'user_id'>
 
 
-export type EmployeeForm = Omit<EmployeeType, 'id'>;
+export type EmployeeForm = Omit<EmployeeType, 'id'|'user_id'>;

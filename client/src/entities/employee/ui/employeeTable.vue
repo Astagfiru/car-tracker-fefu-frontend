@@ -49,8 +49,10 @@ const handleConfirm = () => {
 };
 
 const openModal = (item: EmployeerTable) => {
+  
   selectedItem.value = item;
   dialog.value = true;
+  console.log(selectedItem.value)
 };
 </script>
 

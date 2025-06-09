@@ -25,7 +25,7 @@ const { originEmployees } = withDefaults(defineProps<ToolbarProps>(), {
   addButtonTitle: "Добавить",
 });
 
-const filtererdEmployees = defineModel<EmployeeType[]>('filtererdEmployees')
+const filteredEmployees = defineModel<EmployeeType[]>('filteredEmployees')
 
 const searchString = ref<string>("");
 
@@ -33,18 +33,18 @@ const redirect = () => {
   router.push({ name: "add-employeers" });
 };
 
-filtererdEmployees.value = [...(originEmployees || [])];
+filteredEmployees.value = [...(originEmployees || [])];
 
 watch(searchString, (newVal) => {
-  console.log(" Вызов watch", filtererdEmployees.value)
   if (!newVal) {
-    filtererdEmployees.value = [...(originEmployees || [])];
+    filteredEmployees.value = [...(originEmployees || [])];
   } else {
     const query = searchString.value.toLowerCase().trim();
 
-    filtererdEmployees.value = (originEmployees || []).filter((employee: EmployeeType) => {
+    filteredEmployees.value = (originEmployees || []).filter((employee: EmployeeType) => {
       return (
-        employee.last_name.toLowerCase().includes(query)
+        employee.last_name.toLowerCase().includes(query)||
+        employee.first_name.toLowerCase().includes(query)
       );
     });
   }

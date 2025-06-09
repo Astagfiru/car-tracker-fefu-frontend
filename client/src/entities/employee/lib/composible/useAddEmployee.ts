@@ -5,12 +5,12 @@ import { useFetch } from "@/shared";
 import { addEmployee } from "../../api/addNewEmployee";
 import { mapEmployeeUiToApi } from "../mappers";
 import { AddEmployeeResponce } from "../../types/apiTypes";
-import { client } from "@/shared/api/openapi/client/client.gen";
+
 
 interface AddEmployeeReturn {
   error: Ref<unknown | null>;
   isLoading: Ref<boolean>;
-  refetch: () => void;
+  addEmployee: () => void;
 }
 
 export const useAddEmployee = (newEmployee: EmployeeForm): AddEmployeeReturn => {
@@ -23,18 +23,22 @@ export const useAddEmployee = (newEmployee: EmployeeForm): AddEmployeeReturn => 
   const refetch = async () => {
     try {
       const mappedEmployee = mapEmployeeUiToApi(newEmployee);
-
+      
       await sendRequest(mappedEmployee);
       employeeStore.addEmployee({
         id:Number(Date.now()),
+        user_id:Number(Date.now()),
         ...newEmployee
       });
 
       if (responseData.value){
         employeeStore.addEmployee({
           id: Number(Date.now()),
+          user_id:Number(Date.now()),
           ...newEmployee
         });
+        console.log("there:")
+        console.log(employeeStore)
       }
 
     } catch (err){
@@ -50,14 +54,16 @@ export const useAddEmployee = (newEmployee: EmployeeForm): AddEmployeeReturn => 
 
     employeeStore.addEmployee({
         id: Number(Date.now()),
+        user_id:Number(Date.now()),
         ...newEmployee
     });
+    
     }
   });
 
   return {
     error,
     isLoading,
-    refetch,
+    addEmployee: refetch,
   };
 };

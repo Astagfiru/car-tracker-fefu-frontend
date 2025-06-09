@@ -25,13 +25,15 @@ const { originClients } = withDefaults(defineProps<ToolbarProps>(), {
   addButtonTitle: "Добавить",
 });
 
-const filteredClients = defineModel<Client[]>('filteredClients', { required: true });
+const filteredClients = defineModel<Client[]>('filteredClients');
 
 const searchString = ref<string>("");
 
 const redirect = () => {
   router.push({ name: "clients-add" });
 };
+
+filteredClients.value = [...(originClients||[])]
 
 watch(searchString, (newVal) => {
   if (!newVal) {
@@ -41,7 +43,8 @@ watch(searchString, (newVal) => {
 
     filteredClients.value = (originClients || []).filter((client: Client) => {
       return (
-        client.secondName.toLowerCase().includes(query)
+        client.secondName.toLowerCase().includes(query) ||
+        client.firstName.toLowerCase().includes(query)
       );
     });
   }

@@ -13,7 +13,8 @@ export const mapEmployeeResponseToUi = (employee: EmployeeResponse): EmployeeTyp
     middle_name: employee.middle_name,
     phone: employee.phone,
     email: employee.email,
-    position: employee.position
+    position: employee.position,
+    user_id: employee.user_id
   };
 };
 
@@ -24,7 +25,7 @@ export const mapEmployeeUiToApi = (employee: EmployeeForm): EmployeeRequest => {
     middle_name: employee.middle_name,
     phone: employee.phone,
     email: employee.email,
-    position: employee.position
+    position: employee.position,
   };
 };
 

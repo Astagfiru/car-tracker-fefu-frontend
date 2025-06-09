@@ -6,6 +6,8 @@ import { computed, ref, reactive } from "vue";
 import { useEmployeeStore } from "@/entities/employee";
 import { EmployeeForm } from "../../../entities/employee/types/employeeTypes";
 import { ButtonText } from "@/shared";
+import { useAddEmployee } from "@/entities/employee/lib/composible/useAddEmployee";
+
 const router = useRouter();
 const employeeStore = useEmployeeStore();
 
@@ -22,7 +24,7 @@ const requiredFields = [
   "position"
 ] as const;
 
-const newEmployee = reactive<EmployeeForm>({
+let newEmployee = reactive<EmployeeForm>({
   first_name: "",
   last_name: "",
   middle_name: "",
@@ -30,6 +32,7 @@ const newEmployee = reactive<EmployeeForm>({
   email: "",
   position: "manager", 
 });
+const { addEmployee } = useAddEmployee(newEmployee)
 
 const nextStep = async () => {
   errorMessage.value = "";
@@ -39,9 +42,11 @@ const nextStep = async () => {
   }
 
   try {
-    employeeStore.addEmployee({...newEmployee, id : Date.now()});
-
-    router.push({ name: 'employees' });
+    //employeeStore.addEmployee({...newEmployee, id : Date.now()});
+    addEmployee()
+    
+    router.push({ name: 'employeers' });
+    console.log(newEmployee);
 
   } catch (error) {
     errorMessage.value = "Ошибка при сохранении сотрудника";

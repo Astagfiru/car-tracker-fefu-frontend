@@ -5,6 +5,8 @@ import { AddEmployeeResponce } from "../types/apiTypes";
 
 export const addEmployee = async (requestBody : EmployeeRequest): Promise<AddEmployeeResponce> => {
   try {
+    console.log("here: ");
+    console.log(requestBody);
     const response = await axios.post(EMPLOYEE_PATH, requestBody);
 
     const { data } = response;
