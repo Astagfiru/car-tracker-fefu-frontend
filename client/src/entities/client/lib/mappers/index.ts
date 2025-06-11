@@ -29,7 +29,7 @@ export const mapClientUiToApi = (client: ClientForm): ClientRequest => {
     email: client.email,
     passport_series: client.passportSeries,
     passport_number: client.passportNumber,
-   issued_by: client.issuedBy,
+    issued_by: client.issuedBy,
     issue_date: client.dateOfIssue,
   };
 };

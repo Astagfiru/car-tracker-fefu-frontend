@@ -10,11 +10,11 @@
       @rowClick="openModal"
     />
 
-    <UserViewForm
+    <EmployeeViewForm
       v-if="dialog"
       v-model="dialog"
-      :clientData= "selectedItem"
-      title="Просмотр клиента"
+      :employeeData="selectedItem"
+      title="Просмотр сотрудника"
       @confirm="handleConfirm"
     />
   </v-container>
@@ -24,13 +24,13 @@
 import { ref } from "vue";
 import { BaseTable } from "@/shared";
 import type { DataTableHeader } from "vuetify/lib/components/VDataTable/types";
-import UserViewForm from "@/entities/client/ui/UserViewForm.vue";
-import { ClientTableView } from "@/widgets/clientTable/types/types";
+import EmployeeViewForm from "@/entities/employee/ui/employeeViewForm.vue";
+import { EmployeerTable } from "@/widgets/employeerTable/types/types";
 import { TABLE_HEADERS } from "../types/tableConfig";
-import { Client } from "../types/clientTypes";
+import { EmployeeType } from "../types/employeeTypes";
 
 export interface Props {
-  tableItems: ClientTableView[];
+  tableItems: EmployeerTable[];
   tableTitle: string;
   totalItems?: number;
   itemsPerPage?: number;
@@ -43,14 +43,16 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const dialog = ref(false);
-const selectedItem = ref<ClientTableView | null>(null);
+const selectedItem = ref<EmployeerTable | null>(null);
 
 const handleConfirm = () => {
 };
 
-const openModal = (item: ClientTableView) => {
+const openModal = (item: EmployeerTable) => {
+  
   selectedItem.value = item;
   dialog.value = true;
+  console.log(selectedItem.value)
 };
 </script>
 

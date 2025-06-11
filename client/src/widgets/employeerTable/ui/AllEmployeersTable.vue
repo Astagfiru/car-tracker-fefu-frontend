@@ -1,60 +1,50 @@
 <template>
   <div class="client-page">
     <div class="header">
-      <TableToolbar
-        :add-redirect="redirect"
+      <AllEmployessTableToolBar
+        v-model:filteredEmployees="filteredEmployees"
+        :origin-employees="employeeResponse"
       />
     </div>
-    <BaseTable
-      :key="employees?.length"
-      :tableHeader="TABLE_HEADERS"
-      :tableItems="employees"
+    <EmployeeTable
+      :key="filteredEmployees.length"
+      :tableItems="paginatedEmployees"
       table-title="Сотрудники"
+      :is-loading="isLoading"
+      :total-items="employeeResponse?.length"
     />
-    <Pagination v-model:elements="employees" :items-per-page="5" :current-page="1" ref="pagination" />
+    <Pagination 
+    v-model:elements="paginatedEmployees"
+    v-model:original-list="filteredEmployees"
+    v-model:current-page="currentPage"
+    :total-itemslenght="filteredEmployees.length"
+     :items-per-page="5" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted, computed, watch } from "vue";
-import { useRouter } from "vue-router";
-import { storeToRefs } from "pinia";
-import { BaseTable } from "@/shared";
-import { TABLE_HEADERS } from "../types/config";
-import { EmployeeForm } from "@/entities/employee/types/employeeTypes";
-import { useEmployeeStore } from "@/entities/employee";
-import { useGetAllEmployeers } from "@/entities/employee";
-import { TableToolbar } from "@/shared";
+import { EmployeeType } from "@/entities/employee";
+import { usegetAllEmployee } from "@/entities/employee";
+import{ref, watch} from "vue";
+import AllEmployessTableToolBar from './AllEmployessTableToolbar.vue';
 import { Pagination } from "@/widgets";
 import { EmployeerTable } from "../types/types";
+import EmployeeTable from '@/entities/employee/ui/employeeTable.vue';
+import { is } from "date-fns/locale";
 
-const router = useRouter();
+const {employeeResponse, isLoading} = usegetAllEmployee();
 
-const employeerStore = useEmployeeStore()
-const { employees } = storeToRefs(employeerStore);
-const { saveAllEmployees } = employeerStore
+const currentPage = ref<number>(1);
+const filteredEmployees = ref<EmployeeType[]>([]);
 
-const redirect = () => {
-  router.push({ name: "add-employeers" });
-};
+const paginatedEmployees = ref<EmployeerTable[]>([]);
 
-const getAllEmployeers = async () => {
-  try {
-    const fetchedEmployeers = await useGetAllEmployeers();
-    console.log(fetchedEmployeers)
-    if (fetchedEmployeers) {
-      saveAllEmployees(fetchedEmployeers);
-    }
-  } catch (error) {
-    throw error;
+watch(employeeResponse, (employee)=>{
+  if(employee){
+    filteredEmployees.value = employee;
+    console.log('Filtered', filteredEmployees.value)
   }
-};
-
-watch(() => employees, getAllEmployeers);
-
-onMounted(() => {
-  getAllEmployeers();
-});
+}, {immediate:true});
 
 </script>
 

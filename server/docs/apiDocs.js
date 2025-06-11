@@ -143,7 +143,7 @@
 
 /**
  * @api {get} /api/employees Получить всех сотрудников
- * @apiName GetAllEmployees
+ * @apiName getAllEmployees
  * @apiGroup Employees
  * @apiVersion 1.0.0
  *

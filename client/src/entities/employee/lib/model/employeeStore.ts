@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { reactive, toRefs } from "vue";
-import { EmployeeType, EmployeeForm } from "../types/employeeTypes";
+import { EmployeeType, EmployeeForm } from "@/entities/employee";
 
 const EMPLOYEE_STORE_NAME = "employeeStore";
 
@@ -26,7 +26,8 @@ export const useEmployeeStore = defineStore(EMPLOYEE_STORE_NAME, () => {
   const { employees } = toRefs(state);
 
   const saveAllEmployees = (newEmployees: EmployeeType[]): void => {
-    state.employees = newEmployees;
+    employees.value = newEmployees;
+    console.log("store", employees.value)
   };
 
   const addEmployee = (newEmployee: EmployeeType) => {

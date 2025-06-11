@@ -45,3 +45,5 @@ Thumbs.db
 .env.development
 .env.test
 .env.production
+client/package-lock.json
+client/yarn.lock

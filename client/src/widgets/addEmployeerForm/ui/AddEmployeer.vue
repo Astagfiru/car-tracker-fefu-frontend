@@ -3,11 +3,13 @@ import { ButtonCansel, ButtonConfirm } from "@/shared";
 import { useRouter } from "vue-router";
 import AddNewEmployeerForm from "./AddNewEmployeerForm.vue";
 import { computed, ref, reactive } from "vue";
-import { useClientStore } from "@/entities/client";
-import { ClientForm } from "../../../entities/client/types/clientTypes";
+import { useEmployeeStore } from "@/entities/employee";
+import { EmployeeForm } from "../../../entities/employee/types/employeeTypes";
 import { ButtonText } from "@/shared";
+import { useAddEmployee } from "@/entities/employee/lib/composible/useAddEmployee";
+
 const router = useRouter();
-const clientStore = useClientStore();
+const employeeStore = useEmployeeStore();
 
 const errorMessage = ref("");
 
@@ -16,28 +18,21 @@ const previosStep = () => {
 };
 
 const requiredFields = [
-  "firstName",
-  "secondName",
-  "patronymic",
-  "phoneNumber",
-  "passportNumber",
-  "passportSeries",
-  "email",
-  "issuedBy",
-  "dateOfIssue",
+  "first_name",
+  "last_name",
+  "phone",
+  "position"
 ] as const;
 
-const newClient = reactive<ClientForm>({
-  firstName: "",
-  secondName: "",
-  patronymic: "",
-  phoneNumber: "",
-  passportNumber: "",
-  passportSeries: "",
-  issuedBy: "",
-  dateOfIssue: "",
+let newEmployee = reactive<EmployeeForm>({
+  first_name: "",
+  last_name: "",
+  middle_name: "",
+  phone: "",
   email: "",
+  position: "manager", 
 });
+const { addEmployee } = useAddEmployee(newEmployee)
 
 const nextStep = async () => {
   errorMessage.value = "";
@@ -47,12 +42,14 @@ const nextStep = async () => {
   }
 
   try {
-    clientStore.addClient({...newClient, id : Date.now()});
-
-    router.push({ name: 'clients' });
+    //employeeStore.addEmployee({...newEmployee, id : Date.now()});
+    addEmployee()
+    
+    router.push({ name: 'employeers' });
+    console.log(newEmployee);
 
   } catch (error) {
-    errorMessage.value = "Ошибка при сохранении клиента";
+    errorMessage.value = "Ошибка при сохранении сотрудника";
     console.error(error);
   }
 };
@@ -73,7 +70,7 @@ const addNewClient = async (client: ClientForm) => {
 */
 
 const disabledButton = computed(() => {
-  return !requiredFields.every((field) => Boolean(newClient[field]));
+  return !requiredFields.every((field) => Boolean(newEmployee[field]));
 });
 </script>
 
@@ -85,7 +82,7 @@ const disabledButton = computed(() => {
         <h3 class="grey-lighten-5">Заполните личные данные сотрудника</h3>
       </header>
       <section class="form-content">
-        <AddNewClientForm :client="newClient" />
+        <AddNewEmployeerForm :employeer="newEmployee" />
       </section>
       <section v-if="errorMessage" class="error-message">
         {{ errorMessage }}
