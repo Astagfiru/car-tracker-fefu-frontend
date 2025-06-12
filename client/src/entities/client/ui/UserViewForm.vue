@@ -45,7 +45,7 @@ import { ButtonCansel } from "@/shared"
 import type { Client } from '@/entities/client'
 
 interface ViewProps {
-  clientData: Client;
+  clientData: Client | null;
   title: string;
   modelValue: boolean;
 }
@@ -55,7 +55,7 @@ const emit = defineEmits(["update:modelValue", "confirm"])
 
 const currentDate = new Date()
 const isOpen = ref(props.modelValue)
-const client = ref<Client>(props.clientData)
+const client = ref<Client | null>(props.clientData)
 
 const fullName = computed(() => {
   if (!client.value) return ''

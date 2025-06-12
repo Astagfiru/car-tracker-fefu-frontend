@@ -9,7 +9,6 @@
       :itemsPerPage="itemsPerPage"
       @rowClick="openModal"
     />
-
     <EmployeeViewForm
       v-if="dialog"
       v-model="dialog"
@@ -49,7 +48,6 @@ const handleConfirm = () => {
 };
 
 const openModal = (item: EmployeerTable) => {
-  
   selectedItem.value = item;
   dialog.value = true;
   console.log(selectedItem.value)

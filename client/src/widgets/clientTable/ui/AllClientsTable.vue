@@ -3,7 +3,7 @@
     <div class="header">
       <AllClientsTableToolbar
         v-model:filteredClients="filteredClients"
-        :origin-clients="clientsResponse"
+        :origin-clients="clients"
       />
     </div>
     <UserTable
@@ -11,7 +11,8 @@
       :tableItems="paginatedClients"
       table-title="Клиенты"
       :is-loading="isLoading"
-      :totalItems="clientsResponse?.length"
+      :totalItems="clients?.length"
+      :originClients="clients || []"
     />
     <Pagination
       v-model:elements="paginatedClients"
@@ -26,23 +27,27 @@
 <script setup lang="ts">
 import { Client } from '@/entities/client';
 import { useGetAllClients } from '../../../entities/client';
-import { ref, watch } from 'vue';
+import { ref, watch, toRefs } from 'vue';
 import { Pagination } from '@/widgets';
 import AllClientsTableToolbar from './AllClientsTableToolbar.vue';
 import { ClientTableView } from '../types/types';
 import UserTable from '@/entities/client/ui/UserTable.vue';
+import { useClientStore } from '@/entities/client';
+import { storeToRefs } from 'pinia';
+
+const clientStore = useClientStore();
+const { clients } = storeToRefs(clientStore);
 
 const { clientsResponse, isLoading } = useGetAllClients();
 
 const currentPage = ref<number>(1);
-const filteredClients = ref<Client[]>([]);
+const filteredClients = ref<Client[]>(clients.value || []);
 
 const paginatedClients = ref<ClientTableView[]>([]);
 
-watch(clientsResponse, (clients) => {
-  if (clients) {
-    filteredClients.value = clients;
-    console.log('filtered', filteredClients.value)
+watch(clientsResponse, (client) => {
+  if (client) {
+    filteredClients.value = [...client];
   }
 }, { immediate: true });
 

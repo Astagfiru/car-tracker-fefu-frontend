@@ -33,10 +33,14 @@ const redirect = () => {
   router.push({ name: "add-employeers" });
 };
 
-filteredEmployees.value = [...(originEmployees || [])];
+watch(() => originEmployees, (emploeer) => {
+  if (emploeer) {
+    filteredEmployees.value = [...emploeer];
+  }
+}, { immediate: true });
 
 watch(searchString, (newVal) => {
-  if (!newVal) {
+  if (newVal === "") {
     filteredEmployees.value = [...(originEmployees || [])];
   } else {
     const query = searchString.value.toLowerCase().trim();

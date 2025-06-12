@@ -45,7 +45,6 @@ const {clearFunction} = withDefaults(defineProps<Props>(), {
 })
 
 const handleClear = () => {
-  searchString.value = ''
   if(clearFunction) clearFunction()
 }
 </script>

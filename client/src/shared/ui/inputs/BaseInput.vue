@@ -11,6 +11,8 @@
       :aria-invalid="!!error"
       :class="['input-common', { error: error }]"
       @blur="validate"
+      maxlength="length"
+       @input="onInput"
     />
 
     <p v-if="error" class="text-danger">{{ error }}</p>
@@ -28,9 +30,10 @@ interface Props {
   type?: string
   disabled?: boolean
   id?: string
+  length?: number
 }
 
-defineProps<Props>()
+const props = defineProps<Props>()
 
 const error = ref<string | null>(null)
 
@@ -38,6 +41,15 @@ function validate() {
   error.value = !model.value?.trim()
     ? 'Поле не может быть пустым'
     : null
+}
+
+function onInput(e: Event) {
+  if (props.length) {
+    const val = (e.target as HTMLInputElement).value;
+    if (val.length > props.length) {
+      model.value = val.slice(0, props.length);
+    }
+  }
 }
 </script>
 

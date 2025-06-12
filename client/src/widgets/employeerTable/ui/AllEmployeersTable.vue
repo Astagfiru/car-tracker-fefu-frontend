@@ -3,7 +3,7 @@
     <div class="header">
       <AllEmployessTableToolBar
         v-model:filteredEmployees="filteredEmployees"
-        :origin-employees="employeeResponse"
+        :origin-employees="employees"
       />
     </div>
     <EmployeeTable
@@ -11,7 +11,7 @@
       :tableItems="paginatedEmployees"
       table-title="Сотрудники"
       :is-loading="isLoading"
-      :total-items="employeeResponse?.length"
+      :total-items="employees?.length"
     />
     <Pagination 
     v-model:elements="paginatedEmployees"
@@ -25,24 +25,27 @@
 <script setup lang="ts">
 import { EmployeeType } from "@/entities/employee";
 import { usegetAllEmployee } from "@/entities/employee";
-import{ref, watch} from "vue";
+import{ref, toRef, toRefs, watch} from "vue";
 import AllEmployessTableToolBar from './AllEmployessTableToolbar.vue';
 import { Pagination } from "@/widgets";
 import { EmployeerTable } from "../types/types";
 import EmployeeTable from '@/entities/employee/ui/employeeTable.vue';
-import { is } from "date-fns/locale";
+import { useEmployeeStore } from "@/entities/employee";
+import { storeToRefs } from 'pinia';
+
+const employeeStore = useEmployeeStore();
+const { employees } = toRefs(employeeStore)
 
 const {employeeResponse, isLoading} = usegetAllEmployee();
 
 const currentPage = ref<number>(1);
-const filteredEmployees = ref<EmployeeType[]>([]);
+const filteredEmployees = ref<EmployeeType[]>(employees.value || []);
 
 const paginatedEmployees = ref<EmployeerTable[]>([]);
 
 watch(employeeResponse, (employee)=>{
   if(employee){
-    filteredEmployees.value = employee;
-    console.log('Filtered', filteredEmployees.value)
+    filteredEmployees.value = [...employee];
   }
 }, {immediate:true});
 

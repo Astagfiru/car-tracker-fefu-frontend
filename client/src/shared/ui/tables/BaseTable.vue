@@ -1,4 +1,4 @@
-<template>
+f <template>
   <v-data-table
     :items="tableItems || []"
     :headers="tableHeader"
@@ -16,7 +16,7 @@
       <v-toolbar class="title">
         <v-toolbar-title class="text-h6">{{ tableTitle }}</v-toolbar-title>
         <v-spacer></v-spacer>
-        <span class="mr-4 text-medium-emphasis">Всего записей: {{ tableItems?.length }}</span>
+        <span class="mr-4 text-medium-emphasis">Всего записей: {{ totalItems }}</span>
       </v-toolbar>
     </template>
   </v-data-table>
@@ -46,8 +46,8 @@ const props = withDefaults(defineProps<Props<T>>(), {
 
 const currentPage = ref(1);
 
-const handleRowClick = (event: Event, item: T) => {
-  emit("rowClick", item);
+const handleRowClick = (event: Event, item: any) => {
+  emit("rowClick", item.item ?? item);
 };
 </script>
 

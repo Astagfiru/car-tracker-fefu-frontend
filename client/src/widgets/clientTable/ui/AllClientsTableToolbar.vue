@@ -33,10 +33,15 @@ const redirect = () => {
   router.push({ name: "clients-add" });
 };
 
-filteredClients.value = [...(originClients||[])]
+watch(() => originClients, (clients) => {
+  if (clients) {
+    filteredClients.value = [...clients];
+  }
+}, { immediate: true });
+
 
 watch(searchString, (newVal) => {
-  if (!newVal) {
+  if (newVal === "") {
     filteredClients.value = [...(originClients || [])];
   } else {
     const query = searchString.value.toLowerCase().trim();

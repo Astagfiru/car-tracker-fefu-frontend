@@ -2,17 +2,9 @@
   <div class="base-input" :class="{ error: !!errorMessage }">
     <label v-if="label" :for="id" class="input-label">{{ label }}</label>
 
-    <input
-      :id="id"
-      ref="inputRef"
-      v-model="formatted"
-      type="tel"
-      :placeholder="placeholder || '+7 (___) ___-__-__'"
-      :disabled="disabled"
-      class="input-common"
-      @input="onInput"
-      @blur="handleBlur"
-    />
+    <input :id="id" ref="inputRef" v-model="formatted" type="tel" :placeholder="placeholder || '+7 (___) ___-__-__'"
+      :disabled="disabled" :class="['input-common', { error: !!errorMessage }]" @input="onInput" @blur="handleBlur"
+      maxlength="18" />
 
     <p v-if="errorMessage" class="text-danger">{{ errorMessage }}</p>
   </div>
@@ -39,8 +31,10 @@ const emit = defineEmits<{
 
 const schema = yup
   .string()
-  .required('Введите номер телефона')
-  .matches(/^\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}$/, 'Неверный формат номера')
+  .test('not-empty', 'Введите номер телефона', val => {
+    return !!val && val.replace(/\D/g, '').length > 1;
+  })
+  .matches(/^\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}$/, 'Неверный формат номера');
 
 const { value, errorMessage, handleBlur } = useField(
   () => props.name || 'phone',
@@ -92,6 +86,8 @@ function onInput(e: Event) {
   gap: 8px;
   width: 100%;
 }
+
+
 
 .input-common {
   background-color: #fff;

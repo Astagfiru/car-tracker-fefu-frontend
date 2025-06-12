@@ -9,11 +9,10 @@
       :itemsPerPage="itemsPerPage"
       @rowClick="openModal"
     />
-
     <UserViewForm
       v-if="dialog"
       v-model="dialog"
-      :clientData= "selectedItem"
+      :clientData="selectedItem"
       title="Просмотр клиента"
       @confirm="handleConfirm"
     />
@@ -23,7 +22,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { BaseTable } from "@/shared";
-import type { DataTableHeader } from "vuetify/lib/components/VDataTable/types";
 import UserViewForm from "@/entities/client/ui/UserViewForm.vue";
 import { ClientTableView } from "@/widgets/clientTable/types/types";
 import { TABLE_HEADERS } from "../types/tableConfig";
@@ -35,6 +33,7 @@ export interface Props {
   totalItems?: number;
   itemsPerPage?: number;
   isLoading?: boolean;
+  originClients?: Client[];
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -43,14 +42,19 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const dialog = ref(false);
-const selectedItem = ref<ClientTableView | null>(null);
+const selectedItem = ref<Client | null>(null);
 
 const handleConfirm = () => {
 };
 
-const openModal = (item: ClientTableView) => {
-  selectedItem.value = item;
+const openModal = (item: Client) => {
+  
+  if(!props.originClients) return;
+
+  const fullItem = props.originClients.find(client => client.id === item.id);
+  selectedItem.value = fullItem || null;
   dialog.value = true;
+  console.log(selectedItem.value)
 };
 </script>
 

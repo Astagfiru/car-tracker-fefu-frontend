@@ -1,10 +1,12 @@
-import { createApp } from "vue";
+import { createApp, onMounted } from "vue";
 import { createPinia } from "pinia";
 import { createI18n } from "vue-i18n";
 import { router } from "./app/router";
 import "@/shared/styles/index.scss";
 import { createVuetify } from 'vuetify'
 import { ru } from 'vuetify/locale'
+import { useGetAllClients } from "./entities/client";
+import { usegetAllEmployee } from "./entities/employee";
 
 import VueDatePicker from '@vuepic/vue-datepicker'
 import * as components from 'vuetify/components'
@@ -24,6 +26,14 @@ const i18n = createI18n({
     en: { hello: "Hello" },
   },
 });
+
+const { refetch } = useGetAllClients();
+
+onMounted(() => {
+  refetch();  
+  usegetAllEmployee().refetch();
+  console.log("Mounted and data fetched");
+})
 
 const vuetify = createVuetify({
   components,
