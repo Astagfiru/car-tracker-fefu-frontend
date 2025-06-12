@@ -49,7 +49,9 @@ watch(searchString, (newVal) => {
     filteredClients.value = (originClients || []).filter((client: Client) => {
       return (
         client.secondName.toLowerCase().includes(query) ||
-        client.firstName.toLowerCase().includes(query)
+        client.firstName.toLowerCase().includes(query) ||
+        client.patronymic.toLowerCase().includes(query) ||
+        client.email.toLowerCase().includes(query)
       );
     });
   }

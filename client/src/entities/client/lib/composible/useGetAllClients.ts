@@ -25,14 +25,23 @@ export const useGetAllClients =  (): GetAllClientsReturn => {
 
   const { saveAllClients } = clientStore;
 
-  watch(responseData, () => {
-    
+  const sendWrappedRequest = async () => {
+      await sendRequest();
     if (responseData.value) {
-      mappedClients.value = mapClientsResponceToUi(responseData.value);
+    const mapped = mapClientsResponceToUi(responseData.value);
+    mappedClients.value = mapped;
+    
+    saveAllClients([...mappedClients.value]);
+  }
+  }
 
-      saveAllClients(mappedClients.value);
-    }
-  });
+  watch(responseData, () => {
+  if (responseData.value) {
+    const mapped = mapClientsResponceToUi(responseData.value);
+    mappedClients.value = mapped;
+    saveAllClients([...mapped]);
+  }
+}, { immediate: true });
 
   sendRequest();
 
@@ -40,6 +49,6 @@ export const useGetAllClients =  (): GetAllClientsReturn => {
     clientsResponse: mappedClients,
     error,
     isLoading,
-    refetch: () => sendRequest(undefined),
+    refetch: sendWrappedRequest,
   };
 };

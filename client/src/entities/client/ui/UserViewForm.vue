@@ -28,13 +28,19 @@
       </div>
       <div class="view__footer">
           <ButtonCansel title="Закрыть" :onClick="close" />
-          <ButtonDanger :disabled="false" @click="handleConfirm">
+          <ButtonDanger :disabled="false" @click="openDeleteDialog">
             <template #text>
               Удалить
           </template></ButtonDanger>
       </div>
     </v-card>
   </v-dialog>
+  <UserDeleteConfirm
+    :client="client"
+    :modelValue="isDeleteDialogOpen"
+    @update:modelValue="isDeleteDialogOpen = $event"
+    @delete="handleDelete"
+  />
 </template>
 
 <script setup lang="ts">
@@ -43,6 +49,7 @@ import { formatDateRuLocale } from "@/shared"
 import { ButtonDanger } from "@/shared"
 import { ButtonCansel } from "@/shared"
 import type { Client } from '@/entities/client'
+import UserDeleteConfirm from "./UserDeleteConfirm.vue"
 
 interface ViewProps {
   clientData: Client | null;
@@ -56,6 +63,7 @@ const emit = defineEmits(["update:modelValue", "confirm"])
 const currentDate = new Date()
 const isOpen = ref(props.modelValue)
 const client = ref<Client | null>(props.clientData)
+const isDeleteDialogOpen = ref(false)
 
 const fullName = computed(() => {
   if (!client.value) return ''
@@ -73,9 +81,13 @@ const close = () => {
   isOpen.value = false
 }
 
-const handleConfirm = () => {
-  if (!client.value) return
-  emit("confirm", client.value)
+const openDeleteDialog = () => {
+  isDeleteDialogOpen.value = true
+}
+
+const handleDelete = (deletedClient: Client) => {
+  emit("confirm", deletedClient)
+  isDeleteDialogOpen.value = false
   close()
 }
 </script>

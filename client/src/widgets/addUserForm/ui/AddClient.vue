@@ -51,21 +51,20 @@ const nextStep = async () => {
   }
 
   try {
-   // clientStore.addClient({ ...newClient, id: Date.now() });
   console.log("Добавление клиента")
    addClient()
 
-    newClient = {
-      firstName: "",
-      secondName: "",
-      patronymic: "",
-      phoneNumber: "",
-      passportNumber: "",
-      passportSeries: "",
-      issuedBy: "",
-      dateOfIssue: "",
-      email: "",
-    }
+    Object.assign(newClient, {
+  firstName: "",
+  secondName: "",
+  patronymic: "",
+  phoneNumber: "",
+  passportNumber: "",
+  passportSeries: "",
+  issuedBy: "",
+  dateOfIssue: "",
+  email: "",
+});
 
     router.push({ name: 'clients' });
 

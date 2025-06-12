@@ -15,7 +15,9 @@ const { Client } = require('../models');
  */
 exports.getAllClients = async (req, res, next) => {
   try {
-    const clients = await Client.findAll();
+   const clients = await Client.findAll({
+      order: [['id', 'DESC']]
+    });
     res.json(clients);
   } catch (err) {
     next(err);

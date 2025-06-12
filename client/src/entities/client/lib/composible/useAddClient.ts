@@ -5,6 +5,7 @@ import { useFetch } from "@/shared";
 import { addClient } from '../../api/addNewClient';
 import { mapClientUiToApi } from "../mappers";
 import { AddClientResponce } from "../../types/apiTypes";
+import { useGetAllClients } from "./useGetAllClients";
 
 interface AddClientReturn {
   error: Ref<unknown | null>;
@@ -19,23 +20,17 @@ export const useAddClient = (newClient: ClientForm): AddClientReturn => {
 
   const mappedClient = ref<ClientRequest>();
 
-  const refetch = async () => {
+  const { refetch } = useGetAllClients();
+
+  const refetchAndUpdate = async () => {
     try {
       const mappedClient = mapClientUiToApi(newClient);
       console.log('Mapped client data:', mappedClient);
-      
+
       await sendRequest(mappedClient);
 
-       clientStore.addClient({
-        id: Number(Date.now()),
-        ...newClient
-    });
-      
       if (responseData.value) {
-        clientStore.addClient({
-          id: Number(Date.now()),
-          ...newClient
-        });
+        await refetch();
       }
     } catch (err) {
       console.error("Error adding client:", err);
@@ -43,22 +38,16 @@ export const useAddClient = (newClient: ClientForm): AddClientReturn => {
     }
   };
 
-
   watch(responseData, () => {
     if (responseData.value) {
-    console.log('addClient', )
-    mappedClient.value = mapClientUiToApi(newClient)
-
-    clientStore.addClient({
-        id: Number(Date.now()),
-        ...newClient
-    });
+      console.log('addClient');
+      mappedClient.value = mapClientUiToApi(newClient);
     }
   });
 
   return {
     error,
     isLoading,
-    addClient: refetch,
+    addClient: refetchAndUpdate,
   };
 };

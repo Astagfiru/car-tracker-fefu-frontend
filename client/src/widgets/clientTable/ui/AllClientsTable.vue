@@ -38,19 +38,22 @@ import { storeToRefs } from 'pinia';
 const clientStore = useClientStore();
 const { clients } = storeToRefs(clientStore);
 
-const { clientsResponse, isLoading } = useGetAllClients();
+const { isLoading } = useGetAllClients();
 
 const currentPage = ref<number>(1);
 const filteredClients = ref<Client[]>(clients.value || []);
 
 const paginatedClients = ref<ClientTableView[]>([]);
 
-watch(clientsResponse, (client) => {
+watch(clients, (client) => {
   if (client) {
     filteredClients.value = [...client];
   }
 }, { immediate: true });
 
+watch(isLoading, (loading) => {
+ console.log('Loading state changed:', loading);
+});
 </script>
 
 <style scoped lang="scss">
