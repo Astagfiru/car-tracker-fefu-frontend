@@ -32,7 +32,7 @@
     justify-content: center;
     padding: 8px 16px;
     border-radius: 8px;
-    background-color: #E5E7EB !important;
+    background-color: #f1f1f1 !important;
     color: #111827;
     transition: filter 0.2s ease;
   

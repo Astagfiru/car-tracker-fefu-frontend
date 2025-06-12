@@ -30,7 +30,7 @@ defineProps<ButtonProps>();
   align-items: center;
   justify-content: center;
   border-radius: 8px;
-  background-color: #d64e4e !important;
+  background-color: #ec4e4e !important;
   color: #ffffff;
   border: none;
   padding: 10px;

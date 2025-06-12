@@ -25,8 +25,10 @@ import PurhaseAndSaleFormVue from "./ui/PurchaseAndSaleForm/PurhaseAndSaleForm.v
 import Back from "./icons/Back.vue";
 import ButtonBack from "./ui/buttons/ButtonBack.vue";
 import ButtonDanger from "./ui/buttons/ButtonDanger.vue";
+import SearchIcons from "./icons/SearchIcons.vue";
 
 import { useFetch } from "./api/fetch/useFetch";
+
 
 export {
   SmallUserCard,
@@ -53,7 +55,8 @@ export {
   PurhaseAndSaleFormVue,
   Back,
   ButtonBack,
-  ButtonDanger
+  ButtonDanger,
+  SearchIcons
 };
 
 export { Modify, formatDateRuLocale, useFetch };

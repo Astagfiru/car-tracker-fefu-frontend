@@ -2,6 +2,9 @@
   <div class="base-input">
     <label v-if="label" :for="id" class="input-label">{{ label }}</label>
     <div class="input-wrapper">
+      <span class="search-icon">
+        <SearchIcons />
+      </span>
       <input
         :id="id"
         v-model="searchString"
@@ -27,6 +30,7 @@
 
 <script setup lang="ts">
 import { watch } from 'vue'
+import { SearchIcons } from '@/shared'
 const searchString = defineModel<string>()
 
 interface Props {
@@ -62,12 +66,24 @@ const handleClear = () => {
   width: 100%;
 }
 
+.search-icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  color: #b0b0b0;
+  font-size: 1.2em;
+  z-index: 2;
+}
+
 .input-common {
   width: 100%;
   background-color: #fff;
   border: 1px solid #d1d5db;
   border-radius: 4px;
-  padding: 8px 32px 8px 12px;
+  padding: 8px 32px 8px 36px; /* увеличен отступ слева для иконки */
   margin-right: 50px;
   font-size: 16px;
   color: #333;
