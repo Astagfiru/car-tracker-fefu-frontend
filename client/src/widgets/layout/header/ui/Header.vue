@@ -20,11 +20,12 @@ import { NotificationIcon } from '@/shared';
 
 <style scoped>
 .header {
+    position: absolute;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 12px 40px;
-    background-color: white;
+    background-color: rgb(255, 255, 255);
     width: 100vw;
     height: 70px;
     position: fixed;

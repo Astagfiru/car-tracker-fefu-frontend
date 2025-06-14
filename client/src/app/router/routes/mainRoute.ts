@@ -14,18 +14,19 @@ export const mainRoutes: RouteRecordRaw[] = [
         component: () => import("@/pages/DashboardPage/ui/DashboardLayout.vue"),
         meta: { title: "Главная" },
       },
-      {
-        path: "/clients",
+       {
+        path: "clients",
         name: "clients",
-        component: () =>
-          import("@/pages/ClientControlPage/ui/ClienConrolPage.vue"),
+        component: () => import("@/pages/ClientControlPage/ui/ClienConrolPage.vue"),
         meta: { title: "Клиенты" },
-      },
-      {
-        path: "/clientForm",
-        name: "clients-add",
-        component: () => import("@/pages/AddUserPage/ui/AddNewClient.vue"),
-        meta: { title: "Добавление нового клиента" },
+        children: [
+          {
+            path: "add",
+            name: "clients-add",
+            component: () => import("@/pages/AddUserPage/ui/AddNewClient.vue"),
+            meta: { title: "Добавление нового клиента" },
+          },
+        ],
       },
       {
         path: "/applications",
@@ -44,7 +45,7 @@ export const mainRoutes: RouteRecordRaw[] = [
         path: "/warehouse",
         name: "warehouse",
         component: () => import("@/pages/CarPage/ui/CarPage.vue"),
-        meta: { title: "Склад" },
+        meta: { title: "Склад" }, 
       },
        {
         path: "/warehouseForm",

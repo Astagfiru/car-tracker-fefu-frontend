@@ -1,5 +1,4 @@
 <template>
-  <v-container>
     <BaseTable
       :tableHeader="TABLE_HEADERS"
       :tableItems="tableItems"
@@ -16,7 +15,6 @@
       title="Просмотр клиента"
       @confirm="handleConfirm"
     />
-  </v-container>
 </template>
 
 <script setup lang="ts">

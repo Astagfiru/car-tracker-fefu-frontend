@@ -2,15 +2,9 @@ import type { DataTableHeader } from "vuetify";
 
 export const TABLE_HEADERS: DataTableHeader[] = [
   {
-    title: "#",
-    key: "id",
-    headerProps: {
-      class: "table__title",
-    },
-  },
-  {
     title: "Фамилия",
     key: "secondName",
+    sortable: true,
     headerProps: {
       class: "table__title",
     },

@@ -2,7 +2,7 @@
 import { ButtonCansel, ButtonConfirm } from "@/shared";
 import { useRouter } from "vue-router";
 import AddNewClientForm from "./AddNewClientForm.vue";
-import { computed, ref, reactive } from "vue";
+import { computed, ref, reactive, watch } from "vue";
 import { useClientStore } from "@/entities/client";
 import { ClientForm } from "../../../entities/client/types/clientTypes";
 import { ButtonText } from "@/shared";
@@ -41,7 +41,7 @@ let newClient = reactive<ClientForm>({
   email: "",
 });
 
-const { addClient } = useAddClient(newClient)
+const { addClient  } = useAddClient(newClient)
 
 const nextStep = async () => {
   errorMessage.value = "";
@@ -52,19 +52,7 @@ const nextStep = async () => {
 
   try {
   console.log("Добавление клиента")
-   addClient()
-
-    Object.assign(newClient, {
-  firstName: "",
-  secondName: "",
-  patronymic: "",
-  phoneNumber: "",
-  passportNumber: "",
-  passportSeries: "",
-  issuedBy: "",
-  dateOfIssue: "",
-  email: "",
-});
+  addClient()
 
     router.push({ name: 'clients' });
 
@@ -77,6 +65,12 @@ const nextStep = async () => {
 const disabledButton = computed(() => {
   return !requiredFields.every((field) => Boolean(newClient[field]));
 });
+
+watch(newClient, () => {
+  console.log("Изменение клиента", newClient);
+}
+ , { deep: true }
+);
 </script>
 
 <template>

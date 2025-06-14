@@ -29,7 +29,7 @@ import { onMounted } from 'vue';
 import { ButtonBack } from '@/shared';
 import { Title, PurhaseAndSaleFormVue } from '@/shared';
 import { useClientStore, useGetAllClients } from '@/entities/client';
-import { useEmployeeStore, useGetAllEmployeers } from '@/entities/employee';
+import { useEmployeeStore } from '@/entities/employee';
 import { useCarsStore, useGetAllCars } from '@/entities/car/lib/model/carStore';
 
 const clientStore = useClientStore();
@@ -44,17 +44,6 @@ const fetchClients = async () => {
     console.log('Клиенты загружены:', clientStore.clients?.length);
   } catch (error) {
     console.error('Ошибка загрузки клиентов:', error);
-  }
-};
-
-const fetchEmployees = async () => {
-  try {
-    console.log('Загружаем сотрудников...');
-    const employees = await useGetAllEmployeers();
-    employeeStore.saveAllEmployees(employees || []);
-    console.log('Сотрудники загружены:', employeeStore.employees?.length);
-  } catch (error) {
-    console.error('Ошибка загрузки сотрудников:', error);
   }
 };
 
@@ -82,7 +71,6 @@ onMounted(async () => {
   
   // Загружаем сотрудников
   if (!employeeStore.employees?.length) {
-    await fetchEmployees();
   } else {
     console.log('Сотрудники уже загружены:', employeeStore.employees.length);
   }

@@ -12,7 +12,10 @@ defineProps<TitleProps>();
 </script>
 <style scoped>
 .title {
-    font-size: 2em;
-    font-weight: 700;
+  width: 100%;
+  font-size: 2em;
+  font-weight: 700;
+
 }
+
 </style>

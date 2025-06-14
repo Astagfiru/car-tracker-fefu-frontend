@@ -1,39 +1,31 @@
 <template>
-  <div class="client-page">
-    <div class="header">
-      <AllClientsTableToolbar
-        v-model:filteredClients="filteredClients"
-        :origin-clients="clients"
-      />
+  <div class="container">
+    <Title title="Клиенты " />
+    <div class="client-page">
+      <div class="content">
+        <div class="header">
+          <AllClientsTableToolbar v-model:filteredClients="filteredClients" :origin-clients="clients" />
+        </div>
+        <UserTable :key="filteredClients.length" :tableItems="paginatedClients" table-title="Таблица с клиентами"
+          :is-loading="isLoading" :totalItems="clients?.length" :originClients="clients || []" />
+        <Pagination v-model:elements="paginatedClients" v-model:originalList="filteredClients"
+          v-model:currentPage="currentPage" :totalItemslenght="filteredClients.length" :items-per-page="5" />
+      </div>
     </div>
-    <UserTable
-      :key="filteredClients.length"
-      :tableItems="paginatedClients"
-      table-title="Клиенты"
-      :is-loading="isLoading"
-      :totalItems="clients?.length"
-      :originClients="clients || []"
-    />
-    <Pagination
-      v-model:elements="paginatedClients"
-      v-model:originalList="filteredClients"
-      v-model:currentPage="currentPage"
-      :totalItemslenght="filteredClients.length"
-      :items-per-page="5"
-    />
   </div>
 </template>
 
 <script setup lang="ts">
 import { Client } from '@/entities/client';
 import { useGetAllClients } from '../../../entities/client';
-import { ref, watch, toRefs } from 'vue';
+import { ref, watch } from 'vue';
 import { Pagination } from '@/widgets';
 import AllClientsTableToolbar from './AllClientsTableToolbar.vue';
 import { ClientTableView } from '../types/types';
 import UserTable from '@/entities/client/ui/UserTable.vue';
 import { useClientStore } from '@/entities/client';
 import { storeToRefs } from 'pinia';
+import { Title } from '@/shared';
 
 const clientStore = useClientStore();
 const { clients } = storeToRefs(clientStore);
@@ -52,33 +44,39 @@ watch(clients, (client) => {
 }, { immediate: true });
 
 watch(isLoading, (loading) => {
- console.log('Loading state changed:', loading);
+  console.log('Loading state changed:', loading);
 });
 </script>
-
 <style scoped lang="scss">
 .client-page {
   display: flex;
   flex-direction: column;
   min-height: 70vh;
-  width: 80%;
+  width: 100%;
   box-sizing: border-box;
-  margin-top: 30px;
+  align-items: center;
+  justify-content: center;
 }
-
+.content {
+  width: 100%;
+}
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-
 .header h1 {
   font-size: 32px;
   font-weight: 700;
   margin: 0;
 }
-
 .btn {
   margin-left: 17px;
+}
+.container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 }
 </style>

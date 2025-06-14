@@ -26,6 +26,7 @@ import Back from "./icons/Back.vue";
 import ButtonBack from "./ui/buttons/ButtonBack.vue";
 import ButtonDanger from "./ui/buttons/ButtonDanger.vue";
 import SearchIcons from "./icons/SearchIcons.vue";
+import Breadcrumbs from "./ui/breadcrumbs/BaseBreadCrumbs.vue";
 
 import { useFetch } from "./api/fetch/useFetch";
 
@@ -56,7 +57,8 @@ export {
   Back,
   ButtonBack,
   ButtonDanger,
-  SearchIcons
+  SearchIcons,
+  Breadcrumbs
 };
 
 export { Modify, formatDateRuLocale, useFetch };

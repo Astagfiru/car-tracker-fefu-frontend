@@ -1,4 +1,4 @@
-f <template>
+<template>
   <v-data-table
     :items="tableItems || []"
     :headers="tableHeader"
@@ -51,43 +51,34 @@ const handleRowClick = (event: Event, item: any) => {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .title {
-  background-color: #ffffff !important;
-  border-radius: 8px 8px 0 0;
-  margin-bottom: 16px;
+  background-color: #e8efff !important;  
 }
 
-.styled-table >>> .v-data-table-header th {
-  font-weight: 600;
-  font-size: 14px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.styled-table >>> .v-data-table {
+.styled-table {
+  margin-top: 10px;
   border-radius: 5px;
   overflow: hidden;
-  border: 1px solid #cfcfcf;
+  border: 1px solid #dddddd;
+  margin: 0;
+  margin-top: 15px;
 }
 
-.styled-table >>> .v-data-table__wrapper {
+:deep(.styled-table .v-data-table td) {
+  padding: 14px 18px;
+}
+:deep(.styled-table .v-data-table__wrapper) {
   background-color: #fff;
 }
-
-.styled-table >>> .v-data-table td {
-  font-size: 14px;
-  color: #333;
-  cursor: pointer;
-}
-
-.styled-table >>> .v-data-table tr:hover {
-  background-color: #f5f5f5 !important;
-}
-
-.v-data-table-header__sort-icon {
+:deep(.styled-table .v-data-table-header__sort-icon) {
+  display: inline-flex;
+  align-items: center;
   svg {
-    color: black;
+    color: #7c3aed !important;
+    width: 18px;
+    height: 18px;
+    vertical-align: middle;
   }
 }
 </style>
