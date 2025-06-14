@@ -6,7 +6,7 @@
     :isLoading="isLoading"
     :totalItems="totalItems"
     :itemsPerPage="itemsPerPage"
-    @rowClick="openModal"
+    @rowClick="openModalView"
   >
     <template #edit="{ item }">
       <Edit @click.stop @click="openEditDialog(item as Client)" />
@@ -71,7 +71,6 @@ const deleteClient = (deletedClient: Client) => {
 };
 
 const isViewClietOpen = ref(false);
-const isAddClientFormOpen = ref(false);
 const isDeleteClientOpen = ref(false);
 const isEditClientOpen = ref(false);
 
@@ -87,14 +86,13 @@ const openEditDialog = (client: Client) => {
   isEditClientOpen.value = true;
 }
 
-const openModal = (item: Client) => {
+const openModalView = (item: Client) => {
   
   if(!props.originClients) return;
 
   const fullItem = props.originClients.find(client => client.id === item.id);
   selectedItem.value = fullItem || null;
   isViewClietOpen.value = true;
-  console.log(selectedItem.value)
 };
 
 const handleEditSave = (updatedClient: Client) => {
@@ -105,9 +103,6 @@ const handleDelete = (client: Client) => {
   isEditClientOpen.value = false;
 };
 
-const handleAdd = (client: Client) => {
-  isAddClientFormOpen.value = false;
-};
 </script>
 
 <style scoped>

@@ -1,4 +1,4 @@
-import { defineStore, storeToRefs } from "pinia";
+import { defineStore } from "pinia";
 import { reactive, toRefs } from "vue";
 import type { Client, ClientForm } from "@/entities/client/index";
 

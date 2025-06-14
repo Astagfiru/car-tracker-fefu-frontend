@@ -1,6 +1,5 @@
 import { ClientRequest, ClientForm } from "./../../types/clientTypes";
 import { ref, watch, Ref } from "vue";
-import { useClientStore } from "../model/clientStore";
 import { useFetch } from "@/shared";
 import { addClient } from '../../api/addNewClient';
 import { mapClientUiToApi } from "../mappers";
@@ -16,8 +15,6 @@ interface AddClientReturn {
 
 export const useAddClient = (newClient: ClientForm): AddClientReturn => {
   const { responseData, error, isLoading, sendRequest } = useFetch<AddClientResponce, ClientRequest>(addClient);
-
-  const clientStore = useClientStore();
 
   const mappedClient = ref<ClientRequest>();
 

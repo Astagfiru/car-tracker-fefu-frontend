@@ -61,13 +61,11 @@ interface EditProps {
     modelValue: boolean;
 }
 
-
 const props = defineProps<EditProps>()
 const emit = defineEmits(["update:modelValue", "save", "delete"])
 
 const currentDate = new Date()
 const isOpen = ref(props.modelValue)
-const isDeleteDialogOpen = ref(false)
 
 const form = reactive<Client>({
     id: props.clientData?.id ?? 0,
@@ -96,7 +94,7 @@ const close = () => {
 }
 
 const handleSave = async () => {
-    const { updateClient, responseData, error, isLoading } = useUpdateClient()
+    const { updateClient, responseData } = useUpdateClient()
 
     if (!form.firstName || !form.secondName || !form.phoneNumber || !form.email) return
 

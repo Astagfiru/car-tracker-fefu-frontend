@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ClientResponse, ClientRequest } from "../types/clientTypes";
+import { ClientRequest } from "../types/clientTypes";
 import { CLIENTS_PATH } from "../consts/baseUrl";
 import { AddClientResponce } from "../types/apiTypes";
 

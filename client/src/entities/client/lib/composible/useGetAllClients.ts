@@ -2,7 +2,7 @@ import {
   ClientResponse,
   Client,
 } from "./../../types/clientTypes";
-import { ref, watch, Ref, onMounted } from "vue";
+import { ref, watch, Ref } from "vue";
 import { useClientStore } from "../model/clientStore";
 import { useFetch } from "@/shared";
 import { getAllClients } from "../../api/getAllClients";

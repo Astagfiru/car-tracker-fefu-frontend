@@ -23,7 +23,7 @@
         </div>
         <div class="view__row">
           <span class="label">Дата выдачи:</span>
-          <span class="value">{{ client?.dateOfIssue }}</span>
+          <span class="value">{{ formatDateRuLocale(client?.dateOfIssue || new Date()) }}</span>
         </div>
          <div class="view__row">
           <span class="label">Кем выдан:</span>
