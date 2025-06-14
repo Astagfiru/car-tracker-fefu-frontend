@@ -62,8 +62,8 @@ exports.updateClient = async (req, res, next) => {
     const { last_name, first_name, middle_name, phone, email, passport_series, passport_number, issued_by, issue_date } = req.body;
     
     const client = await Client.findByPk(id);
-    
     if (!client) {
+      
       return res.status(404).json({ 
         status: 'error',
         message: 'Клиент не найден' 
@@ -81,9 +81,12 @@ exports.updateClient = async (req, res, next) => {
       issued_by,
       issue_date, 
     });
+
+     const clientUp = await Client.findByPk(id);
     
     res.json({
       status: 'success',
+      message: 'Данные клиента успешно обновлены',
       data: client
     });
   } catch (err) {

@@ -1,20 +1,41 @@
 <template>
-    <BaseTable
-      :tableHeader="TABLE_HEADERS"
-      :tableItems="tableItems"
-      :tableTitle="tableTitle"
-      :isLoading="isLoading"
-      :totalItems="totalItems"
-      :itemsPerPage="itemsPerPage"
-      @rowClick="openModal"
-    />
-    <UserViewForm
-      v-if="dialog"
-      v-model="dialog"
-      :clientData="selectedItem"
-      title="Просмотр клиента"
-      @confirm="handleConfirm"
-    />
+  <BaseTable
+    :tableHeader="TABLE_HEADERS"
+    :tableItems="tableItems"
+    :tableTitle="tableTitle"
+    :isLoading="isLoading"
+    :totalItems="totalItems"
+    :itemsPerPage="itemsPerPage"
+    @rowClick="openModal"
+  >
+    <template #edit="{ item }">
+      <Edit @click.stop @click="openEditDialog(item as Client)" />
+    </template>
+    <template #delete="{ item }">
+      <Trash @click.stop @click="openDeleteDialog(item as Client)" />
+    </template>
+  </BaseTable>
+  <UserViewForm
+    v-if="isViewClietOpen"
+    v-model="isViewClietOpen"
+    :clientData="selectedItem"
+    title="Просмотр клиента"
+  />
+  <UserDeleteConfirm
+    :client="selectedItem"
+    v-model="isDeleteClientOpen"
+    @update:modelValue="isDeleteClientOpen = $event"
+    @delete="deleteClient"
+  />
+  <UserEditForm
+    v-if="isEditClientOpen"
+    :clientData="selectedItem"
+    :title="'Редактирование клиента'"
+    :modelValue="isEditClientOpen"
+    @update:modelValue="isEditClientOpen = $event"
+    @save="handleEditSave"
+    @delete="handleDelete"
+  />
 </template>
 
 <script setup lang="ts">
@@ -24,6 +45,10 @@ import UserViewForm from "@/entities/client/ui/UserViewForm.vue";
 import { ClientTableView } from "@/widgets/clientTable/types/types";
 import { TABLE_HEADERS } from "../types/tableConfig";
 import { Client } from "../types/clientTypes";
+import { Trash } from "@/shared";
+import { Edit } from "@/shared";
+import UserDeleteConfirm from "./UserDeleteConfirm.vue";
+import UserEditForm from "./UserEditForm.vue";
 
 export interface Props {
   tableItems: ClientTableView[];
@@ -39,11 +64,28 @@ const props = withDefaults(defineProps<Props>(), {
   itemsPerPage: 5,
 });
 
-const dialog = ref(false);
+const emit = defineEmits(["confirm"]);
+
+const deleteClient = (deletedClient: Client) => {
+  isDeleteClientOpen.value = false;
+};
+
+const isViewClietOpen = ref(false);
+const isAddClientFormOpen = ref(false);
+const isDeleteClientOpen = ref(false);
+const isEditClientOpen = ref(false);
+
 const selectedItem = ref<Client | null>(null);
 
-const handleConfirm = () => {
+const openDeleteDialog = (client: Client) => {
+  selectedItem.value = client;
+  isDeleteClientOpen.value = true;
 };
+
+const openEditDialog = (client: Client) => {
+  selectedItem.value = client;
+  isEditClientOpen.value = true;
+}
 
 const openModal = (item: Client) => {
   
@@ -51,8 +93,20 @@ const openModal = (item: Client) => {
 
   const fullItem = props.originClients.find(client => client.id === item.id);
   selectedItem.value = fullItem || null;
-  dialog.value = true;
+  isViewClietOpen.value = true;
   console.log(selectedItem.value)
+};
+
+const handleEditSave = (updatedClient: Client) => {
+  isEditClientOpen.value = false;
+};
+
+const handleDelete = (client: Client) => {
+  isEditClientOpen.value = false;
+};
+
+const handleAdd = (client: Client) => {
+  isAddClientFormOpen.value = false;
 };
 </script>
 

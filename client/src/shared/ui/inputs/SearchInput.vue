@@ -29,8 +29,8 @@
 </template>
 
 <script setup lang="ts">
-import { watch } from 'vue'
 import { SearchIcons } from '@/shared'
+
 const searchString = defineModel<string>()
 
 interface Props {

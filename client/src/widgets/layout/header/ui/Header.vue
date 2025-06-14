@@ -30,6 +30,7 @@ import { NotificationIcon } from '@/shared';
     height: 70px;
     position: fixed;
     z-index: 101;
+    border-bottom: 1px solid #d4d4d47c;
 }
 
 .header__left {

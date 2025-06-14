@@ -37,4 +37,5 @@ export const TABLE_HEADERS: DataTableHeader[] = [
       class: "table__title",
     },
   },
+   { title: '', value: 'actions', sortable: false, width: 60 },
 ];

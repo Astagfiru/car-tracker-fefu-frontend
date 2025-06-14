@@ -4,26 +4,34 @@ import AppLayout from "@/app/layout/AppLayout.vue";
 
 export const mainRoutes: RouteRecordRaw[] = [
   {
-    path: BASE_PAGE_PATH,
+    path: "",
     component: AppLayout,
     redirect: { name: "dashboard" },
+    meta: { title: "Главная" },
     children: [
       {
         path: "",
         name: "dashboard",
         component: () => import("@/pages/DashboardPage/ui/DashboardLayout.vue"),
-        meta: { title: "Главная" },
       },
-       {
+      {
         path: "clients",
         name: "clients",
-        component: () => import("@/pages/ClientControlPage/ui/ClienConrolPage.vue"),
+        component: () =>
+          import("@/pages/ClientControlPage/ui/ClienConrolPage.vue"),
         meta: { title: "Клиенты" },
         children: [
           {
+            path: "",
+            name: "clients-table",
+            component: () =>
+              import("@/widgets/clientTable/ui/AllClientsTable.vue"),
+            meta: { title: "Все клиенты" },
+          },
+          {
             path: "add",
             name: "clients-add",
-            component: () => import("@/pages/AddUserPage/ui/AddNewClient.vue"),
+            component: () => import("@/widgets/addUserForm/ui/AddClient.vue"),
             meta: { title: "Добавление нового клиента" },
           },
         ],
@@ -34,40 +42,49 @@ export const mainRoutes: RouteRecordRaw[] = [
         component: () =>
           import("@/pages/ApplicationPage/ui/ApplicationPage.vue"),
         meta: { title: "Заявки" },
-      },
-       {
-        path: "/applicationForm",
-        name: "application-add",
-        component: () => import("@/pages/AddApplicationPage/ui/ApplicationForm.vue"),
-        meta: { title: "Добавление новой заявки" },
+        children: [
+          {
+            path: "add",
+            name: "applications-add",
+            component: () =>
+              import("@/pages/AddApplicationPage/ui/ApplicationForm.vue"),
+            meta: { title: "Добавление новой заявки" },
+          },
+        ],
       },
       {
         path: "/warehouse",
         name: "warehouse",
         component: () => import("@/pages/CarPage/ui/CarPage.vue"),
-        meta: { title: "Склад" }, 
-      },
-       {
-        path: "/warehouseForm",
-        name: "add-warehouse",
-        component: () => import("@/pages/CarPage/ui/CarPage.vue"),
-        meta: { title: "Добавление нового товара" },
-      },
-       {
-        path: "/employeers",
-        name: "employeers",
-        component: () => import("@/pages/EmployeersPage/ui/EmployeersMainPage.vue"),
-        meta: { title: "Сотрудники" },
+        meta: { title: "Склад" },
+        children: [
+          {
+            path: "add",
+            name: "warehouse-add",
+            component: () => import("@/pages/CarPage/ui/CarPage.vue"),
+            meta: { title: "Добавление нового товара" },
+          },
+        ],
       },
       {
-        path: "/employeersForm",
-        name: "add-employeers",
-        component: () => import("@/pages/AddEmployeerPAge/ui/AddEmployeerPage.vue"),
-        meta: { title: "Добавление нового сотрудника" },
+        path: "/employeers",
+        name: "employeers",
+        component: () =>
+          import("@/pages/EmployeersPage/ui/EmployeersMainPage.vue"),
+        meta: { title: "Сотрудники" },
+        children: [
+          {
+            path: "add",
+            name: "employeers-add",
+            component: () =>
+              import("@/pages/AddEmployeerPAge/ui/AddEmployeerPage.vue"),
+            meta: { title: "Добавление нового сотрудника" },
+          },
+        ],
       },
-       {
-        path: "/createRequest",
-        name: "create-request",
+      {
+        path: "/sell-car",
+        name: "sell-car",
         component: () => import("@/pages/SellCar/SellCarPage.vue"),
         meta: { title: "Создание договора купли-продажи" },
       },

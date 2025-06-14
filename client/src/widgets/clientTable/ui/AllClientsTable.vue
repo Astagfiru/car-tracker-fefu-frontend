@@ -7,7 +7,7 @@
           <AllClientsTableToolbar v-model:filteredClients="filteredClients" :origin-clients="clients" />
         </div>
         <UserTable :key="filteredClients.length" :tableItems="paginatedClients" table-title="Таблица с клиентами"
-          :is-loading="isLoading" :totalItems="clients?.length" :originClients="clients || []" />
+          :is-loading="false" :totalItems="clients?.length" :originClients="clients || []" />
         <Pagination v-model:elements="paginatedClients" v-model:originalList="filteredClients"
           v-model:currentPage="currentPage" :totalItemslenght="filteredClients.length" :items-per-page="5" />
       </div>
@@ -17,7 +17,6 @@
 
 <script setup lang="ts">
 import { Client } from '@/entities/client';
-import { useGetAllClients } from '../../../entities/client';
 import { ref, watch } from 'vue';
 import { Pagination } from '@/widgets';
 import AllClientsTableToolbar from './AllClientsTableToolbar.vue';
@@ -30,8 +29,6 @@ import { Title } from '@/shared';
 const clientStore = useClientStore();
 const { clients } = storeToRefs(clientStore);
 
-const { isLoading } = useGetAllClients();
-
 const currentPage = ref<number>(1);
 const filteredClients = ref<Client[]>(clients.value || []);
 
@@ -43,9 +40,6 @@ watch(clients, (client) => {
   }
 }, { immediate: true });
 
-watch(isLoading, (loading) => {
-  console.log('Loading state changed:', loading);
-});
 </script>
 <style scoped lang="scss">
 .client-page {

@@ -70,7 +70,7 @@ window.addEventListener("mouseup", onMouseUp);
   height: 100vh;
   background-color: #ffffff;
   padding: 20px 0 20px 20px;
-  box-shadow: 2px 0px 5px rgba(71, 58, 71, 0.1);
+  border-right: 1px solid #e5e7eb;
   z-index: 1000;
   transition: width 0.15s;
   overflow: hidden;

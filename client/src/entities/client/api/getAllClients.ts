@@ -5,6 +5,9 @@ import { useClientStore } from "../lib/model/clientStore";
 
 export const getAllClients = async (): Promise<ClientResponse[]> => {
   try {
+
+        console.trace("getAllClients вызван"); // Покажет стек вызова
+
     const response = await axios.get<ClientResponse[]>(CLIENTS_PATH);
     const store = useClientStore();
     const { data } = response;

@@ -1,6 +1,6 @@
 <template>
   <v-breadcrumbs :items="breadcrumbs">
-    <template #item="{ item, index }">
+    <template #item="{ item }">
       <span
         :class="[
           'breadcrumb-item',
@@ -26,27 +26,27 @@ const route = useRoute()
 const router = useRouter()
 
 const breadcrumbs = computed(() => {
-  const crumbs = route.matched
+  let fullPath = ''
+  return route.matched
     .filter(r => r.meta && r.meta.title)
-    .map(r => ({
-      title: r.meta.title as string,
-      disabled: router.resolve(r).href === router.resolve(route.fullPath).href,
-      to: router.resolve(r).href !== router.resolve(route.fullPath).href ? router.resolve(r).href : undefined,
-    }))
-  if (route.path !== '/') {
-    return [
-      {
-        title: 'Главная',
-        disabled: route.path === '/',
-        to: route.path !== '/' ? router.resolve('/').href : undefined,
-      },
-      ...crumbs
-    ]
-  } else {
-    return [
-      ...crumbs
-    ]
-  }
+    .map((r, idx, arr) => {
+      let path = r.path
+      Object.entries(route.params).forEach(([key, value]) => {
+        path = path.replace(':' + key, value as string)
+      })
+      if (path.startsWith('/')) {
+        fullPath = path
+      } else if (path) {
+        if (!fullPath.endsWith('/')) fullPath += '/'
+        fullPath += path
+      }
+      fullPath = fullPath.replace(/\/{2,}/g, '/')
+      return {
+        title: r.meta.title as string,
+        disabled: idx === arr.length - 1,
+        to: idx === arr.length - 1 ? undefined : fullPath || '/',
+      }
+    })
 })
 </script>
 
@@ -56,13 +56,15 @@ const breadcrumbs = computed(() => {
   color: #555;
 }
 .breadcrumb-link {
-  color: #000000;
+  color: #2e2e2e;
+  text-decoration: none;
   transition: color 0.2s;
 }
 .breadcrumb-link:hover {
-  color: #b3b3b3;
+  color: #2e2e2e;
+  text-decoration: underline;
 }
 .breadcrumb-active {
-  color: #4E79D6;
+  color: #4E79D6;;
 }
 </style>

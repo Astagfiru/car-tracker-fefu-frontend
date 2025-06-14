@@ -94,21 +94,6 @@ watch(newClient, () => {
   </div>
 </template>
 <style scoped lang="scss">
-.dis {
-  opacity: 0.5;
-  cursor: not-allowed;
-  pointer-events: none;
-}
-
-.layout {
-  min-height: 60vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 32px;
-  box-sizing: border-box;
-  width: 50vw;
-}
 
 .error-message {
   color: #dc2626;
@@ -119,16 +104,6 @@ watch(newClient, () => {
   text-align: center;
   font-size: 14px;
   font-weight: 500;
-}
-
-.content-box {
-  padding: 32px;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  min-height: 80vh;
-  border-radius: 12px;
-  box-sizing: border-box;
 }
 
 .page-header {
@@ -156,5 +131,6 @@ watch(newClient, () => {
   justify-content: flex-end;
   gap: 16px;
   margin-top: 32px;
+  padding-bottom: 30px
 }
 </style>

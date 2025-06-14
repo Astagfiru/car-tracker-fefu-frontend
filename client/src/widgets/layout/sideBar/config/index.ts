@@ -1,5 +1,5 @@
 import { Component } from "vue";
-import { Home, Client, ApplicationResponse, Car } from "@/shared";
+import { Home, Client, ApplicationResponse, Car, Emploeey } from "@/shared";
 
 export interface SideBar {
   id: string | number;
@@ -19,7 +19,7 @@ export const SIDE_BAR_ROWS: SideBar[] = [
     {
     id: 2,
     label: "Сотрудники",
-    icon: Client,
+    icon: Emploeey,
     to: "/Employeers",
   },
    {
@@ -40,5 +40,4 @@ export const SIDE_BAR_ROWS: SideBar[] = [
     icon: ApplicationResponse,
     to: "/applications",
   },
-
 ];

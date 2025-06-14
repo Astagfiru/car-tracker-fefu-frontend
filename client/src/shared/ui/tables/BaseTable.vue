@@ -19,6 +19,16 @@
         <span class="mr-4 text-medium-emphasis">Всего записей: {{ totalItems }}</span>
       </v-toolbar>
     </template>
+    <template #item.actions="{ item }">
+      <div class="actions">
+        <div class="action__item">
+          <slot name="edit" :item="item"></slot>
+        </div>
+        <div class="action__item">
+          <slot name="delete" :item="item"></slot>
+        </div>
+      </div>
+    </template>
   </v-data-table>
 </template>
 
@@ -53,7 +63,7 @@ const handleRowClick = (event: Event, item: any) => {
 
 <style lang="scss" scoped>
 .title {
-  background-color: #e8efff !important;  
+  background-color: #e8efff !important;
 }
 
 .styled-table {
@@ -68,17 +78,40 @@ const handleRowClick = (event: Event, item: any) => {
 :deep(.styled-table .v-data-table td) {
   padding: 14px 18px;
 }
+
 :deep(.styled-table .v-data-table__wrapper) {
   background-color: #fff;
 }
+
 :deep(.styled-table .v-data-table-header__sort-icon) {
   display: inline-flex;
   align-items: center;
+
   svg {
     color: #7c3aed !important;
     width: 18px;
     height: 18px;
     vertical-align: middle;
+  }
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.action__item {
+  min-width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.3s ease;
+  border-radius: 5px;
+  &:hover {
+    cursor: pointer;
+    background-color: #e7e7e7;
   }
 }
 </style>

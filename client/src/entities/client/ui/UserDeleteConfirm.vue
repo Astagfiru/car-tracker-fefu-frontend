@@ -26,7 +26,6 @@ import { ButtonCansel } from "@/shared"
 import type { Client } from '@/entities/client'
 import { useDeleteClient } from "../lib/composible/useDeleteClient"
 
-const { deleteClient } = useDeleteClient()
 
 interface DeleteProps {
     client: Client | null;
@@ -56,6 +55,8 @@ const close = () => {
 }
 
 const handleDelete = async () => {
+    const { deleteClient } = useDeleteClient()
+
     if (!client.value) return
     emit("delete", client.value)
     await deleteClient(client.value.id)

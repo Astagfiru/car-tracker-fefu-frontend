@@ -10,6 +10,7 @@ import { useGetAllClients } from "./useGetAllClients";
 interface AddClientReturn {
   error: Ref<unknown | null>;
   isLoading: Ref<boolean>;
+  responseData: Ref<AddClientResponce | null>;
   addClient: () => void;
 }
 
@@ -49,5 +50,6 @@ export const useAddClient = (newClient: ClientForm): AddClientReturn => {
     error,
     isLoading,
     addClient: refetchAndUpdate,
+    responseData
   };
 };

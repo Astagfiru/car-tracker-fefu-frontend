@@ -25,6 +25,7 @@
 <script setup lang="ts">
 import { SearchInput, ButtonConfirm } from "@/shared";
 import { Plus } from "@/shared";
+import { watch } from "vue";
 
 interface ToolbarProps {
   addButtonTitle?: string;
@@ -41,6 +42,9 @@ withDefaults(defineProps<ToolbarProps>(), {
 
 const searchString = defineModel<string>('searchString')
 
+watch(searchString, (newVal) => {
+  console.log("Search string changed:", newVal);
+});
 </script>
 
 <style scoped lang="scss">

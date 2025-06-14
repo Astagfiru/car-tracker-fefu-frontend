@@ -36,23 +36,23 @@ const redirect = () => {
   router.push({ name: "clients-add" });
 };
 
-const getAllClients = async () => {
-  try {
-    const fetchedClients = await useGetAllClients();
+// const getAllClients = async () => {
+//   try {
+//     const fetchedClients = await useGetAllClients();
 
-    if (fetchedClients) {
-      saveAllClients(fetchedClients);
-    }
-  } catch (error) {
-    throw error;
-  }
-};
+//     if (fetchedClients) {
+//       saveAllClients(fetchedClients);
+//     }
+//   } catch (error) {
+//     throw error;
+//   }
+// };
 
-watch(() => clients, getAllClients);
+// watch(() => clients, getAllClients);
 
-onMounted(() => {
-  getAllClients();
-});
+// onMounted(() => {
+//   getAllClients();
+// });
 
 const mapClientToTableView = (client: Client): ClientTableView => {
   return {

@@ -7,11 +7,9 @@
         <aside class="sidebar-wrap">
           <SideBar :width="sidebarWidth" @resize="handleSidebarResize" />
         </aside>
-        <main class="content">
+        <div class="content">
           <div class="content-inner">
-            <div class="breadcrumbs-box">
               <Breadcrumbs />
-            </div>
             <div class="table-area">
               <router-view v-slot="{ Component }">
                 <keep-alive>
@@ -20,7 +18,7 @@
               </router-view>
             </div>
           </div>
-        </main>
+        </div>
       </div>
   </div>
 </template>
@@ -37,6 +35,12 @@ const handleSidebarResize = (width: number) => {
 
 <style scoped lang="scss">
 $app-header-height: 64px;
+.content-inner {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;;
+}
 .app {
   min-height: 100vh;
   display: flex;
@@ -50,7 +54,6 @@ $app-header-height: 64px;
   left: 0;
   z-index: 100;
   background: #fff;
-  box-shadow: 0 2px 8px 0 #f0f0f01a;
 }
 .layout-main {
   display: flex;
@@ -65,8 +68,7 @@ $app-header-height: 64px;
   width: 240px;
   transition: width 0.15s;
   background: #fff;
-  box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.07);
-  z-index: 10;
+  border-right: 1px solid #7a7a7a; 
   display: flex;
   flex-direction: column;
 }
@@ -81,4 +83,5 @@ $app-header-height: 64px;
   display: flex;
   flex-direction: column;
 }
+
 </style>

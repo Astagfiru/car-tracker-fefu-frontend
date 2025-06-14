@@ -26,7 +26,10 @@ import Back from "./icons/Back.vue";
 import ButtonBack from "./ui/buttons/ButtonBack.vue";
 import ButtonDanger from "./ui/buttons/ButtonDanger.vue";
 import SearchIcons from "./icons/SearchIcons.vue";
+import Trash from "./icons/Trash.vue";
+import Edit from "./icons/Edit.vue";
 import Breadcrumbs from "./ui/breadcrumbs/BaseBreadCrumbs.vue";
+import Emploeey from "./icons/Emploeey.vue";
 
 import { useFetch } from "./api/fetch/useFetch";
 
@@ -58,7 +61,10 @@ export {
   ButtonBack,
   ButtonDanger,
   SearchIcons,
-  Breadcrumbs
+  Breadcrumbs,
+  Trash,
+  Edit,
+  Emploeey
 };
 
 export { Modify, formatDateRuLocale, useFetch };

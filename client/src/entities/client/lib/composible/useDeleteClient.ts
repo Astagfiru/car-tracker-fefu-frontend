@@ -4,7 +4,6 @@ import { DeleteClientResponse } from "../../types/apiTypes";
 import { deleteClient } from "../../api/deleteClient";
 import { useGetAllClients } from "./useGetAllClients";
 import { getAllClients } from '../../api/getAllClients';
-import { useClientStore } from '../model/clientStore';
 
 interface UseDeleteClientReturn {
   responseData: Ref<DeleteClientResponse | null>;

@@ -1,5 +1,5 @@
 <template>
-  <div class="base-input" :class="{ error: !!error }">
+  <div class="base-input" :class="{ error: !!error }" :max-width="props.width || 600">
     <label v-if="label" :for="id" class="input-label">{{ label }}</label>
 
     <input
@@ -31,6 +31,7 @@ interface Props {
   disabled?: boolean
   id?: string
   length?: number
+  width?: number | string
 }
 
 const props = defineProps<Props>()
