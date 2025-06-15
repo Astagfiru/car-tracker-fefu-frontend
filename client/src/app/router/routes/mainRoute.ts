@@ -72,11 +72,18 @@ export const mainRoutes: RouteRecordRaw[] = [
           import("@/pages/EmployeersPage/ui/EmployeersMainPage.vue"),
         meta: { title: "Сотрудники" },
         children: [
+           {
+            path: "",
+            name: "employeers-table",
+            component: () =>
+              import("@/widgets/employeerTable/ui/AllEmployeersTable.vue"),
+            meta: { title: "Все сотрудники" },
+          },
           {
             path: "add",
             name: "employeers-add",
             component: () =>
-              import("@/pages/AddEmployeerPAge/ui/AddEmployeerPage.vue"),
+              import("@/widgets/addEmployeerForm/ui/AddEmployeer.vue"),
             meta: { title: "Добавление нового сотрудника" },
           },
         ],

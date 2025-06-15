@@ -2,14 +2,12 @@
 import { ButtonCansel, ButtonConfirm } from "@/shared";
 import { useRouter } from "vue-router";
 import AddNewEmployeerForm from "./AddNewEmployeerForm.vue";
-import { computed, ref, reactive } from "vue";
-import { useEmployeeStore } from "@/entities/employee";
+import { computed, ref, reactive, watch } from "vue";
 import { EmployeeForm } from "../../../entities/employee/types/employeeTypes";
 import { ButtonText } from "@/shared";
 import { useAddEmployee } from "@/entities/employee/lib/composible/useAddEmployee";
 
 const router = useRouter();
-const employeeStore = useEmployeeStore();
 
 const errorMessage = ref("");
 
@@ -31,7 +29,9 @@ let newEmployee = reactive<EmployeeForm>({
   phone: "",
   email: "",
   position: "manager", 
+  user_id: 41,
 });
+
 const { addEmployee } = useAddEmployee(newEmployee)
 
 const nextStep = async () => {
@@ -42,36 +42,24 @@ const nextStep = async () => {
   }
 
   try {
-    //employeeStore.addEmployee({...newEmployee, id : Date.now()});
     addEmployee()
     
     router.push({ name: 'employeers' });
-    console.log(newEmployee);
-
   } catch (error) {
     errorMessage.value = "Ошибка при сохранении сотрудника";
     console.error(error);
   }
 };
 
-// Закомментированный API-запрос
-/*
-const addNewClient = async (client: ClientForm) => {
-  try {
-    await useAddClient(client);
-    const fetchedClients = await useGetAllClients();
-    if (fetchedClients) {
-      clientStore.saveAllClients(fetchedClients);
-    }
-  } catch (error) {
-    throw error;
-  }
-};
-*/
-
 const disabledButton = computed(() => {
   return !requiredFields.every((field) => Boolean(newEmployee[field]));
 });
+
+watch(newEmployee, () => {
+  console.log("Изменение сотрудника", newEmployee);
+}
+ , { deep: true }
+);
 </script>
 
 <template>
@@ -99,20 +87,6 @@ const disabledButton = computed(() => {
   </div>
 </template>
 <style scoped lang="scss">
-.dis {
-  opacity: 0.5;
-  cursor: not-allowed;
-  pointer-events: none;
-}
-.layout {
-  min-height: 60vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 32px;
-  box-sizing: border-box;
-  width: 50vw;
-}
 
 .error-message {
   color: #dc2626;
@@ -123,16 +97,6 @@ const disabledButton = computed(() => {
   text-align: center;
   font-size: 14px;
   font-weight: 500;
-}
-
-.content-box {
-  padding: 32px;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  min-height: 80vh;
-  border-radius: 12px;
-  box-sizing: border-box;
 }
 
 .page-header {
@@ -160,5 +124,6 @@ const disabledButton = computed(() => {
   justify-content: flex-end;
   gap: 16px;
   margin-top: 32px;
+  padding-bottom: 30px
 }
 </style>

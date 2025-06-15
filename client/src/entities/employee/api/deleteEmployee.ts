@@ -3,7 +3,7 @@ import { EMPLOYEE_PATH } from "../consts/baseUrl";
 import { DeleteEmployeeResponse } from "../types/apiTypes";
 import { DeleteEmployeeParams } from "../types/apiTypes";
 
-export const deleteEmployee = async (employeeId: DeleteEmployeeParams): Promise<DeleteEmployeeResponse> => {
+export const deleteEmployee = async (employeeId: number): Promise<DeleteEmployeeResponse> => {
   try {
     const url = `${EMPLOYEE_PATH}/${employeeId}`;
 

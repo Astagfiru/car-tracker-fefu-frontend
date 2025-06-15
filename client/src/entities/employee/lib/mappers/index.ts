@@ -26,6 +26,7 @@ export const mapEmployeeUiToApi = (employee: EmployeeForm): EmployeeRequest => {
     phone: employee.phone,
     email: employee.email,
     position: employee.position,
+    user_id: employee.user_id
   };
 };
 

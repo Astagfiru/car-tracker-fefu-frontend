@@ -24,7 +24,7 @@ interface ButtonProps {
 }
 
 const redirect = () => {
-    router.push({name : "create-request"})
+    router.push({name : "sell-car"})
 }
 
 defineProps<ButtonProps>();

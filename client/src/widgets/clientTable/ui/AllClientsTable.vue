@@ -51,22 +51,27 @@ watch(clients, (client) => {
   align-items: center;
   justify-content: center;
 }
+
 .content {
   width: 100%;
 }
+
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
+
 .header h1 {
   font-size: 32px;
   font-weight: 700;
   margin: 0;
 }
+
 .btn {
   margin-left: 17px;
 }
+
 .container {
   display: flex;
   justify-content: center;

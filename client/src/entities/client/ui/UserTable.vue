@@ -105,43 +105,74 @@ const handleDelete = (client: Client) => {
 
 </script>
 
-<style scoped>
-.title {
-  background-color: #ffffff !important;
-  border-radius: 8px 8px 0 0;
-  margin-bottom: 16px;
+<style scoped lang="scss">
+:deep(.view__container) {
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  background: #fff;
+  border-radius: 20px;
 }
 
-.styled-table >>> .v-data-table-header th {
-  font-weight: 600;
-  font-size: 14px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+:deep(strong) {
+  font-size: 1.2em;
+  color: #5c5c5c;
 }
 
-.styled-table >>> .v-data-table {
-  border-radius: 5px;
-  overflow: hidden;
-  border: 1px solid #cfcfcf;
-}
+:deep(.view__header) {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
 
-.styled-table >>> .v-data-table__wrapper {
-  background-color: #fff;
-}
-
-.styled-table >>> .v-data-table td {
-  font-size: 14px;
-  color: #333;
-  cursor: pointer;
-}
-
-.styled-table >>> .v-data-table tr:hover {
-  background-color: #f5f5f5 !important;
-}
-
-.v-data-table-header__sort-icon {
-  svg {
-    color: black;
+  .title {
+    font-size: 24px;
+    font-weight: 600;
   }
+
+  .data__current {
+    font-size: 14px;
+    color: #888;
+  }
+}
+
+:deep(.view__body) {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 24px;
+
+  .view__row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    padding: 8px 0;
+
+    .label {
+      flex: 0 0 180px;
+      color: #888;
+      font-weight: 500;
+      text-align: left;
+    }
+    .value {
+      flex: 1 1 auto;
+      text-align: right;
+      color: #222;
+      font-size: 1.1em;
+      word-break: break-word;
+    }
+    .user_name {
+      color: #4E79D6;
+      font-weight: 600;
+      font-size: 1.3em;
+    }
+  }
+}
+
+:deep(.view__footer) {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
 }
 </style>

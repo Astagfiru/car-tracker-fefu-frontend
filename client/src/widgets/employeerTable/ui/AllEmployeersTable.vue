@@ -1,53 +1,44 @@
 <template>
-  <div class="client-page">
-    <div class="header">
-      <AllEmployessTableToolBar
-        v-model:filteredEmployees="filteredEmployees"
-        :origin-employees="employees"
-      />
+  <div class="container">
+    <Title title="Сотрудники" />
+    <div class="client-page">
+      <div class="content">
+        <div class="header">
+          <AllEmployessTableToolBar v-model:filteredEmployees="filteredEmployees" :origin-employees="employees" />
+        </div>
+        <EmployeeTable :key="filteredEmployees.length" :tableItems="paginatedEmployees" table-title="Сотрудники"
+          :is-loading="false" :total-items="employees?.length" :origin-employees="employees || []"/>
+        <Pagination v-model:elements="paginatedEmployees" v-model:original-list="filteredEmployees"
+          v-model:current-page="currentPage" :total-itemslenght="filteredEmployees.length" :items-per-page="5" />
+      </div>
     </div>
-    <EmployeeTable
-      :key="filteredEmployees.length"
-      :tableItems="paginatedEmployees"
-      table-title="Сотрудники"
-      :is-loading="isLoading"
-      :total-items="employees?.length"
-    />
-    <Pagination 
-    v-model:elements="paginatedEmployees"
-    v-model:original-list="filteredEmployees"
-    v-model:current-page="currentPage"
-    :total-itemslenght="filteredEmployees.length"
-     :items-per-page="5" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { EmployeeType } from "@/entities/employee";
-import { usegetAllEmployee } from "@/entities/employee";
-import{ref, toRef, toRefs, watch} from "vue";
+import { ref, watch } from "vue";
 import AllEmployessTableToolBar from './AllEmployessTableToolbar.vue';
 import { Pagination } from "@/widgets";
 import { EmployeerTable } from "../types/types";
-import EmployeeTable from '@/entities/employee/ui/employeeTable.vue';
+import EmployeeTable from '@/entities/employee/ui/EmployeeTable.vue';
 import { useEmployeeStore } from "@/entities/employee";
-import { storeToRefs } from 'pinia';
+import { Title } from "@/shared";
+import { storeToRefs } from "pinia";
 
 const employeeStore = useEmployeeStore();
-const { employees } = toRefs(employeeStore)
-
-const {employeeResponse, isLoading} = usegetAllEmployee();
+const { employees } = storeToRefs(employeeStore)
 
 const currentPage = ref<number>(1);
 const filteredEmployees = ref<EmployeeType[]>(employees.value || []);
 
 const paginatedEmployees = ref<EmployeerTable[]>([]);
 
-watch(employeeResponse, (employee)=>{
-  if(employee){
+watch(employees, (employee) => {
+  if (employee) {
     filteredEmployees.value = [...employee];
   }
-}, {immediate:true});
+}, { immediate: true });
 
 </script>
 
@@ -56,9 +47,14 @@ watch(employeeResponse, (employee)=>{
   display: flex;
   flex-direction: column;
   min-height: 70vh;
-  width: 80%;
+  width: 100%;
   box-sizing: border-box;
-  margin-top: 30px;
+  align-items: center;
+  justify-content: center;
+}
+
+.content {
+  width: 100%;
 }
 
 .header {
@@ -75,5 +71,12 @@ watch(employeeResponse, (employee)=>{
 
 .btn {
   margin-left: 17px;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 }
 </style>

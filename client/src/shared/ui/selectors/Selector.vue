@@ -1,44 +1,108 @@
 <template>
-    <div class="base-input" :class="{ error: !!error }">
-        <label v-if="label" :for="id" class="input-label">{{ label }}</label>
-
-        <v-select  density="compact" :menu-props="{ scrim: true, scrollStrategy: 'close' }" :id="id" v-model="model" :items="items" :item-title="itemTitle" :item-value="itemValue"
-            :multiple="multiple" :chips="chips" :clearable="clearable" :aria-invalid="!!error" class="input-common"
-            @blur="validate" />
-
-        <p v-if="error" class="text-danger">{{ error }}</p>
-    </div>
+  <div class="selector-trigger">
+    <slot name="trigger">
+      <v-btn color="primary" @click="isOpen = true">Выбрать</v-btn>
+    </slot>
+    <v-dialog v-model="isOpen" :max-width="width" max-height="700" transition="dialog-top-transition">
+      <v-card class="selector__container">
+        <div class="selector__header">
+          <h1 class="title">{{ title }}</h1>
+          <SearchInput v-model="search" placeholder="Поиск..." />
+        </div>
+        <div class="selector__body">
+          <div
+            v-for="item in filteredEntities"
+            :key="itemKey(item)"
+            class="selector__item"
+            @click="select(item)"
+            :class="{ selected: isSelected(item) }"
+          >
+            <slot name="item" :item="item">
+              {{ itemLabel(item) }}
+            </slot>
+          </div>
+          <div v-if="filteredEntities.length === 0" class="selector__empty">
+            Ничего не найдено
+          </div>
+        </div>
+        <div class="selector__footer">
+          <ButtonCansel title="Отмена" :onClick="close" />
+          <ButtonConfirm :disabled="!selected" @click="handleConfirm">
+            <template #text>Выбрать</template>
+          </ButtonConfirm>
+        </div>
+      </v-card>
+    </v-dialog>
+  </div>
 </template>
 
-<script setup lang="ts" generic="T">
-import { ref } from 'vue'
+<script setup lang="ts">
+import { ref, computed, watch } from "vue";
+import SearchInput from "@/shared/ui/inputs/SearchInput.vue";
+import { ButtonCansel } from "@/shared";
+import ButtonConfirm from "@/shared/ui/buttons/ButtonConfirm.vue";
 
-const model = defineModel<T | T[]>();
+interface Props<T> {
+  modelValue?: boolean;
+  title?: string;
+  entities: T[];
+  labelKey?: string;
+  keyField?: string;
+  width?: string | number;
+}
 
-const props = defineProps<{
-  items: T[];
-  label?: string;
-  placeholder?: string;
-  itemTitle?: string | ((item: T) => string);
-  itemValue?: string | ((item: T) => any);
-  multiple?: boolean;
-  chips?: boolean;
-  clearable?: boolean;
-  disabled?: boolean;
-  id?: string;
+const props = withDefaults(defineProps<Props<any>>(), {
+  title: "Выбор",
+  labelKey: "name",
+  keyField: "id",
+  width: 500,
+});
+
+const emit = defineEmits<{
+  (e: "update:modelValue", value: boolean): void;
+  (e: "select", value: any): void;
 }>();
 
-const error = ref<string | null>(null)
+const isOpen = ref(false);
 
-function validate() {
-    const isEmpty = Array.isArray(model.value)
-        ? model.value.length === 0
-        : !model.value;
+if (props.modelValue !== undefined) {
+  isOpen.value = props.modelValue;
+  watch(() => props.modelValue, val => isOpen.value = val);
+  watch(isOpen, val => emit("update:modelValue", val));
+}
 
-    error.value = isEmpty ? 'Поле не может быть пустым' : null;
+const search = ref("");
+const selected = ref<any>(null);
+
+const filteredEntities = computed(() => {
+  if (!search.value) return props.entities;
+  return props.entities.filter(item =>
+    itemLabel(item).toLowerCase().includes(search.value.toLowerCase())
+  );
+});
+
+function itemLabel(item: any) {
+  return item[props.labelKey] ?? "";
+}
+function itemKey(item: any) {
+  return item[props.keyField] ?? item.id ?? item.name;
+}
+function select(item: any) {
+  selected.value = item;
+}
+function isSelected(item: any) {
+  return selected.value && itemKey(selected.value) === itemKey(item);
+}
+function close() {
+  isOpen.value = false;
+}
+function handleConfirm() {
+  if (selected.value) {
+    emit("select", selected.value);
+    close();
+  }
 }
 </script>
-
 <style scoped>
 .base-input {
     display: flex;

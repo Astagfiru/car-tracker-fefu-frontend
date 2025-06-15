@@ -1,6 +1,5 @@
 <template>
   <div class="purchase-sale-container">
-    <!-- Форма заполнения -->
     <div v-if="!showSummary" class="contract-form">
       <h1 class="form-title">Заполните форму купли-продажи</h1>
 
@@ -95,13 +94,10 @@
         </div>
       </form>
     </div>
-
-    <!-- Итоговая форма -->
     <PurchaseSaleSummary
       v-if="showSummary"
       :form-data="newForm"
       @go-back="goBackToForm"
-
     />
   </div>
 </template>
@@ -122,22 +118,18 @@ import { useCarsStore } from "@/entities/car/lib/model/carStore";
 import { EmployeeType } from "@/entities/employee/types/employeeTypes";
 import { Car } from "@/entities/car";
 import { Client } from "@/entities/client";
-import PurchaseSaleSummary from './PurchaseSaleSummary.vue'; // Импортируем новый компонент
+import PurchaseSaleSummary from './PurchaseSaleSummary.vue';
 
-// Stores
 const clientStore = useClientStore();
 const employeeStore = useEmployeeStore();
 const carStore = useCarsStore();
 
-// State
 const { clients } = storeToRefs(clientStore);
 const { employees } = storeToRefs(employeeStore);
 const { cars } = storeToRefs(carStore);
 
-// Состояние отображения итоговой формы
 const showSummary = ref(false);
 
-// Добавляем computed для безопасного доступа к cars
 const safeCars = computed(() => {
   const carsArray = cars.value || [];
   
@@ -147,7 +139,6 @@ const safeCars = computed(() => {
   }));
 });
 
-// Form interface
 interface NewForm {
   city: string;
   date: string;
@@ -202,7 +193,6 @@ const buyerInfo = computed(() => {
   };
 });
 
-// Methods
 const showSummaryForm = () => {
   showSummary.value = true;
 };

@@ -1,16 +1,18 @@
 <template>
   <div class="client-page">
-    <Title title="Сотрудники"/>
     <div class="content">
-      <AllEmployeersTable />
+      <router-view />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { Title } from "@/shared";
-import { AllEmployeersTable } from "@/widgets"
-</script>
+import { useGetAllEmployee } from "@/entities/employee";
+import { onMounted } from "vue";
 
-<style scoped lang="scss">
-</style>
+const { refetch } = useGetAllEmployee();
+
+onMounted(() => {
+  refetch();
+})
+</script>

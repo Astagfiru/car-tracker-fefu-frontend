@@ -1,23 +1,6 @@
 <template>
   <div class="client-page">
-    <ButtonBack previousPageTitle="Главная" previousRouteName="clients"/>
     <Title title="Формирование формы купли продажи"/>
-    
-    <!-- Добавляем отладочную информацию -->
-    <div class="debug-info" style="background: #f0f0f0; padding: 10px; margin: 10px 0;">
-      <h4>Отладочная информация:</h4>
-      <p>Клиенты загружены: {{ clientStore.clients?.length || 0 }}</p>
-      <p>Сотрудники загружены: {{ employeeStore.employees?.length || 0 }}</p>
-      <p>Автомобили загружены: {{ carStore.cars?.length || 0 }}</p>
-      <p>Состояние загрузки: {{ carStore.isLoading }}</p>
-      <p>Ошибка: {{ carStore.errorMessage }}</p>
-      
-      <details v-if="carStore.cars?.length">
-        <summary>Данные автомобилей (первые 3)</summary>
-        <pre>{{ JSON.stringify(carStore.cars.slice(0, 3), null, 2) }}</pre>
-      </details>
-    </div>
-    
     <div class="content">
       <PurhaseAndSaleFormVue />
     </div>

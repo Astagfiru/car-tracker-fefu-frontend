@@ -160,6 +160,7 @@ strong {
   }
 }
 
+
 .view__footer {
   display: flex;
   justify-content: flex-end;

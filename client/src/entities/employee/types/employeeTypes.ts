@@ -1,6 +1,6 @@
 
 
-export type Position = 'manager' | 'admin';
+export type Position = 'manager' | 'admin' | "";
 
 export const enum Positions {
   position1 = 'manager',
@@ -29,7 +29,7 @@ export interface EmployeeResponse {
   user_id: number;
 }
 
-export type EmployeeRequest = Omit<EmployeeResponse, 'id'| 'user_id'>
+export type EmployeeRequest = Omit<EmployeeResponse, 'id'>
 
 
-export type EmployeeForm = Omit<EmployeeType, 'id'|'user_id'>;
+export type EmployeeForm = Omit<EmployeeType, 'id'>;

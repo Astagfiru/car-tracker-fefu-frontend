@@ -30,7 +30,7 @@ const filteredEmployees = defineModel<EmployeeType[]>('filteredEmployees')
 const searchString = ref<string>("");
 
 const redirect = () => {
-  router.push({ name: "add-employeers" });
+  router.push({ name: "employeers-add" });
 };
 
 watch(() => originEmployees, (emploeer) => {
@@ -47,8 +47,10 @@ watch(searchString, (newVal) => {
 
     filteredEmployees.value = (originEmployees || []).filter((employee: EmployeeType) => {
       return (
-        employee.last_name.toLowerCase().includes(query)||
-        employee.first_name.toLowerCase().includes(query)
+        employee.last_name.toLowerCase().includes(query) ||
+        employee.first_name.toLowerCase().includes(query) || 
+        employee.middle_name?.toLowerCase().includes(query) ||
+        employee.email.toLowerCase().includes(query)
       );
     });
   }

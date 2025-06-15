@@ -3,13 +3,11 @@ import { ButtonCansel, ButtonConfirm } from "@/shared";
 import { useRouter } from "vue-router";
 import AddNewClientForm from "./AddNewClientForm.vue";
 import { computed, ref, reactive, watch } from "vue";
-import { useClientStore } from "@/entities/client";
 import { ClientForm } from "../../../entities/client/types/clientTypes";
 import { ButtonText } from "@/shared";
 import { useAddClient } from "@/entities/client/lib/composible/useAddClient";
 
 const router = useRouter();
-const clientStore = useClientStore();
 
 const errorMessage = ref("");
 

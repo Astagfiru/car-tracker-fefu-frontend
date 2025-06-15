@@ -6,7 +6,7 @@ import "@/shared/styles/index.scss";
 import { createVuetify } from 'vuetify'
 import { ru } from 'vuetify/locale'
 import { useGetAllClients } from "./entities/client";
-import { usegetAllEmployee } from "./entities/employee";
+import { useGetAllEmployee } from "./entities/employee";
 
 import VueDatePicker from '@vuepic/vue-datepicker'
 import * as components from 'vuetify/components'
@@ -31,7 +31,7 @@ const { refetch } = useGetAllClients();
 
 onMounted(() => {
   refetch();  
-  usegetAllEmployee().refetch();
+  useGetAllEmployee().refetch();
   console.log("Mounted and data fetched");
 })
 

@@ -1,47 +1,36 @@
 import { EmployeeRequest, EmployeeForm } from "./../../types/employeeTypes";
 import { ref, watch, Ref } from "vue";
-import { useEmployeeStore } from "../model/employeeStore";
 import { useFetch } from "@/shared";
 import { addEmployee } from "../../api/addNewEmployee";
 import { mapEmployeeUiToApi } from "../mappers";
 import { AddEmployeeResponce } from "../../types/apiTypes";
-
+import { useGetAllEmployee } from "./useGetAllEmployee";
 
 interface AddEmployeeReturn {
   error: Ref<unknown | null>;
   isLoading: Ref<boolean>;
+  responseData: Ref<AddEmployeeResponce | null>;
   addEmployee: () => void;
 }
 
 export const useAddEmployee = (newEmployee: EmployeeForm): AddEmployeeReturn => {
   const { responseData, error, isLoading, sendRequest } = useFetch<AddEmployeeResponce, EmployeeRequest>(addEmployee);
 
-  const employeeStore = useEmployeeStore();
-
   const mappedEmployee = ref<EmployeeRequest>();
 
-  const refetch = async () => {
+  const { refetch } = useGetAllEmployee();
+
+  const refetchAndUpdate = async () => {
     try {
-      const mappedEmployee = mapEmployeeUiToApi(newEmployee);
-      
-      await sendRequest(mappedEmployee);
-      employeeStore.addEmployee({
-        id:Number(Date.now()),
-        user_id:Number(Date.now()),
-        ...newEmployee
-      });
+      const mapped = mapEmployeeUiToApi(newEmployee);
+      console.log('Mapped employee data:', mapped);
 
-      if (responseData.value){
-        employeeStore.addEmployee({
-          id: Number(Date.now()),
-          user_id:Number(Date.now()),
-          ...newEmployee
-        });
-        console.log("there:")
-        console.log(employeeStore)
+      await sendRequest(mapped);
+
+      if (responseData.value) {
+        await refetch();
       }
-
-    } catch (err){
+    } catch (err) {
       console.error("Error adding employee:", err);
       throw err;
     }
@@ -49,21 +38,15 @@ export const useAddEmployee = (newEmployee: EmployeeForm): AddEmployeeReturn => 
 
   watch(responseData, () => {
     if (responseData.value) {
-    
-    mappedEmployee.value = mapEmployeeUiToApi(newEmployee)
-
-    employeeStore.addEmployee({
-        id: Number(Date.now()),
-        user_id:Number(Date.now()),
-        ...newEmployee
-    });
-    
+      console.log('addEmployee');
+      mappedEmployee.value = mapEmployeeUiToApi(newEmployee);
     }
   });
 
   return {
     error,
     isLoading,
-    addEmployee: refetch,
+    addEmployee: refetchAndUpdate,
+    responseData
   };
 };
