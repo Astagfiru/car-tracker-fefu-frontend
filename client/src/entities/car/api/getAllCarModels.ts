@@ -5,15 +5,11 @@ import { CARS_MODELS_PATH } from "../consts/baseUrl";
 
 export const getAllCarModels = async (): Promise<CarModelsResponse[]> => {
   try {
-    const response = await axios.get<CarModelsResponse[]>(CARS_MODELS_PATH);
-
-    const { data } = response;
-
-    return data;
+    const response = await axios.get(CARS_MODELS_PATH);
+    // Было: return response.data;
+    return response.data.data; // <-- исправлено!
   } catch (error) {
     console.error("Ошибка получения всех типов автомобилей, подробнее:", error)
     return [];
   }
 };
-
-
