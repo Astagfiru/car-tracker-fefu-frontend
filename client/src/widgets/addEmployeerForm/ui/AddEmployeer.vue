@@ -28,7 +28,7 @@ let newEmployee = reactive<EmployeeForm>({
   middle_name: "",
   phone: "",
   email: "",
-  position: "manager", 
+  position: "Администратор", 
   user_id: 41,
 });
 

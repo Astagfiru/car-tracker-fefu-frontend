@@ -45,7 +45,7 @@ import { formatDateRuLocale } from "@/shared"
 import { ButtonDanger } from "@/shared"
 import { ButtonCansel } from "@/shared"
 import type { EmployeeType } from '@/entities/employee'
-import EmployeeDeleteConfirmForm from "./employeeDeleteConfirmForm.vue"
+import EmployeeDeleteConfirmForm from "./EmployeeDeleteConfirmForm.vue"
 
 interface ViewProps {
   employeeData: EmployeeType | null;

@@ -19,14 +19,14 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { BaseTable } from "@/shared";
-import EmployeeViewForm from "./employeeViewForm.vue";
+import EmployeeViewForm from "./EmployeeViewForm.vue";
 import { EmployeerTable } from "@/widgets/employeerTable/types/types";
 import { TABLE_HEADERS } from "../types/tableConfig";
 import { EmployeeType } from "../types/employeeTypes";
 import { Edit } from "@/shared";
 import { Trash } from "@/shared";
-import EmployeeDeleteConfirmForm from "./employeeDeleteConfirmForm.vue";
-import EmployeeEditForm from "./employeeEditForm.vue";
+import EmployeeDeleteConfirmForm from "./EmployeeDeleteConfirmForm.vue";
+import EmployeeEditForm from "./EmployeeEditForm.vue";
 import { deleteEmployee } from "../api/deleteEmployee";
 
 export interface Props {

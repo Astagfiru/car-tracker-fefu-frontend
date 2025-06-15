@@ -7,7 +7,7 @@ export const getAllEmployee = async (): Promise<EmployeeResponse[]> => {
     const response = await axios.get<EmployeeResponse[]>(EMPLOYEE_PATH);
     
     const { data } = response;
-    console.log("Сотрудники", data)
+    console.log("Роли сотрудников", data)
     return (data);
     
   } catch (error) {

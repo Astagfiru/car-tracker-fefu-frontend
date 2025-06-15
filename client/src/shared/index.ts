@@ -30,6 +30,9 @@ import Trash from "./icons/Trash.vue";
 import Edit from "./icons/Edit.vue";
 import Breadcrumbs from "./ui/breadcrumbs/BaseBreadCrumbs.vue";
 import Emploeey from "./icons/Emploeey.vue";
+import BaseModalWrapper from "./modal/BaseModalWrapper.vue";
+import BaseSelectorWIthModal from "./selector/BaseSelectorWIthModal.vue";
+import Close from "./icons/Close.vue";
 
 import { useFetch } from "./api/fetch/useFetch";
 
@@ -63,7 +66,10 @@ export {
   Breadcrumbs,
   Trash,
   Edit,
-  Emploeey
+  Emploeey,
+  BaseModalWrapper,
+  BaseSelectorWIthModal,
+  Close
 };
 
 export { Modify, formatDateRuLocale, useFetch };

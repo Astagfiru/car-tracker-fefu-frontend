@@ -8,11 +8,11 @@
 
 <script setup lang="ts">
 import { useGetAllEmployee } from "@/entities/employee";
+import { useGetAllEmployeeRole } from "@/entities/employee/lib/composible/useGellAllEmployeesRole";
 import { onMounted } from "vue";
 
-const { refetch } = useGetAllEmployee();
-
 onMounted(() => {
-  refetch();
+  useGetAllEmployee().refetch();
+  useGetAllEmployeeRole().refetch();
 })
 </script>

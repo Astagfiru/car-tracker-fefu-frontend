@@ -1,10 +1,10 @@
 
 
-export type Position = 'manager' | 'admin' | "";
+export type Position = 'Администратор' | 'Бухгалтер' | "";
 
 export const enum Positions {
-  position1 = 'manager',
-  position2 = 'admin',
+  position1 = 'Администратор',
+  position2 = 'Менеджер',
 }
 
 export interface EmployeeType {
@@ -33,3 +33,9 @@ export type EmployeeRequest = Omit<EmployeeResponse, 'id'>
 
 
 export type EmployeeForm = Omit<EmployeeType, 'id'>;
+
+export interface EmployeeRoleResponse {
+    id: number;
+    name: 'Администратор' | 'Бухгалтер';
+    level_of_access: number;
+}
